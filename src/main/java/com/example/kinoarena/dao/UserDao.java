@@ -35,7 +35,7 @@ public class UserDao {
 	private JdbcTemplate jdbcTemlplate; 
 	
 	
-	//TODO
+	
 	public User login(LoginDto user) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemlplate.getDataSource().getConnection();
 		PreparedStatement ps = con.prepareStatement(LOGIN);
@@ -58,7 +58,7 @@ public class UserDao {
 		return user2;
 	}
 	
-	//TODO
+	
 	public User getUser(long user_id) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemlplate.getDataSource().getConnection();
 		PreparedStatement ps = con.prepareStatement(SELECT_USER_BY_ID);

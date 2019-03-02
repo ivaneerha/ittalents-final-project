@@ -1,20 +1,21 @@
 package com.example.kinoarena.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+ 
+
 public class Seat {
+	
 	private int row;
 	private int column;
 	
-//	public Seat(int row,int column) throws InvalidInputDataException{
-//		setRow(row);
-//		setColumn(column);
-//	}
-
-	private void setColumn(int column2) {
-		
-	}
-
-	private void setRow(int row2) {
-		
-		
-	}
 }
