@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,17 +28,38 @@ public class UserDao {
 	private static final String DELETE_USER_BY_ID = "DELETE FROM users WHERE user_id = ?";
 	private static final String GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
 	private static final String GET_USER_BY_USERNAME = "SELECT * FROM users WHERE username = ?";
+
 	
 
 	//CHECH IF SETTER IS NEEDED
 	@Autowired
 	@Setter
-	private JdbcTemplate jdbcTemlplate; 
+	private JdbcTemplate jdbcTemplate; 
 	
 	
+	public List<User> getAllUsers(){
+		//for every row from resultSet return user
+		return jdbcTemplate.query(GET_ALL_USERS, (resultSet,i) ->forUser(resultSet));
+	}
+	
+	private User forUser(ResultSet result) throws SQLException {
+		User user2 = new User(
+				result.getLong("user_id"),
+				result.getString("username"),
+				result.getString("password"),
+				result.getString("first_name"),
+				result.getString("last_name"),
+				result.getLong("location_id"),
+				result.getString("email"),
+				result.getString("gsm"),
+				result.getBoolean("isAdmin"),
+				result.getString("favourite_movie"),
+				result.getString("favourite_actor"));
+		return user2;
+	}
 	
 	public User login(LoginDto user) throws SQLException, InvalidInputDataException {
-		Connection con = jdbcTemlplate.getDataSource().getConnection();
+		Connection con = jdbcTemplate.getDataSource().getConnection();
 		PreparedStatement ps = con.prepareStatement(LOGIN);
 		ps.setString(1,user.getUsername());
 		ps.setString(2, user.getPassword());
@@ -60,7 +82,7 @@ public class UserDao {
 	
 	
 	public User getUser(long user_id) throws SQLException, InvalidInputDataException {
-		Connection con = jdbcTemlplate.getDataSource().getConnection();
+		Connection con = jdbcTemplate.getDataSource().getConnection();
 		PreparedStatement ps = con.prepareStatement(SELECT_USER_BY_ID);
 		ps.setLong(1,user_id);
 		ResultSet result = ps.executeQuery();
@@ -81,7 +103,7 @@ public class UserDao {
 	}
 	
 	public String usernameExists(String username) throws SQLException {
-		Connection con = jdbcTemlplate.getDataSource().getConnection();
+		Connection con = jdbcTemplate.getDataSource().getConnection();
 		try(PreparedStatement usernameExists = con.prepareStatement(GET_USER_BY_USERNAME);){
 			usernameExists.setString(1, username);
 			try(ResultSet result = usernameExists.executeQuery()){
@@ -94,7 +116,7 @@ public class UserDao {
 	}
 	
 	public boolean isAdmin(User user) throws SQLException {
-		Connection con = jdbcTemlplate.getDataSource().getConnection();
+		Connection con = jdbcTemplate.getDataSource().getConnection();
 		PreparedStatement checkAdmin = con.prepareStatement(CHECK_IF_IS_ADMIN); {
 			String username = this.usernameExists(user.getUsername());
 			checkAdmin.setString(1, username);
@@ -110,7 +132,7 @@ public class UserDao {
 	}
 	
 	public void deleteUserByID(User user) throws SQLException {
-		Connection con = jdbcTemlplate.getDataSource().getConnection();
+		Connection con = jdbcTemplate.getDataSource().getConnection();
 		try (PreparedStatement deleteUserByID = con.prepareStatement(DELETE_USER_BY_ID);) {
 			deleteUserByID.setLong(1, user.getUser_id());
 			deleteUserByID.executeUpdate();
@@ -118,7 +140,7 @@ public class UserDao {
 	}
 
 	public String emailExists(String email) throws SQLException {
-		Connection con = jdbcTemlplate.getDataSource().getConnection();
+		Connection con = jdbcTemplate.getDataSource().getConnection();
 		try (PreparedStatement emailExists = con.prepareStatement(GET_USER_BY_EMAIL);) {
 			emailExists.setString(1, email);
 			try (ResultSet result = emailExists.executeQuery()) {

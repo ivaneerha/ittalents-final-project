@@ -32,6 +32,14 @@ public class User {
 	private boolean isAdmin;
 	private String favouriteMovie;
 	private String favouriteActor;
+	
+	public User(long userId, String username, String firstName, String lastName, String email) {
+		this.user_id = userId;
+		this.username = username;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+	}
 
 
 }
