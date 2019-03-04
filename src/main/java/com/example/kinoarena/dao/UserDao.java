@@ -19,7 +19,7 @@ import lombok.Setter;
 
 
 @Component
-public class UserDao {
+public class UserDao implements IUserDao{
 	
 	private static final String CHECK_IF_IS_ADMIN = "SELECT is_admin FROM users WHERE username = ?";
 	private static final String LOGIN = "SELECT * from users WHERE (username=? AND password =?)";
@@ -140,7 +140,7 @@ public class UserDao {
 	
 	public boolean isAdmin(User user) throws SQLException, NotAdminException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		PreparedStatement checkAdmin = con.prepareStatement(CHECK_IF_IS_ADMIN); {
+		try (PreparedStatement checkAdmin = con.prepareStatement(CHECK_IF_IS_ADMIN);) {
 			String username = this.usernameExists(user.getUsername());
 			checkAdmin.setString(1, username);
 			try (ResultSet result = checkAdmin.executeQuery()) {

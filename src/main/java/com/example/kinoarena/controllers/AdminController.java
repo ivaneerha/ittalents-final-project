@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,7 @@ public class AdminController {
 		return userDao.getAllUsers();
 	}
 	
-	@GetMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public void deleteUser(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) throws SQLException, InvalidInputDataException {
 		userDao.deleteUserByID(id);
 	}

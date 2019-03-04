@@ -17,7 +17,7 @@ import lombok.ToString;
 
 public class Projection {
 	
-	private int id;
+	private int projectionId;
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	private int movieId;

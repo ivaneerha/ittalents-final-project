@@ -41,7 +41,7 @@ public class MovieDao {
 	
 	
 	
-	
+	//TODO
 	public void addNewMovie(Movie movie, int genreType) throws SQLException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		PreparedStatement ps = null;

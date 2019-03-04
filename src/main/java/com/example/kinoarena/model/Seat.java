@@ -15,7 +15,10 @@ import lombok.ToString;
 
 public class Seat {
 	
+	private int seat_id;
 	private int row;
 	private int column;
+	private boolean isTaken;
+	
 	
 }
