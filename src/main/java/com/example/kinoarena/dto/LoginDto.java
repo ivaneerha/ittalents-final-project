@@ -1,6 +1,10 @@
 package com.example.kinoarena.dto;
 
+import org.springframework.stereotype.Component;
+
+
 public class LoginDto {
+	
 	private String username;
 	private String password;
 

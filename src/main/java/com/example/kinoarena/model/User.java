@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.helper.RegexPatterns;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class User {
 
 	private long user_id;
 	private String username;
+	@JsonIgnore
 	private String password;
 	private String firstName;
 	private String lastName;
@@ -33,13 +35,4 @@ public class User {
 	private String favouriteMovie;
 	private String favouriteActor;
 	
-	public User(long user_id, String username, String firstName, String lastName, String email) {
-		this.user_id = user_id;
-		this.username = username;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-	}
-
-
 }

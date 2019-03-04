@@ -23,7 +23,7 @@ public class UserDao {
 	
 	private static final String CHECK_IF_IS_ADMIN = "SELECT is_admin FROM users WHERE username = ?";
 	private static final String LOGIN = "SELECT * from users WHERE (username=? AND password =?)";
-	private static final String SELECT_USER_BY_ID = "SELECT * from users WHERE user_id=?";
+	private static final String GET_USER_BY_ID = "SELECT * from users WHERE user_id=?";
 	private static final String CHANGE_PASSWORD = "UPDATE users SET password = ? WHERE user_id = ?";
 	private static final String GET_ALL_USERS = "SELECT * FROM users;";
 	private static final String DELETE_USER_BY_ID = "DELETE FROM users WHERE user_id = ?";
@@ -71,14 +71,41 @@ public class UserDao {
 				result.getString("username"),
 				result.getString("password"),
 				result.getString("first_name"),
-				result.getString("last_name"));
+				result.getString("last_name"),
+				result.getLong("location_id"),
+				result.getString("email"),
+				result.getString("gsm"),
+				result.getBoolean("isAdmin"),
+				result.getString("favourite_movie"),
+				result.getString("favourite_actor"));
 		return user2;
 	}
 	
 	
-	public User getUser(long user_id) throws SQLException, InvalidInputDataException {
+	public User getUserByUsername(String username) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		PreparedStatement ps = con.prepareStatement(SELECT_USER_BY_ID);
+		PreparedStatement ps = con.prepareStatement(GET_USER_BY_USERNAME);
+		ps.setString(1,username);
+		ResultSet result = ps.executeQuery();
+		result.next();
+		User user = new User(
+				result.getLong("user_id"),
+				result.getString("username"),
+				result.getString("password"),
+				result.getString("first_name"),
+				result.getString("last_name"),
+				result.getLong("location_id"),
+				result.getString("email"),
+				result.getString("gsm"),
+				result.getBoolean("isAdmin"),
+				result.getString("favourite_movie"),
+				result.getString("favourite_actor"));
+		return user;
+	}
+	
+	public User getUserById(long user_id) throws SQLException, InvalidInputDataException {
+		Connection con = jdbcTemplate.getDataSource().getConnection();
+		PreparedStatement ps = con.prepareStatement(GET_USER_BY_ID);
 		ps.setLong(1,user_id);
 		ResultSet result = ps.executeQuery();
 		result.next();
@@ -96,6 +123,7 @@ public class UserDao {
 				result.getString("favourite_actor"));
 		return user;
 	}
+	
 	
 	public String usernameExists(String username) throws SQLException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
@@ -117,7 +145,7 @@ public class UserDao {
 			checkAdmin.setString(1, username);
 			try (ResultSet result = checkAdmin.executeQuery()) {
 				if (result.next()) {
-					if (result.getInt("is_admin") == 1) {
+					if (result.getInt("isAdmin") == 1) {
 						return true;
 					}
 				}

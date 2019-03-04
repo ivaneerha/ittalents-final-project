@@ -1,5 +1,13 @@
 package com.example.kinoarena.dto;
 
-public class ProfileDto {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
+@Data
+public class ProfileDto {
+	
+	private int user_id;
+	private String username;
+
+	
 }
