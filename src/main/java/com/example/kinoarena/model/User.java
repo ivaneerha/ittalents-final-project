@@ -33,8 +33,8 @@ public class User {
 	private String favouriteMovie;
 	private String favouriteActor;
 	
-	public User(long userId, String username, String firstName, String lastName, String email) {
-		this.user_id = userId;
+	public User(long user_id, String username, String firstName, String lastName, String email) {
+		this.user_id = user_id;
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;

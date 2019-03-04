@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.kinoarena.dto.LoginDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
+import com.example.kinoarena.exceptions.NotAdminException;
 import com.example.kinoarena.model.User;
 
 import lombok.Setter;
@@ -70,13 +71,7 @@ public class UserDao {
 				result.getString("username"),
 				result.getString("password"),
 				result.getString("first_name"),
-				result.getString("last_name"),
-				result.getLong("location_id"),
-				result.getString("email"),
-				result.getString("gsm"),
-				result.getBoolean("isAdmin"),
-				result.getString("favourite_movie"),
-				result.getString("favourite_actor"));
+				result.getString("last_name"));
 		return user2;
 	}
 	
@@ -115,7 +110,7 @@ public class UserDao {
 		return null;
 	}
 	
-	public boolean isAdmin(User user) throws SQLException {
+	public boolean isAdmin(User user) throws SQLException, NotAdminException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		PreparedStatement checkAdmin = con.prepareStatement(CHECK_IF_IS_ADMIN); {
 			String username = this.usernameExists(user.getUsername());
@@ -127,14 +122,14 @@ public class UserDao {
 					}
 				}
 			}
-			return false;
+			throw new NotAdminException("You are not an admin!");
 		}
 	}
 	
-	public void deleteUserByID(User user) throws SQLException {
+	public void deleteUserByID(long id) throws SQLException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		try (PreparedStatement deleteUserByID = con.prepareStatement(DELETE_USER_BY_ID);) {
-			deleteUserByID.setLong(1, user.getUser_id());
+			deleteUserByID.setLong(1, id);
 			deleteUserByID.executeUpdate();
 		}
 	}

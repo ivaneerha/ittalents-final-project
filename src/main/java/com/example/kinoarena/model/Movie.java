@@ -14,6 +14,7 @@ import lombok.ToString;
 public class Movie {
 	
 	private int id;
+	//in minutes
 	private int length;
 	private String title;
 	private int genreId;
