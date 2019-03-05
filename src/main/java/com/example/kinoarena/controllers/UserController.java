@@ -18,30 +18,29 @@ import com.example.kinoarena.dao.UserDao;
 import com.example.kinoarena.dto.LoginDto;
 import com.example.kinoarena.dto.ProfileDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
+import com.example.kinoarena.exceptions.KinoArenaException;
+import com.example.kinoarena.exceptions.NotLoggedInException;
 import com.example.kinoarena.model.User;
 import com.example.kinoarena.service.SessionManager;
 
 @RestController
-public class UserController {
+public class UserController extends BaseController{
 	
 	private static final int SESSION_TIMEOUT = 10000;
 	
 	@Autowired
 	private UserDao userDao;
 	
-	@PostMapping("/login")
-	public void login(@RequestBody LoginDto user, HttpServletRequest request, HttpServletResponse response) throws SQLException, InvalidInputDataException {
-		userDao.login(user);
-		SessionManager.logUser(request, user);
-		
+//DONT DELETE -> MOVED TO lOGINCONTROLLER
 //		User u = userDao.login(user);
 //		HttpSession session = request.getSession();
 //		session.setMaxInactiveInterval(SESSION_TIMEOUT);
 //		session.setAttribute("userId", u.getUser_id());
-	}
+	
 	
 	@GetMapping("/profile/username")
-	public User getUserProfile(@RequestBody ProfileDto user, HttpServletRequest request, HttpServletResponse response) throws SQLException, InvalidInputDataException {
+	public User getUserProfile(@RequestBody ProfileDto user, HttpServletRequest request, HttpServletResponse response,HttpSession session) throws SQLException, KinoArenaException {
+		//validateLogin(session);
 		if(SessionManager.isLogged(request))	{
 		User u = userDao.getUserByUsername(user.getUsername());
 			return u;
@@ -53,7 +52,7 @@ public class UserController {
 	
 	//check
 	@GetMapping("/profile/id")
-	public User getUserProfileById(@RequestBody ProfileDto user, HttpServletRequest request, HttpServletResponse response) throws SQLException, InvalidInputDataException {
+	public User getUserProfileById(@RequestBody ProfileDto user, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
 		if(SessionManager.isLogged(request)) {	
 		User u = userDao.getUserById(user.getUser_id());
 			return u;
@@ -66,12 +65,11 @@ public class UserController {
 	
 
 	@DeleteMapping("/delete")
-	public void deleteAccount(@RequestBody ProfileDto user, HttpServletRequest request, HttpServletResponse response) throws SQLException, InvalidInputDataException {
+	public void deleteAccount(@RequestBody ProfileDto user, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
 		if(SessionManager.isLogged(request)) {	
 		userDao.deleteUserByID(user.getUser_id());
 		} else {
-			response.setStatus(418);
-			System.out.println("I am a teapot!");
+			throw new NotLoggedInException();
 		}
 	}
 
