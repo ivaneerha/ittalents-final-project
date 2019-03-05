@@ -1,5 +1,8 @@
 package com.example.kinoarena.controllers;
 
-public class RegisterController {
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class RegisterController extends BaseController {
 
 }

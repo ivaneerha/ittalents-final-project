@@ -3,6 +3,6 @@ package com.example.kinoarena.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LoginController {
+public class LoginController extends BaseController{
 
 }

@@ -20,7 +20,7 @@ public class SessionManager {
 	private  UserDao userDao;
 	
 	
-	public static final String LOGGED = "logged";
+	public static final String LOGGED = "LoggedUser";
 	private static final int SESSION_TIMEOUT = 100000;
 	
 	public static boolean isLogged(HttpServletRequest request) {

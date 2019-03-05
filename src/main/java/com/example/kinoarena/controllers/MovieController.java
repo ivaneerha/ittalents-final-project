@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.kinoarena.model.Movie;
 
 @RestController
-public class MovieController {
+public class MovieController extends BaseController{
 	
 	@Autowired
 	private MovieRepository movieRepository;

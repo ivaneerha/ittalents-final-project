@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,13 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.kinoarena.dao.MovieDao;
 import com.example.kinoarena.dao.UserDao;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
+import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.exceptions.NotAdminException;
+import com.example.kinoarena.exceptions.NotLoggedInException;
 import com.example.kinoarena.helper.RandomNumber;
 import com.example.kinoarena.model.User;
 import com.example.kinoarena.service.SessionManager;
 
 @RestController
-public class AdminController {
+public class AdminController extends BaseController{
 	
 
 	@Autowired
@@ -33,21 +36,21 @@ public class AdminController {
 	private MovieDao movieDao;
 	
 	@GetMapping("/users")
-	public List<User> getAll(){
+	public List<User> getAll(HttpSession session) throws KinoArenaException{
+		validateLoginAdmin(session);
 		return userDao.getAllUsers();
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public void deleteUser(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) throws SQLException, InvalidInputDataException {
+	public void deleteUser(@PathVariable long id,HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
+		validateLoginAdmin(session);
 		userDao.deleteUserByID(id);
 	}
 	
 	//TODO
 	@PostMapping("/addmovie")
-		public void addMovie(User admin, HttpServletRequest request, HttpServletResponse response) throws SQLException, InvalidInputDataException, NotAdminException {
-		if(userDao.isAdmin(admin) && SessionManager.isLogged(request)) {
-
-		}
+		public void addMovie(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
+		validateLoginAdmin(session);
 	}
 	
 	

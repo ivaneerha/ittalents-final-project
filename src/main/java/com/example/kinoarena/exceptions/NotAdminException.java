@@ -1,26 +1,13 @@
 package com.example.kinoarena.exceptions;
 
-public class NotAdminException extends Exception {
+public class NotAdminException extends KinoArenaException {
+
 
 	private static final long serialVersionUID = -7444897604162092416L;
-
+	
 	public NotAdminException() {
-		super();
+		super("You have unauthorized access! Not an admin!");
+		
 	}
 
-	public NotAdminException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
-
-	public NotAdminException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public NotAdminException(String message) {
-		super(message);
-	}
-
-	public NotAdminException(Throwable cause) {
-		super(cause);
-	}
 }

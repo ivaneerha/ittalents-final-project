@@ -150,7 +150,7 @@ public class UserDao implements IUserDao{
 					}
 				}
 			}
-			throw new NotAdminException("You are not an admin!");
+			throw new NotAdminException();
 		}
 	}
 	
