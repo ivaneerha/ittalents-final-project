@@ -21,6 +21,8 @@ public class ProjectionDao implements IProjectionDao{
 	@Autowired
 	@Setter
 	private JdbcTemplate jdbcTemplate;
+	
+
 
 	@Override
 	public void deleteProjection(int broadcastId) throws SQLException, NotAdminException, InvalidInputDataException {
