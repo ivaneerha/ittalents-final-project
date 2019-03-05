@@ -3,14 +3,15 @@ package com.example.kinoarena.dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.example.kinoarena.dto.AddMovieDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.model.Movie;
 
 public interface IMovieDao {
 	
-	public void addNewMovie(Movie movie, int genreType) throws SQLException, InvalidInputDataException;
+	public int addNewMovie(AddMovieDto dto) throws SQLException, InvalidInputDataException;
 	
-	public void deleteMovie(Movie m) throws Exception;
+	public void deleteMovieById(long id) throws Exception;
 
 	public ArrayList<Movie> getAllMovies() throws SQLException, InvalidInputDataException;
 
@@ -18,10 +19,6 @@ public interface IMovieDao {
 	
 	public ArrayList<String> getAllMoviesNames() throws SQLException, InvalidInputDataException;
 	
-	public Movie getMovieByName(String name) throws SQLException, InvalidInputDataException;
-
-	public ArrayList<String> getAllGenres() throws SQLException;
-	
-	public int getGenreIdByName(String genre) throws SQLException;
+	public Movie getMovieByTitle(String title) throws SQLException, InvalidInputDataException;
 
 }

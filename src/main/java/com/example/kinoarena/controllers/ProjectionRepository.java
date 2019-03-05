@@ -6,6 +6,6 @@ import com.example.kinoarena.model.Projection;
 
 public interface ProjectionRepository extends JpaRepository<Projection,Long>{
 	
-	Projection findByName(String name);
+	Projection findByProjectionId(long id);
 
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.kinoarena.exceptions.KinoArenaException;
+import com.example.kinoarena.exceptions.MovieNotFoundException;
 import com.example.kinoarena.exceptions.NotAdminException;
 import com.example.kinoarena.exceptions.NotLoggedInException;
 import com.example.kinoarena.exceptions.ProjectionNotFoundException;
@@ -40,12 +41,13 @@ public abstract class BaseController {
 		return msg;
 	}
 	
-	@ExceptionHandler({ProjectionNotFoundException.class})
+	@ExceptionHandler({ProjectionNotFoundException.class, MovieNotFoundException.class})
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ErrorMessage NotFound(Exception e) {
 		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.NOT_FOUND.value(), LocalDateTime.now());
 		return msg;
 	}
+	
 	
 	@ExceptionHandler({KinoArenaException.class})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

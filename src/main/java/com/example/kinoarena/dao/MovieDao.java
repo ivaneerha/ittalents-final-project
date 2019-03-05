@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.example.kinoarena.dto.AddMovieDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.helper.RandomNumber;
 import com.example.kinoarena.model.Movie;
@@ -25,8 +26,8 @@ public class MovieDao implements IMovieDao{
 	@Setter
 	private JdbcTemplate jdbcTemplate;
 	
-	private static final String addMovie = "INSERT INTO movies (movie_id,length,title,genre_id) VALUES (?,?,?,?)";
-	private static final String addGenre = "UPDATE  movies SET genre_id = ? WHERE movie_id = ?";
+	private static final String ADD_MOVIE = "INSERT INTO movies (length,title,genre_id) VALUES (?,?,?)";
+	private static final String ADD_GENRE = "UPDATE  movies SET genre_id = ? WHERE movie_id = ?";
 	//duration of a movie in minutes
 	private static final int MIN_DURATION_OF_MOVIE = 90;
 	private static final int MAX_DURATION_OF_MOVIE = 180;
@@ -45,22 +46,23 @@ public class MovieDao implements IMovieDao{
 	
 	//TODO
 	
-	public void addNewMovie(Movie movie, int genreType) throws SQLException, InvalidInputDataException {
+	public int addNewMovie(AddMovieDto dto) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		PreparedStatement ps = null;
 		try {
 			con.setAutoCommit(false);
-			ps = con.prepareStatement(addMovie,Statement.RETURN_GENERATED_KEYS);
-			ps.setInt(1,movie.getId());
-			ps.setInt(2,RandomNumber.randomNumber(MIN_DURATION_OF_MOVIE, MAX_DURATION_OF_MOVIE) );
-			ps.setString(3, movie.getTitle());
-			ps.setInt(4, genreType);
+			ps = con.prepareStatement(ADD_MOVIE,Statement.RETURN_GENERATED_KEYS);
+			ps.setInt(1,RandomNumber.randomNumber(MIN_DURATION_OF_MOVIE, MAX_DURATION_OF_MOVIE) );
+			ps.setString(2, dto.getTitle());
+			ps.setInt(3, dto.getGenreId());
 			ps.executeUpdate();
+			
 			
 			ResultSet result = ps.getGeneratedKeys();
 			result.next();
-			movie.setId((int)result.getLong(1));
+			int id = (int)result.getLong(1);
 			con.commit();
+			return id;
 		}
 		catch (SQLException e) {
 			con.rollback();
@@ -71,11 +73,6 @@ public class MovieDao implements IMovieDao{
 		}
 	}
 	
-	@Override
-	public void deleteMovie(Movie m) throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		
-	}
 	@Override
 	public ArrayList<Movie> getAllMovies() throws SQLException, InvalidInputDataException {
 		// TODO Auto-generated method stub
@@ -91,20 +88,18 @@ public class MovieDao implements IMovieDao{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+
 	@Override
-	public Movie getMovieByName(String name) throws SQLException, InvalidInputDataException {
+	public void deleteMovieById(long id) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Movie getMovieByTitle(String title) throws SQLException, InvalidInputDataException {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	@Override
-	public ArrayList<String> getAllGenres() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public int getGenreIdByName(String genre) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 

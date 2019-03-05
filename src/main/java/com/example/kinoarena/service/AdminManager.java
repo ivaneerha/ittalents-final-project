@@ -36,10 +36,6 @@ public class AdminManager {
 	private UserDao userDao;
 	
 	
-	public void addNewMovie(Movie movie,int genreType) throws SQLException, InvalidInputDataException {
-		movieDao.addNewMovie(movie, genreType);
-	}
-	
 	public void addNewProjection(Projection b) throws SQLException, NotAdminException, InvalidInputDataException {
 			projectionDao.addProjection(b);
 	
@@ -51,11 +47,6 @@ public class AdminManager {
 	
 	public void addNewCinema(Cinema c) throws SQLException, NotAdminException, InvalidInputDataException {
 			cinemaDao.addCinema(c);
-	}
-
-
-	public void removeMovie(Movie m) throws SQLException, InvalidInputDataException {
-			movieDao.deleteMovie(m);;
 	}
 
 
