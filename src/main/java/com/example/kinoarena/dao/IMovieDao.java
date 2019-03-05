@@ -8,7 +8,7 @@ import com.example.kinoarena.model.Movie;
 
 public interface IMovieDao {
 	
-	public void addNewMoview(Movie movie, int genreType) throws SQLException, InvalidInputDataException;
+	public void addNewMovie(Movie movie, int genreType) throws SQLException, InvalidInputDataException;
 	
 	public void deleteMovie(Movie m) throws Exception;
 

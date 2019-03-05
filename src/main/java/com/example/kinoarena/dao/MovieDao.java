@@ -6,18 +6,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.helper.RandomNumber;
 import com.example.kinoarena.model.Movie;
 
 import lombok.Setter;
 
 @Component
-public class MovieDao {
+public class MovieDao implements IMovieDao{
 	
 	@Autowired
 	@Setter
@@ -42,7 +44,8 @@ public class MovieDao {
 	
 	
 	//TODO
-	public void addNewMovie(Movie movie, int genreType) throws SQLException {
+	
+	public void addNewMovie(Movie movie, int genreType) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		PreparedStatement ps = null;
 		try {
@@ -66,6 +69,42 @@ public class MovieDao {
 			ps.close();
 			con.setAutoCommit(true);
 		}
+	}
+	
+	@Override
+	public void deleteMovie(Movie m) throws SQLException, InvalidInputDataException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public ArrayList<Movie> getAllMovies() throws SQLException, InvalidInputDataException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Movie getMovieById(int id) throws SQLException, InvalidInputDataException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ArrayList<String> getAllMoviesNames() throws SQLException, InvalidInputDataException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Movie getMovieByName(String name) throws SQLException, InvalidInputDataException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ArrayList<String> getAllGenres() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int getGenreIdByName(String genre) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

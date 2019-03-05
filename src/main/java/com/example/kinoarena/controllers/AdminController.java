@@ -14,15 +14,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.kinoarena.dao.MovieDao;
 import com.example.kinoarena.dao.UserDao;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
+import com.example.kinoarena.exceptions.NotAdminException;
+import com.example.kinoarena.helper.RandomNumber;
 import com.example.kinoarena.model.User;
+import com.example.kinoarena.service.SessionManager;
 
 @RestController
 public class AdminController {
 	
+
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private MovieDao movieDao;
 	
 	@GetMapping("/users")
 	public List<User> getAll(){
@@ -36,7 +44,10 @@ public class AdminController {
 	
 	//TODO
 	@PostMapping("/addmovie")
-		public void addMovie() {
+		public void addMovie(User admin, HttpServletRequest request, HttpServletResponse response) throws SQLException, InvalidInputDataException, NotAdminException {
+		if(userDao.isAdmin(admin) && SessionManager.isLogged(request)) {
+
+		}
 	}
 	
 	
