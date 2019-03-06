@@ -2,6 +2,7 @@ package com.example.kinoarena.controllers;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,13 +54,11 @@ public class AdminController extends BaseController{
 		userDao.deleteUserByID(id);
 	}
 	
-	//TODO-> move to MovieController
-//	@PostMapping("/addmovie")
-//		public void addMovie(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
-//		validateLoginAdmin(request);
-//	}
-	    
-	
+	@GetMapping("/users/{id}")
+	public User getAll(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException{
+		validateLoginAdmin(request);
+		return userRepository.findById(id).get();
+	}
 	
 
 }

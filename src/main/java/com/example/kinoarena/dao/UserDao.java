@@ -6,11 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.example.kinoarena.dto.LoginDto;
+import com.example.kinoarena.dto.RegisterDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.NotAdminException;
 import com.example.kinoarena.model.User;
@@ -29,6 +31,7 @@ public class UserDao implements IUserDao{
 	private static final String DELETE_USER_BY_ID = "DELETE FROM users WHERE user_id = ?";
 	private static final String GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
 	private static final String GET_USER_BY_USERNAME = "SELECT * FROM users WHERE username = ?";
+	private static final String REGISTER = "INSERT INTO users ('first_name','password','email','last_name','username') VALUES (?,?,?,?,?);";
 
 	
 
@@ -53,7 +56,7 @@ public class UserDao implements IUserDao{
 				result.getLong("location_id"),
 				result.getString("email"),
 				result.getString("gsm"),
-				result.getByte("isAdmin"),
+				result.getByte("is_аdmin"),
 				result.getString("favourite_movie"),
 				result.getString("favourite_actor"));
 		return user2;
@@ -81,7 +84,7 @@ public class UserDao implements IUserDao{
 		return user2;
 	}
 	
-	
+
 	public User getUserByUsername(String username) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		PreparedStatement ps = con.prepareStatement(GET_USER_BY_USERNAME);
@@ -97,7 +100,7 @@ public class UserDao implements IUserDao{
 				result.getLong("location_id"),
 				result.getString("email"),
 				result.getString("gsm"),
-				result.getByte("isAdmin"),
+				result.getByte("is_аdmin"),
 				result.getString("favourite_movie"),
 				result.getString("favourite_actor"));
 		return user;
@@ -118,7 +121,7 @@ public class UserDao implements IUserDao{
 				result.getLong("location_id"),
 				result.getString("email"),
 				result.getString("gsm"),
-				result.getByte("isAdmin"),
+				result.getByte("is_аdmin"),
 				result.getString("favourite_movie"),
 				result.getString("favourite_actor"));
 		return user;
@@ -145,7 +148,7 @@ public class UserDao implements IUserDao{
 			checkAdmin.setString(1, username);
 			try (ResultSet result = checkAdmin.executeQuery()) {
 				if (result.next()) {
-					if (result.getInt("isAdmin") == 1) {
+					if (result.getInt("is_аdmin") == 1) {
 						return true;
 					}
 				}
