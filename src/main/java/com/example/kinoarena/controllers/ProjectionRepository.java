@@ -12,5 +12,7 @@ public interface ProjectionRepository extends JpaRepository<Projection,Long>{
 	
 	Projection findByProjectionId(long id);
 	Projection findByMovieId(long movieId);
+//	Projection findByMovieIdAndStartTime(long MovieId, LocalDate startTime);
+	
 
 }
