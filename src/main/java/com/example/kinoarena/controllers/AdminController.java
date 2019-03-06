@@ -53,11 +53,11 @@ public class AdminController extends BaseController{
 		userDao.deleteUserByID(id);
 	}
 	
-	//TODO
-	@PostMapping("/addmovie")
-		public void addMovie(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
-		validateLoginAdmin(request);
-	}
+	//TODO-> move to MovieController
+//	@PostMapping("/addmovie")
+//		public void addMovie(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
+//		validateLoginAdmin(request);
+//	}
 	    
 	
 	

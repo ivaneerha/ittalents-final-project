@@ -10,9 +10,14 @@ import com.example.kinoarena.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long>{
 	
+	
 	public User findByUsername(String username);
 	
 	public List<User> findAll();
 
+	public User findByEmail(String email);
+	
+	}
 
-}
+
+

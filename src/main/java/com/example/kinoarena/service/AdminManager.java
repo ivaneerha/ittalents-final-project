@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.example.kinoarena.dao.CinemaDao;
 import com.example.kinoarena.dao.HallDao;
@@ -17,6 +18,7 @@ import com.example.kinoarena.model.Hall;
 import com.example.kinoarena.model.Movie;
 import com.example.kinoarena.model.Projection;
 
+@Service
 @Component
 public class AdminManager {
 	

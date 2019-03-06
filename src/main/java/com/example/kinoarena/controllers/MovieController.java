@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.kinoarena.exceptions.InvalidInputDataException;
+import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.model.Movie;
 
 @RestController
@@ -21,33 +22,34 @@ public class MovieController extends BaseController{
 	private MovieRepository movieRepository;
 	
 	
+	
 	/**
-	 * Method for searching all movies by name in all cinemas.
+	 * Method for searching all movies by title in all cinemas.
 	 */
-	@GetMapping("movies/name")
-	public ArrayList<Movie> listMovies(@RequestParam String name) {
-		return movieRepository.findAllByTitle(name);
+	@GetMapping("movies/title")
+	public ArrayList<Movie> listMovies(@RequestParam String title) throws KinoArenaException{
+		return movieRepository.findAllByTitle(title);
 	}
 	
 	/**
 	 * Method for searching a movie by name.
 	 */
-	@GetMapping("movie/name")
-	public Movie getMovie(@RequestParam String name) {
-		return movieRepository.findByTitle(name);
+	@GetMapping("movie/title")
+	public Movie getMovie(@RequestParam String title) throws KinoArenaException{
+		return movieRepository.findByTitle(title);
 	}
 	
+	//Working
 	@GetMapping("movie/{id}")
-	public Movie getMovieById(@PathVariable("id") int id, HttpServletResponse response) throws InvalidInputDataException {
-		Movie movie = movieRepository.findByMovieId(id);
-		if(movie != null) {
-			return movie;
-		} else {
-//			throw new InvalidInputDataException("Invalid movie id!");
-			throw new InvalidInputDataException();
-		}
+	public Movie getMovieById(@PathVariable("id") int id, HttpServletResponse response) throws KinoArenaException{
+		return movieRepository.findByMovieId(id);
+//		if(movie != null) {
+//			return movie;
+//		} else {
+////			throw new InvalidInputDataException("Invalid movie id!");
+//			throw new InvalidInputDataException();
+//		}
 	}
-	
-	
+
 	
 }

@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.helper.RegexPatterns;
@@ -43,7 +44,7 @@ public class User {
 	@NonNull
 	private String lastName;
 	private long location_id;
-	@NonNull @Column(unique=true, nullable = false)
+	@NotNull
 	private String email;
 	private String gsm;
 	private byte isAdmin;
