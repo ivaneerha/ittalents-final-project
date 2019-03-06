@@ -1,5 +1,6 @@
 package com.example.kinoarena.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -24,13 +25,13 @@ import lombok.ToString;
 public class Projection {
 	
 	@Id
-	private int projectionId;
+	private long projectionId;
 	@Column
-	private LocalDateTime startTime;
+	private LocalDate startTime;
 	@Column
-	private LocalDateTime endTime;
+	private LocalDate endTime;
 	@Column
-	private int movieId;
+	private long movieId;
 	
 	
 }

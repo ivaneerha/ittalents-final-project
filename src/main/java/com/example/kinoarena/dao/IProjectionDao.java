@@ -3,6 +3,7 @@ package com.example.kinoarena.dao;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.model.Movie;
@@ -21,5 +22,9 @@ public void deleteProjection(int broadcastId) throws Exception;
 	public Collection<Projection> getAllPRojections() throws SQLException, InvalidInputDataException;
 	
 	public Projection getProjectionById(int id) throws SQLException, InvalidInputDataException;
+
+	List<Long> getProjectionIdsByCinemaId(int id) throws SQLException, InvalidInputDataException;
+
+	List<Projection> getProjectionsByCinemaId(int id) throws SQLException, InvalidInputDataException;
 	
 }

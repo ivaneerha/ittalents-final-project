@@ -1,5 +1,6 @@
 package com.example.kinoarena.controllers;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,17 +14,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.kinoarena.dao.ProjectionDao;
+import com.example.kinoarena.dao.UserDao;
+import com.example.kinoarena.dto.ProjectionDto;
+import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.exceptions.NotAdminException;
 import com.example.kinoarena.exceptions.NotLoggedInException;
 import com.example.kinoarena.exceptions.ProjectionNotFoundException;
 import com.example.kinoarena.model.Projection;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+
 @RestController
 public class ProjectionController extends BaseController{
 
 	@Autowired
 	private ProjectionRepository projectionRepository;
+	
+	@Autowired
+	private ProjectionDao projectionDao;
 
 	@GetMapping("/projections")
 	public List<Projection> getAllProjections() {
@@ -31,21 +45,46 @@ public class ProjectionController extends BaseController{
 	}
 
 	@GetMapping("/projections/{id}")
-	public Projection getProjectionById(@PathVariable long id) throws ProjectionNotFoundException {
-		Optional<Projection> pro = projectionRepository.findById(id);
-		if (pro.isPresent()) {
-			return pro.get();
+	public Projection getProjectionById(@PathVariable long id) throws KinoArenaException {
+		Projection projection = projectionRepository.findByProjectionId(id);
+		if(projection != null) {
+			return projection;
 		} else {
-			throw new ProjectionNotFoundException();
+			throw new ProjectionNotFoundException("Wrong projection id!");
 		}
 	}
 
 	// TODO
 	// CHECH JSON IN POSTMAN -> DATETIME
-	@PostMapping("projection")
-	public Projection addProjection(@RequestBody Projection projection,HttpSession session,HttpServletRequest request ) throws KinoArenaException{
+	@PostMapping("/projection/add")
+	public void addProjection(@RequestBody ProjectionDto projectionDto,HttpSession session,HttpServletRequest request ) throws KinoArenaException{
 		validateLoginAdmin(request);
-	return	projectionRepository.save(projection);
+		Projection projection = new Projection();
+		try {
+			projection.setProjectionId(0);
+			projection.setStartTime(projectionDto.getStartTime());
+			projection.setEndTime(projectionDto.getEndTime());
+			projection.setMovieId(projectionDto.getMovieId());
+			projectionRepository.save(projection);
+		} catch(Exception e) {
+			throw new InvalidInputDataException();
+		}
 	}
+	
+	@GetMapping("/projections/cinema/{id}")
+	public List<Long> getProjectionIdsByCinemaId(@PathVariable int id) throws ProjectionNotFoundException, InvalidInputDataException, SQLException {
+		return projectionDao.getProjectionIdsByCinemaId(id);
+	}
+	
+	@GetMapping("/projections/all/cinema/{id}")
+	public List<Projection> getProjectionsByCinemaId(@PathVariable int id) throws KinoArenaException, SQLException {
+		List<Projection> projections = projectionDao.getProjectionsByCinemaId(id);
+		if(projections != null) {
+			return projections;
+		} else {
+			throw new InvalidInputDataException();
+		}
+	}
+	
 
 }

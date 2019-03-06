@@ -75,6 +75,6 @@ public class Hall {
 	}
 
 	public int getCinemaId() {
-		return cinema.getId();
+		return (int) cinema.getCinemaId();
 	}
 }

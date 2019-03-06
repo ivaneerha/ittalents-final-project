@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.exceptions.MovieNotFoundException;
 import com.example.kinoarena.exceptions.NotAdminException;
@@ -56,6 +57,13 @@ public abstract class BaseController {
 	@ExceptionHandler({ ProjectionNotFoundException.class, MovieNotFoundException.class })
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ErrorMessage NotFound(Exception e) {
+		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.NOT_FOUND.value(), LocalDateTime.now());
+		return msg;
+	}
+	
+	@ExceptionHandler({ InvalidInputDataException.class})
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ErrorMessage invalidInput(Exception e) {
 		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.NOT_FOUND.value(), LocalDateTime.now());
 		return msg;
 	}

@@ -50,15 +50,28 @@ public class UserController extends BaseController{
 //		}
 //	}
 	
-	//check
-	@GetMapping("/profile/id")
-	public User getUserProfileById(@RequestBody ProfileDto user,HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
-		if(SessionManager.isLogged(request)) {	
-		User u = userDao.getUserById(user.getUser_id());
+	//taka beshe pri teb:
+//	@GetMapping("/profile/id")
+//	public User getUserProfileById(@RequestBody ProfileDto user,HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
+//		if(SessionManager.isLogged(request)) {	
+//		User u = userDao.getUserById(user.getUser_id());
+//			return u;
+//		} else {
+//			response.setStatus(418);
+//			System.out.println("I am a teapot!");
+//			return null;
+//		}
+//	}
+	
+//	az go napravih taka: (sega veche vzima samo po id v url-a)
+	@GetMapping("/profile/{id}")
+	public User getUserProfileById(@PathVariable("id") long id, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
+		validateLoginAdmin(request);
+		try {
+		User u = userDao.getUserById(id);
 			return u;
-		} else {
-			response.setStatus(418);
-			System.out.println("I am a teapot!");
+		}
+		catch(Exception e) {
 			return null;
 		}
 	}
@@ -83,7 +96,7 @@ public class UserController extends BaseController{
 //			return null;
 //		}
 //		long id = (Long) session.getAttribute("userId");
-//		return userDao.getUser(id);
+//		return userDao.getUserById(id);
 //	}
 	
 	@PostMapping("/signout")

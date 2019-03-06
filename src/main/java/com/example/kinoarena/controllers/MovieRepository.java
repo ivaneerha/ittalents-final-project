@@ -15,5 +15,7 @@ public interface MovieRepository extends JpaRepository<Movie,Long>{
 	ArrayList<Movie> findAllByTitle(String title);
 		
 	List<Movie> findByGenreId(int genreId);
+	
+	Movie findByMovieId(int id);
 
 }

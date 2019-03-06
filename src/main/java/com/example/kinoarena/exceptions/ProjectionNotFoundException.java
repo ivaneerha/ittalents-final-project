@@ -4,37 +4,41 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 
-public class ProjectionNotFoundException extends Exception{
+public class ProjectionNotFoundException extends KinoArenaException{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 131313131L;
-
-	public ProjectionNotFoundException() {
-		super();
-		// TODO Auto-generated constructor stub
+	public ProjectionNotFoundException(String message) {
+		super(message);
 	}
 
-	public ProjectionNotFoundException(String arg0, Throwable arg1, boolean arg2, boolean arg3) {
-		super(arg0, arg1, arg2, arg3);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ProjectionNotFoundException(String arg0, Throwable arg1) {
-		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ProjectionNotFoundException(String arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ProjectionNotFoundException(Throwable arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
+//	/**
+//	 * 
+//	 */
+//	private static final long serialVersionUID = 131313131L;
+//
+//	public ProjectionNotFoundException() {
+//		super();
+//		// TODO Auto-generated constructor stub
+//	}
+//
+//	public ProjectionNotFoundException(String arg0, Throwable arg1, boolean arg2, boolean arg3) {
+//		super(arg0, arg1, arg2, arg3);
+//		// TODO Auto-generated constructor stub
+//	}
+//
+//	public ProjectionNotFoundException(String arg0, Throwable arg1) {
+//		super(arg0, arg1);
+//		// TODO Auto-generated constructor stub
+//	}
+//
+//	public ProjectionNotFoundException(String arg0) {
+//		super(arg0);
+//		// TODO Auto-generated constructor stub
+//	}
+//
+//	public ProjectionNotFoundException(Throwable arg0) {
+//		super(arg0);
+//		// TODO Auto-generated constructor stub
+//	}
 
 	
 }
