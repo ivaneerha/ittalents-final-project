@@ -80,7 +80,7 @@ public class UserController extends BaseController{
 	@DeleteMapping("/delete")
 	public void deleteAccount(@RequestBody ProfileDto user, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
 		if(SessionManager.isLogged(request)) {	
-		userDao.deleteUserByID(user.getUser_id());
+		userDao.deleteUserByID(user.getUserId());
 		} else {
 			throw new NotLoggedInException();
 		}

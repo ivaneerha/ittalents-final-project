@@ -75,7 +75,7 @@ public class UserDao implements IUserDao{
 				result.getLong("location_id"),
 				result.getString("email"),
 				result.getString("gsm"),
-				result.getByte("isAdmin"),
+				result.getByte("is_admin"),
 				result.getString("favourite_movie"),
 				result.getString("favourite_actor"));
 		return user2;

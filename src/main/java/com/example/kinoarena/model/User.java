@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.helper.RegexPatterns;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -27,14 +30,15 @@ import lombok.ToString;
 @Getter
 @ToString
 @AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
-@Entity
 @Table(name="users")
+@Entity
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long user_id;
+	private Long userId;
 	@NonNull @Column(unique=true, nullable = false)
 	private String username;
 	@NonNull
@@ -43,11 +47,11 @@ public class User {
 	private String firstName;
 	@NonNull
 	private String lastName;
-	private long location_id;
-	@NotNull
+	private Long location_id;
+	@NonNull @Column(unique=true, nullable = false)
 	private String email;
 	private String gsm;
-	private byte isAdmin;
+	private Byte isAdmin;
 	private String favouriteMovie;
 	private String favouriteActor;
 	
