@@ -3,6 +3,7 @@ package com.example.kinoarena.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,8 @@ public class ProjectionController extends BaseController{
 	// TODO
 	// CHECH JSON IN POSTMAN -> DATETIME
 	@PostMapping("projection")
-	public Projection addProjection(@RequestBody Projection projection,HttpSession session) throws KinoArenaException{
-		validateLoginAdmin(session);
+	public Projection addProjection(@RequestBody Projection projection,HttpSession session,HttpServletRequest request ) throws KinoArenaException{
+		validateLoginAdmin(request);
 	return	projectionRepository.save(projection);
 	}
 

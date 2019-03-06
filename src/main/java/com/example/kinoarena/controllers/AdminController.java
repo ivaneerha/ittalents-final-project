@@ -25,9 +25,12 @@ import com.example.kinoarena.helper.RandomNumber;
 import com.example.kinoarena.model.User;
 import com.example.kinoarena.service.SessionManager;
 
+
 @RestController
 public class AdminController extends BaseController{
 	
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	private UserDao userDao;
@@ -35,24 +38,27 @@ public class AdminController extends BaseController{
 	@Autowired
 	private MovieDao movieDao;
 	
+	
+	
 	@GetMapping("/users")
-	public List<User> getAll(HttpSession session) throws KinoArenaException{
-		validateLoginAdmin(session);
-		return userDao.getAllUsers();
+	public List<User> getAll(HttpServletRequest request) throws KinoArenaException{
+		validateLoginAdmin(request);
+		return userRepository.findAll();
 	}
+	
 	
 	@DeleteMapping("/delete/{id}")
 	public void deleteUser(@PathVariable long id,HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
-		validateLoginAdmin(session);
+		validateLoginAdmin(request);
 		userDao.deleteUserByID(id);
 	}
 	
 	//TODO
 	@PostMapping("/addmovie")
 		public void addMovie(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
-		validateLoginAdmin(session);
+		validateLoginAdmin(request);
 	}
-	
+	    
 	
 	
 

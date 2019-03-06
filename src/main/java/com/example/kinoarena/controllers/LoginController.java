@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.kinoarena.dao.UserDao;
 import com.example.kinoarena.dto.LoginDto;
 import com.example.kinoarena.exceptions.KinoArenaException;
+import com.example.kinoarena.model.User;
 import com.example.kinoarena.service.SessionManager;
 
 @RestController
 public class LoginController extends BaseController{
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Autowired
 	private UserDao userDao;
@@ -24,7 +28,8 @@ public class LoginController extends BaseController{
 	@PostMapping("/login")
 	public void login(@RequestBody LoginDto user, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
 		userDao.login(user);
-		SessionManager.logUser(request, user);
+		User u = userRepository.findByUsername(user.getUsername());
+		SessionManager.logUser(request, u);
 	
 	}
 

@@ -38,21 +38,21 @@ public class UserController extends BaseController{
 //		session.setAttribute("userId", u.getUser_id());
 	
 	
-	@GetMapping("/profile/username")
-	public User getUserProfile(@RequestBody ProfileDto user, HttpServletRequest request, HttpServletResponse response,HttpSession session) throws SQLException, KinoArenaException {
-		//validateLogin(session);
-		if(SessionManager.isLogged(request))	{
-		User u = userDao.getUserByUsername(user.getUsername());
-			return u;
-		} else {
-			response.setStatus(418);
-			return null;
-		}
-	}
+//	@GetMapping("/profile/username")
+//	public User getUserProfile(@RequestBody ProfileDto user, HttpServletRequest request, HttpServletResponse response,HttpSession session) throws SQLException, KinoArenaException {
+//		validateLogin(session);
+//		if(SessionManager.isLogged(request))	{
+//		User u = userDao.getUserByUsername(user.getUsername());
+//			return u;
+//		} else {
+//			response.setStatus(418);
+//			return null;
+//		}
+//	}
 	
 	//check
 	@GetMapping("/profile/id")
-	public User getUserProfileById(@RequestBody ProfileDto user, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
+	public User getUserProfileById(@RequestBody ProfileDto user,HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
 		if(SessionManager.isLogged(request)) {	
 		User u = userDao.getUserById(user.getUser_id());
 			return u;

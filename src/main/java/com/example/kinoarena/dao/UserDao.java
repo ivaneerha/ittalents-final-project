@@ -53,7 +53,7 @@ public class UserDao implements IUserDao{
 				result.getLong("location_id"),
 				result.getString("email"),
 				result.getString("gsm"),
-				result.getBoolean("isAdmin"),
+				result.getByte("isAdmin"),
 				result.getString("favourite_movie"),
 				result.getString("favourite_actor"));
 		return user2;
@@ -75,7 +75,7 @@ public class UserDao implements IUserDao{
 				result.getLong("location_id"),
 				result.getString("email"),
 				result.getString("gsm"),
-				result.getBoolean("isAdmin"),
+				result.getByte("isAdmin"),
 				result.getString("favourite_movie"),
 				result.getString("favourite_actor"));
 		return user2;
@@ -97,7 +97,7 @@ public class UserDao implements IUserDao{
 				result.getLong("location_id"),
 				result.getString("email"),
 				result.getString("gsm"),
-				result.getBoolean("isAdmin"),
+				result.getByte("isAdmin"),
 				result.getString("favourite_movie"),
 				result.getString("favourite_actor"));
 		return user;
@@ -118,7 +118,7 @@ public class UserDao implements IUserDao{
 				result.getLong("location_id"),
 				result.getString("email"),
 				result.getString("gsm"),
-				result.getBoolean("isAdmin"),
+				result.getByte("isAdmin"),
 				result.getString("favourite_movie"),
 				result.getString("favourite_actor"));
 		return user;
