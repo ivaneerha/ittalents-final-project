@@ -1,7 +1,6 @@
 package com.example.kinoarena.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,9 +29,9 @@ public class Projection {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long projectionId;
 	@Column
-	private LocalDateTime startTime;
+	private LocalDate startTime;
 	@Column
-	private LocalDateTime endTime;
+	private LocalDate endTime;
 	@Column
 	private long movieId;
 	

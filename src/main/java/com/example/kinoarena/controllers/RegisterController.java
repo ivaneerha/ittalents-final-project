@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.kinoarena.dao.UserDao;
 import com.example.kinoarena.dto.RegisterDto;
 import com.example.kinoarena.exceptions.KinoArenaException;
+import com.example.kinoarena.helper.UserValidation;
 import com.example.kinoarena.model.User;
 import com.example.kinoarena.passwordcrypt.PasswordCrypt;
 import com.example.kinoarena.service.SessionManager;
@@ -34,6 +35,7 @@ public class RegisterController extends BaseController {
 	@PostMapping("/register")
 	public void signUp(@RequestBody RegisterDto reg, HttpServletRequest request)
 			throws KinoArenaException, SQLException, NoSuchAlgorithmException {
+		new UserValidation().validateRegistration(reg);
 		if (SessionManager.isLogged(request)) {
 			throw new KinoArenaException("You have to logout to register!");
 		}
@@ -41,7 +43,7 @@ public class RegisterController extends BaseController {
 			throw new KinoArenaException("Email already taken!");
 		}
 		User user = new User();
-	
+
 		user.setFirstName(reg.getFirstName());
 		user.setLastName(reg.getLastName());
 		user.setUsername(reg.getUsername());

@@ -1,6 +1,6 @@
 package com.example.kinoarena.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 
 public class ProjectionDto {
-	private String startTime;
-	private String endTime;
+	private LocalDate startTime;
+	private LocalDate endTime;
 	private long movieId;
 }

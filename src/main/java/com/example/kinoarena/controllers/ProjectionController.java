@@ -1,12 +1,6 @@
 package com.example.kinoarena.controllers;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +26,6 @@ import com.example.kinoarena.model.Projection;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.val;
 
 @Getter
 @Setter
@@ -60,31 +53,23 @@ public class ProjectionController extends BaseController{
 			throw new ProjectionNotFoundException("Wrong projection id!");
 		}
 	}
-	
-	
 
 	// TODO
 	// CHECH JSON IN POSTMAN -> DATETIME
 	@PostMapping("/projection/add")
 	public void addProjection(@RequestBody ProjectionDto projectionDto,HttpSession session,HttpServletRequest request ) throws KinoArenaException{
-		val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
 		validateLoginAdmin(request);
 		Projection projection = new Projection();
 		try {
 			projection.setProjectionId(0);
-			val startDateTime = LocalDateTime.parse(projectionDto.getStartTime(), formatter);
-			val endDateTime = LocalDateTime.parse(projectionDto.getEndTime(), formatter);
-			projection.setStartTime(startDateTime);
-			projection.setEndTime(endDateTime);
+			projection.setStartTime(projectionDto.getStartTime());
+			projection.setEndTime(projectionDto.getEndTime());
 			projection.setMovieId(projectionDto.getMovieId());
 			projectionRepository.save(projection);
-			
 		} catch(Exception e) {
 			throw new InvalidInputDataException();
 		}
 	}
-	
-	
 	
 	@GetMapping("/projections/cinema/{id}")
 	public List<Long> getProjectionIdsByCinemaId(@PathVariable int id) throws ProjectionNotFoundException, InvalidInputDataException, SQLException {
