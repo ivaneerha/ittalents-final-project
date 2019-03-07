@@ -20,7 +20,7 @@ import lombok.Setter;
 public class HallDao{
 
 	//TODO NOT WORKING
-	private static final String ADD_NEW_HALL = "INSERT INTO halls('hall_id','type','cinema_id') VALUES(?,?,?)";
+	private static final String ADD_NEW_HALL = "INSERT INTO halls('type','cinema_id') VALUES(?,?)";
 
 	@Autowired
 	@Setter
@@ -30,9 +30,8 @@ public class HallDao{
 	public void addHall(AddHallDto hall) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		try (PreparedStatement ps = con.prepareStatement(ADD_NEW_HALL);) {
-			ps.setInt(1, 55);
-			ps.setString(2, hall.getType());
-			ps.setLong(3, hall.getCinemaId());
+			ps.setString(1, hall.getType());
+			ps.setLong(2, hall.getCinemaId());
 			ps.executeUpdate();
 		}
 	}

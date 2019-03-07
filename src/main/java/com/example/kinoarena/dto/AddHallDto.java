@@ -9,6 +9,6 @@ public class AddHallDto {
 	
 	
 	private String type;
-	private Integer cinemaId;
+	private Long cinemaId;
 
 }

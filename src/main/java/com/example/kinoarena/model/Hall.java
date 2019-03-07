@@ -24,10 +24,10 @@ public class Hall {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer hallId;
+	private Long hallId;
 	@NonNull
 	private String type;
 	@NonNull
-	private Integer cinemaId;
+	private Long cinemaId;
 	
 }
