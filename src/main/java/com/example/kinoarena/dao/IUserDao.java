@@ -1,5 +1,6 @@
 package com.example.kinoarena.dao;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ public interface IUserDao {
 	
 	public List<User> getAllUsers();	
 	
-	public User login(LoginDto user) throws SQLException, InvalidInputDataException;
+	public User login(LoginDto user) throws SQLException, InvalidInputDataException, NoSuchAlgorithmException;
 	
 	public User getUserByUsername(String username) throws SQLException, InvalidInputDataException;
 	

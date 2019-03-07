@@ -33,11 +33,12 @@ public class LoginController extends BaseController {
 			throws SQLException, KinoArenaException, NoSuchAlgorithmException {
 		if (!SessionManager.isLogged(request)) {
 			new UserValidation().validateLogin(log);
+			System.out.println(log);
 			User user = userRepository.findByUsername(log.getUsername());
-		//	if (user.getPassword().matches(PasswordCrypt.cryptPassword(log.getPassword()))) {
+			if (user.getPassword().equals(PasswordCrypt.cryptPassword(log.getPassword()))) {
 				userDao.login(log);
 				SessionManager.logUser(request, user);
-		//	}
+			}
 		}
 	}
 }

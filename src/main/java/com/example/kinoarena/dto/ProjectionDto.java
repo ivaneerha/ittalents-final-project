@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 
 public class ProjectionDto {
+	
+	
 	private LocalDate startTime;
 	private LocalDate endTime;
 	private long movieId;

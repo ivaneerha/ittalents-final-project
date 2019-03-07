@@ -1,5 +1,6 @@
 package com.example.kinoarena.dao;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,7 @@ import com.example.kinoarena.dto.RegisterDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.NotAdminException;
 import com.example.kinoarena.model.User;
+import com.example.kinoarena.passwordcrypt.PasswordCrypt;
 
 import lombok.Setter;
 
@@ -62,11 +64,11 @@ public class UserDao implements IUserDao{
 		return user2;
 	}
 	
-	public User login(LoginDto user) throws SQLException, InvalidInputDataException {
+	public User login(LoginDto user) throws SQLException, InvalidInputDataException, NoSuchAlgorithmException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		PreparedStatement ps = con.prepareStatement(LOGIN);
 		ps.setString(1,user.getUsername());
-		ps.setString(2, user.getPassword());
+		ps.setString(2, PasswordCrypt.cryptPassword(user.getPassword()));
 		ResultSet result = ps.executeQuery();
 		result.next();
 		User user2 = new User(
