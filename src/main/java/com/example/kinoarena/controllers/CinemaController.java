@@ -2,6 +2,7 @@ package com.example.kinoarena.controllers;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,11 +33,17 @@ public class CinemaController extends BaseController {
 
 	//IVANA CODE
 	@GetMapping("/cinema/{id}")
-	public void chooseCinema(@PathVariable("id") long id, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws KinoArenaException {
+	public Cinema chooseCinema(@PathVariable("id") long id, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws KinoArenaException {
 		validateLogin(session);
-		Cinema cinema = cinemaRepository.findById(id).get();
+		Optional<Cinema> cin = cinemaRepository.findById(id);
+		Cinema cinema = null;
+		if(cin.isPresent()) {
+			cinema = cin.get();
+		}
+//		Cinema cinema = cinemaRepository.findById(id).get();
 		if (cinema != null) {
 			session.setAttribute("cinema_id", id);
+			return cinema;
 		} else {
 			response.setStatus(404);
 //			throw new InvalidInputDataException("Invalid cinema id!");

@@ -33,7 +33,7 @@ public class ProjectionDao implements IProjectionDao{
 
 	@Override
 	public void deleteProjection(int broadcastId) throws SQLException, NotAdminException, InvalidInputDataException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

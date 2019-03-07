@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,7 +56,8 @@ public class ProjectionController extends BaseController{
 	}
 
 	// TODO
-	// CHECH JSON IN POSTMAN -> DATETIME
+	// CHECH JSON IN POSTMAN -> DATETIME 
+	// validacii	
 	@PostMapping("/projection/add")
 	public void addProjection(@RequestBody ProjectionDto projectionDto,HttpSession session,HttpServletRequest request ) throws KinoArenaException{
 		validateLoginAdmin(request);
@@ -86,6 +88,13 @@ public class ProjectionController extends BaseController{
 			throw new InvalidInputDataException();
 		}
 	}
+	
+	@DeleteMapping("/projections/delete/{id}")
+	public void deleteProjection(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException {
+		validateLoginAdmin(request);
+		projectionRepository.deleteById(id);
+	}
+	
 	
 
 }
