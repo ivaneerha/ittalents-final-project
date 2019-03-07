@@ -82,7 +82,7 @@ public class CinemaController extends BaseController {
 	}
 	
 	//WORKING
-	@GetMapping("cinemas")
+	@GetMapping("/cinemas")
 	public List<Cinema> getAll(HttpServletRequest request) throws KinoArenaException, SQLException {
 		validateLoginAdmin(request);
 		return cinemaRepository.findAll();

@@ -2,12 +2,15 @@ package com.example.kinoarena.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 public class ProfileDto {
 	
-	private Long userId;
-	private String username;
-
+	
+	private String favouriteMovie;
+	private String favouriteActor;
+	private Long locationId;
+	private String gsm;
 	
 }

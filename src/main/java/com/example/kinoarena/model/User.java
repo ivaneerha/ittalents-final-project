@@ -42,6 +42,7 @@ public class User {
 	@NonNull @Column(unique=true, nullable = false)
 	private String username;
 	@NonNull
+	@JsonIgnore
 	private String password;
 	@NonNull
 	private String firstName;
