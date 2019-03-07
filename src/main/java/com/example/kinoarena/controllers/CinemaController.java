@@ -33,7 +33,7 @@ public class CinemaController extends BaseController {
 
 	//IVANA CODE
 	@GetMapping("/cinema/{id}")
-	public Cinema chooseCinema(@PathVariable("id") long id, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws KinoArenaException {
+	public Cinema chooseCinema(@PathVariable("id") Long id, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws KinoArenaException {
 		validateLogin(session);
 		Optional<Cinema> cin = cinemaRepository.findById(id);
 		Cinema cinema = null;
@@ -82,7 +82,7 @@ public class CinemaController extends BaseController {
 	}
 	
 	//WORKING
-	@GetMapping("cinemas")
+	@GetMapping("/cinemas")
 	public List<Cinema> getAll(HttpServletRequest request) throws KinoArenaException, SQLException {
 		validateLoginAdmin(request);
 		return cinemaRepository.findAll();

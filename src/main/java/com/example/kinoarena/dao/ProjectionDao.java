@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +39,7 @@ public class ProjectionDao implements IProjectionDao{
 	}
 
 	@Override
-	public void changeProjectionTime(int projectionId, LocalDateTime projectionTime)
+	public void changeProjectionTime(Long projectionId, LocalDateTime projectionTime)
 			throws SQLException, InvalidInputDataException {
 		// TODO Auto-generated method stub
 		
@@ -63,17 +64,17 @@ public class ProjectionDao implements IProjectionDao{
 	}
 
 	@Override
-	public Projection getProjectionById(int id) throws SQLException, InvalidInputDataException {
+	public Projection getProjectionById(Long id) throws SQLException, InvalidInputDataException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public List<Long> getProjectionIdsByCinemaId(int id) throws SQLException, InvalidInputDataException {
+	public List<Long> getProjectionIdsByCinemaId(Long id) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		List<Long> ids = new ArrayList<>();
 		try(PreparedStatement ps = con.prepareStatement("SELECT projection_id from cinemа_projections where cinema_id = ?;");){
-			ps.setInt(1, id);
+			ps.setLong(1, id);
 			try(ResultSet result = ps.executeQuery()){
 				while(result.next()) {
 					ids.add(result.getLong("projection_id"));
@@ -84,18 +85,18 @@ public class ProjectionDao implements IProjectionDao{
 	}
 	
 	@Override
-	public List<Projection> getProjectionsByCinemaId(int id) throws SQLException, InvalidInputDataException {
+	public List<Projection> getProjectionsByCinemaId(Long id) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		List<Projection> projections = new ArrayList<>();
 		try(PreparedStatement ps = con.prepareStatement("select * from projections where projection_id in (SELECT projection_id from cinemа_projections where cinema_id = ?);");){
-			ps.setInt(1, id);
+			ps.setLong(1, id);
 			try(ResultSet result = ps.executeQuery()){
 				while(result.next()) {
-					Date startDateTime = result.getDate("start_time");
-					Date endDateTime = result.getDate("start_time");
+					String startDateTime = result.getString("start_time");
+					String endDateTime = result.getString("start_time");
 					Projection projection = new Projection();
-					projection.setStartTime(startDateTime.toLocalDate());
-					projection.setEndTime(endDateTime.toLocalDate());
+					projection.setStartTime(startDateTime.toString());
+					projection.setEndTime(endDateTime.toString());
 					projection.setMovieId(result.getLong("movie_id"));
 					projection.setProjectionId(result.getLong("projection_id"));
 					projections.add(projection);

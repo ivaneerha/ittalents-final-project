@@ -14,7 +14,7 @@ public interface ICinemaDao {
 
 	public Collection<Cinema> getAllCinemas() throws SQLException, InvalidInputDataException;
 
-	public Cinema getCinemaById(int id) throws SQLException, InvalidInputDataException;
+	public Cinema getCinemaById(Long id) throws SQLException, InvalidInputDataException;
 	
 	public Cinema getCinemaByName(String name) throws SQLException, InvalidInputDataException;
 	

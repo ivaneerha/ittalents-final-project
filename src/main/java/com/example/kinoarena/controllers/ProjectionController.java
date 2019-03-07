@@ -1,6 +1,8 @@
 package com.example.kinoarena.controllers;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,9 +67,19 @@ public class ProjectionController extends BaseController{
 		try {
 			//WHY DO YOU SET PROJECTION ID ?
 			//projection.setProjectionId((long) 0);
+			try{
+			    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			    format.parse(projectionDto.getStartTime());
+			    format.parse(projectionDto.getEndTime());
+//			    System.out.println("Correct date");
+			}catch(ParseException e){
+//			    System.out.println("Incorrect date");
+				throw new InvalidInputDataException();
+			}
 			projection.setStartTime(projectionDto.getStartTime());
 			projection.setEndTime(projectionDto.getEndTime());
 			projection.setMovieId(projectionDto.getMovieId());
+			
 			projectionRepository.save(projection);
 		} catch(Exception e) {
 			throw new InvalidInputDataException();
@@ -75,12 +87,12 @@ public class ProjectionController extends BaseController{
 	}
 	
 	@GetMapping("/projections/cinema/{id}")
-	public List<Long> getProjectionIdsByCinemaId(@PathVariable int id) throws ProjectionNotFoundException, InvalidInputDataException, SQLException {
+	public List<Long> getProjectionIdsByCinemaId(@PathVariable Long id) throws ProjectionNotFoundException, InvalidInputDataException, SQLException {
 		return projectionDao.getProjectionIdsByCinemaId(id);
 	}
 	
 	@GetMapping("/projections/all/cinema/{id}")
-	public List<Projection> getProjectionsByCinemaId(@PathVariable int id) throws KinoArenaException, SQLException {
+	public List<Projection> getProjectionsByCinemaId(@PathVariable Long id) throws KinoArenaException, SQLException {
 		List<Projection> projections = projectionDao.getProjectionsByCinemaId(id);
 		if(projections != null) {
 			return projections;

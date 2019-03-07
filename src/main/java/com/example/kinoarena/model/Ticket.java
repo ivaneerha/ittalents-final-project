@@ -32,9 +32,10 @@ public class Ticket {
 	private Integer projectionId;
 	@NonNull
 	private Integer cinemaId;
-	@NonNull
-	private Integer userId;
-	@NonNull
-	private String type;
+	private int[] seats;
+//	@NonNull
+//	private Integer userId;
+//	@NonNull
+//	private String type;
 
 }

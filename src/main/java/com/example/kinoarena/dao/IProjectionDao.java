@@ -13,7 +13,7 @@ public interface IProjectionDao {
 	
 public void deleteProjection(int broadcastId) throws Exception;
 	
-	public void changeProjectionTime(int projectionId,LocalDateTime projectionTime) throws SQLException, InvalidInputDataException;
+	public void changeProjectionTime(Long projectionId,LocalDateTime projectionTime) throws SQLException, InvalidInputDataException;
 
 	void addProjection(Projection b) throws SQLException, InvalidInputDataException;
 
@@ -21,10 +21,10 @@ public void deleteProjection(int broadcastId) throws Exception;
 	
 	public Collection<Projection> getAllPRojections() throws SQLException, InvalidInputDataException;
 	
-	public Projection getProjectionById(int id) throws SQLException, InvalidInputDataException;
+	public Projection getProjectionById(Long id) throws SQLException, InvalidInputDataException;
 
-	List<Long> getProjectionIdsByCinemaId(int id) throws SQLException, InvalidInputDataException;
+	List<Long> getProjectionIdsByCinemaId(Long id) throws SQLException, InvalidInputDataException;
 
-	List<Projection> getProjectionsByCinemaId(int id) throws SQLException, InvalidInputDataException;
+	List<Projection> getProjectionsByCinemaId(Long id) throws SQLException, InvalidInputDataException;
 	
 }

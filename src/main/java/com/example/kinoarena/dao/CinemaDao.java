@@ -38,7 +38,7 @@ public class CinemaDao implements ICinemaDao{
 	}
 
 	@Override
-	public Cinema getCinemaById(int id) throws SQLException, InvalidInputDataException {
+	public Cinema getCinemaById(Long id) throws SQLException, InvalidInputDataException {
 		// TODO Auto-generated method stub
 		return null;
 	}
