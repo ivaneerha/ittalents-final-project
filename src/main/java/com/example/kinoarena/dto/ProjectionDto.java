@@ -16,5 +16,5 @@ public class ProjectionDto {
 	
 	private String startTime;
 	private String endTime;
-	private long movieId;
+	private Long movieId;
 }

@@ -1,6 +1,7 @@
 package com.example.kinoarena.dao;
 
 import java.util.List;
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.example.kinoarena.dto.ProjectionWithMoviesDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.NotAdminException;
 import com.example.kinoarena.model.Movie;
@@ -38,6 +40,37 @@ public class ProjectionDao implements IProjectionDao{
 		
 	}
 
+	public List<ProjectionWithMoviesDto> getAllProjectionWithMovieTitles() throws SQLException {
+		Connection con = jdbcTemplate.getDataSource().getConnection();
+		String query = "SELECT p.projection_id, p.start_time, p.end_time, m.title from projections p join "
+				+ "movies m on (p.movie_id = m.movie_id);";
+		ResultSet result = con.createStatement().executeQuery(query);
+		List<ProjectionWithMoviesDto> projections = new ArrayList<>();
+		while(result.next()) {
+			ProjectionWithMoviesDto projection = new ProjectionWithMoviesDto();
+			projection.setProjectionId(result.getLong("projection_id"));
+			projection.setStartTime(result.getString("start_time"));
+			projection.setEndTime(result.getString("end_time"));
+			projection.setTitle(result.getString("title"));
+			projections.add(projection);
+		}
+		return projections;
+	}
+	
+	public boolean checkIfProjectionExists(String startTime, Long movieId) throws SQLException {
+		Connection con = jdbcTemplate.getDataSource().getConnection();
+		try(PreparedStatement ps = con.prepareStatement("SELECT * from projections where start_time = '?' and movie_id = ?;");){
+			ps.setString(1, startTime);
+			ps.setLong(2, movieId);
+			ResultSet result = ps.executeQuery();
+			if(result != null) {
+				return true;
+			}
+			return false;
+		}
+	}
+	
+	
 	@Override
 	public void changeProjectionTime(Long projectionId, LocalDateTime projectionTime)
 			throws SQLException, InvalidInputDataException {

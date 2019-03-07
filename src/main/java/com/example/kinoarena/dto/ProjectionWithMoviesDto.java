@@ -5,8 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TicketDto {
+
+public class ProjectionWithMoviesDto {
+
 	private Long projectionId;
-	private Long cinemaId;
-	private Long seat;
+	private String startTime;
+	private String endTime;
+	private String title;
 }

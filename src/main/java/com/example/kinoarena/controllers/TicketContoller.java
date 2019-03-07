@@ -36,6 +36,7 @@ public class TicketContoller {
 		
 		//TODO check if logged in
 		User logged = (User) session.getAttribute("LoggedUser");
+		//CHECK HERE IF SEAT IF TAKEN BEFORE 'buying' ticket
 		Ticket ticket = new Ticket();
 		ticket.setCinemaId(ticketDto.getCinemaId());
 		ticket.setProjectionId(ticketDto.getProjectionId());
