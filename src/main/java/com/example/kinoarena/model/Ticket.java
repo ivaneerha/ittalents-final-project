@@ -1,5 +1,6 @@
 package com.example.kinoarena.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,16 +27,16 @@ public class Ticket {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer ticketId;
+	private Long ticketId;
 	private Integer price;
+	@NonNull @Column
+	private Long projectionId;
+	@NonNull @Column
+	private Long cinemaId;
+//	private int[] seats;
 	@NonNull
-	private Integer projectionId;
-	@NonNull
-	private Integer cinemaId;
-	private int[] seats;
-//	@NonNull
-//	private Integer userId;
+	private Long userId;
 //	@NonNull
 //	private String type;
-
+	private String startTime;
 }

@@ -6,7 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TicketDto {
-	private Long cinemaId;
 	private Long projectionId;
-	private int[] seats;
+	private Long cinemaId;
+	
+//	private int[] seats;
 }
