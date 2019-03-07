@@ -29,6 +29,7 @@ import lombok.ToString;
 @Table(name="projections")
 public class Projection {
 	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long projectionId;
