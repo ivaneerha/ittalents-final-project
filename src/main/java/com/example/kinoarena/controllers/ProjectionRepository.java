@@ -13,6 +13,8 @@ public interface ProjectionRepository extends JpaRepository<Projection,Long>{
 	Projection findByProjectionId(long id);
 	Projection findByMovieId(long movieId);
 //	Projection findByMovieIdAndStartTime(long MovieId, LocalDate startTime);
+//	boolean exists(Projection projection);
+	Projection findByMovieIdAndStartTime(Long movieId, String startTime);
 	
 
 }

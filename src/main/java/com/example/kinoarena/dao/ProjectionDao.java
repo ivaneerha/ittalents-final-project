@@ -59,11 +59,11 @@ public class ProjectionDao implements IProjectionDao{
 	
 	public boolean checkIfProjectionExists(String startTime, Long movieId) throws SQLException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		try(PreparedStatement ps = con.prepareStatement("SELECT * from projections where start_time = '?' and movie_id = ?;");){
+		try(PreparedStatement ps = con.prepareStatement("SELECT * from projections where start_time = ? and movie_id = ?;");){
 			ps.setString(1, startTime);
 			ps.setLong(2, movieId);
 			ResultSet result = ps.executeQuery();
-			if(result != null) {
+			if(result.next()) {
 				return true;
 			}
 			return false;
