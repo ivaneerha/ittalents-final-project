@@ -31,6 +31,9 @@ public class UserController extends BaseController{
 	@Autowired
 	private UserDao userDao;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
 //DONT DELETE -> MOVED TO lOGINCONTROLLER
 //		User u = userDao.login(user);
 //		HttpSession session = request.getSession();
@@ -50,37 +53,24 @@ public class UserController extends BaseController{
 //		}
 //	}
 	
-	//taka beshe pri teb:
-//	@GetMapping("/profile/id")
-//	public User getUserProfileById(@RequestBody ProfileDto user,HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
-//		if(SessionManager.isLogged(request)) {	
-//		User u = userDao.getUserById(user.getUser_id());
-//			return u;
-//		} else {
-//			response.setStatus(418);
-//			System.out.println("I am a teapot!");
-//			return null;
-//		}
-//	}
-	
-//	az go napravih taka: (sega veche vzima samo po id v url-a)
-	@GetMapping("/profile/{id}")
-	public User getUserProfileById(@PathVariable("id") long id, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
-		validateLoginAdmin(request);
-		try {
-		User u = userDao.getUserById(id);
-			return u;
+	@GetMapping("/profile")
+	public User getUserProfileById(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
+		if(SessionManager.isLogged(request)) {
+			User user = (User) session.getAttribute(LOGGED);
+			Long id = user.getUserId();
+			return userRepository.findById(id).get();
 		}
-		catch(Exception e) {
-			return null;
-		}
+		throw new KinoArenaException("You are not logged in!");
 	}
 	
 
 	@DeleteMapping("/delete")
-	public void deleteAccount(@RequestBody ProfileDto user, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
-		if(SessionManager.isLogged(request)) {	
-		userDao.deleteUserByID(user.getUserId());
+	public void deleteAccount(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
+		if(SessionManager.isLogged(request)) {
+			User user = (User) session.getAttribute(LOGGED);
+			Long id = user.getUserId();
+			userRepository.deleteById(id);
+			System.out.println("You have deleted your account!");
 		} else {
 			throw new NotLoggedInException();
 		}

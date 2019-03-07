@@ -7,5 +7,5 @@ import com.example.kinoarena.model.Cinema;
 
 @Repository
 public interface CinemaRepository extends JpaRepository<Cinema,Long>{
-	public Cinema findById(long id);
+	
 }

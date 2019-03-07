@@ -38,7 +38,6 @@ public class HallController extends BaseController{
 	@PostMapping("/addhall")
 	public void addHall(@RequestBody AddHallDto hall, HttpServletRequest request) throws KinoArenaException, SQLException{
 		validateLoginAdmin(request);
-			//hallDao.addHall(hall);
 			Hall h = new Hall();
 			h.setCinemaId(hall.getCinemaId());
 			h.setType(hall.getType());

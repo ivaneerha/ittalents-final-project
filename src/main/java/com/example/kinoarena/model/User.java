@@ -47,7 +47,7 @@ public class User {
 	private String firstName;
 	@NonNull
 	private String lastName;
-	private Long location_id;
+	private Long locationId;
 	@NonNull @Column(unique=true, nullable = false)
 	private String email;
 	private String gsm;

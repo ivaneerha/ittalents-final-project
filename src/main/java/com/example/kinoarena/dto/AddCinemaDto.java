@@ -4,13 +4,16 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+
 @Getter
 @Setter
-public class AddHallDto {
+public class AddCinemaDto {
 	
 	@NonNull
-	private String type;
+	private String name;
 	@NonNull
-	private Long cinemaId;
+	private String contact;
+	@NonNull
+	private Long locatonId;
 
 }
