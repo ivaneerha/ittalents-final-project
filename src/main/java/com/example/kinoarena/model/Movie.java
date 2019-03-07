@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -19,13 +20,13 @@ import lombok.ToString;
 public class Movie {
 	
 	@Id
-	private int movieId;
+	private Integer movieId;
 	//in minutes
-	@Column
-	private int length;
-	@Column
+	@NonNull @Column
+	private Integer length;
+	@NonNull @Column
 	private String title;
-	@Column
-	private int genreId;
+	@NonNull @Column
+	private Integer genreId;
 	
 }

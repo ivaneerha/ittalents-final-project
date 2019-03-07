@@ -8,7 +8,7 @@ public class PasswordCrypt {
 
 	public static String cryptPassword(String password) throws NoSuchAlgorithmException {
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
-		byte[] encodedhash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+		byte[] encodedhash = digest.digest(password.getBytes());
 
 		StringBuffer hexString = new StringBuffer();
 		for (int i = 0; i < encodedhash.length; i++) {

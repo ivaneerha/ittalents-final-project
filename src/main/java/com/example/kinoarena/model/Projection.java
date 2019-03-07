@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -27,13 +28,13 @@ public class Projection {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long projectionId;
+	private Long projectionId;
 	@Column
 	private LocalDate startTime;
 	@Column
 	private LocalDate endTime;
 	@Column
-	private long movieId;
+	private Long movieId;
 	
 	
 }

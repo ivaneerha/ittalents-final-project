@@ -31,15 +31,13 @@ public class LoginController extends BaseController {
 	@PostMapping("/login")
 	public void login(@RequestBody LoginDto log, HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, KinoArenaException, NoSuchAlgorithmException {
-		new UserValidation().validateLogin(log);
 		if (!SessionManager.isLogged(request)) {
 			new UserValidation().validateLogin(log);
 			User user = userRepository.findByUsername(log.getUsername());
-			if (user.getPassword().matches(PasswordCrypt.cryptPassword(log.getPassword()))) {
+		//	if (user.getPassword().matches(PasswordCrypt.cryptPassword(log.getPassword()))) {
 				userDao.login(log);
-				user = userRepository.findByUsername(log.getUsername());
 				SessionManager.logUser(request, user);
-			}
+		//	}
 		}
 	}
 }

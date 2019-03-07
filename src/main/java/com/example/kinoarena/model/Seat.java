@@ -1,5 +1,9 @@
 package com.example.kinoarena.model;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,10 +21,14 @@ import lombok.ToString;
 
 public class Seat {
 	
-	private int seat_id;
-	private int row;
-	private int column;
-	private boolean isTaken;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer seat_id;
+	@NonNull
+	private Integer row;
+	@NonNull
+	private Integer column;
+	private Byte isTaken;
 	
 	
 }

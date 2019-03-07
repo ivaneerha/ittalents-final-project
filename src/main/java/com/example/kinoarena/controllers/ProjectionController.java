@@ -61,7 +61,8 @@ public class ProjectionController extends BaseController{
 		validateLoginAdmin(request);
 		Projection projection = new Projection();
 		try {
-			projection.setProjectionId(0);
+			//WHY DO YOU SET PROJECTION ID ?
+			//projection.setProjectionId((long) 0);
 			projection.setStartTime(projectionDto.getStartTime());
 			projection.setEndTime(projectionDto.getEndTime());
 			projection.setMovieId(projectionDto.getMovieId());

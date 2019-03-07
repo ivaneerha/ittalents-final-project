@@ -43,9 +43,6 @@ public class AdminManager {
 	
 	}
 
-	public void addNewHall(Hall h) throws SQLException, NotAdminException, InvalidInputDataException {
-			hallDao.addHall(h);
-	}
 	
 	public void addNewCinema(Cinema c) throws SQLException, NotAdminException, InvalidInputDataException {
 			cinemaDao.addCinema(c);
@@ -60,10 +57,6 @@ public class AdminManager {
 			cinemaDao.deleteCinema(c);
 	}
 
-	public void removeHall(Hall h) throws SQLException, NotAdminException, InvalidInputDataException {		
-			hallDao.deleteHall(h);
-
-	}
 	
 
 }
