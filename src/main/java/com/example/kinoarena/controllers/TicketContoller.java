@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.kinoarena.dao.ProjectionDao;
 import com.example.kinoarena.dao.TicketDao;
 import com.example.kinoarena.dto.TicketDto;
+import com.example.kinoarena.exceptions.CinemaNotFoundException;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.model.Seat;
@@ -41,6 +42,9 @@ public class TicketContoller extends BaseController {
 	
 	@Autowired
 	private SeatReposirory seatRepository;
+	
+	@Autowired
+	private CinemaRepository cinemaRepository;
 
 	@Autowired
 	@Setter
@@ -57,7 +61,11 @@ public class TicketContoller extends BaseController {
 			User logged = (User) session.getAttribute("LoggedUser");
 			// CHECK HERE IF SEAT IS TAKEN BEFORE 'buying' ticket
 			Ticket ticket = new Ticket();
+			if(cinemaRepository.existsById(ticketDto.getCinemaId())) {
 			ticket.setCinemaId(ticketDto.getCinemaId());
+			} else {
+				throw new CinemaNotFoundException("There is no such cinema!");
+			}
 			ticket.setProjectionId(ticketDto.getProjectionId());
 			ticket.setUserId(logged.getUserId());
 			ticket.setStartTime(ticketDao.getStartTime(ticketDto.getProjectionId()));
