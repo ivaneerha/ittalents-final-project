@@ -36,11 +36,8 @@ import com.example.kinoarena.model.ErrorMessage;
 @RestController
 public abstract class BaseController {
 	public static final String LOGGED = "LoggedUser";
-	private static final String CHECK_IF_IS_ADMIN = "SELECT is_admin FROM users WHERE username = ?";
 	private static final int SESSION_TIMEOUT = 1000000;
 
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
 
 	@ExceptionHandler({ NotLoggedInException.class })
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -77,7 +74,7 @@ public abstract class BaseController {
 		return msg;
 	}
 
-	@ExceptionHandler({ KinoArenaException.class })
+	@ExceptionHandler({ KinoArenaException.class, SQLException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorMessage KinoArenaErrors(Exception e) {
 		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
@@ -85,9 +82,9 @@ public abstract class BaseController {
 	}
 
 	@ExceptionHandler({ Exception.class })
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
 	public ErrorMessage AllErrors(Exception e) {
-		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
+		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.I_AM_A_TEAPOT.value(),
 				LocalDateTime.now());
 		return msg;
 	}

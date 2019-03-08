@@ -16,17 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.kinoarena.dao.CinemaDao;
 import com.example.kinoarena.dto.AddCinemaDto;
-import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.model.Cinema;
 
 @RestController
 public class CinemaController extends BaseController {
-
-	@Autowired
-	private CinemaDao cinemaDao;
 
 	@Autowired
 	private CinemaRepository cinemaRepository;
@@ -85,8 +80,8 @@ public class CinemaController extends BaseController {
 
 	// WORKING
 	@GetMapping("/cinemas")
-	public List<Cinema> getAll(HttpServletRequest request) throws KinoArenaException, SQLException {
-		validateLoginAdmin(request);
+	public List<Cinema> getAll(HttpSession session, HttpServletRequest request) throws KinoArenaException, SQLException {
+		validateLogin(session);
 		return cinemaRepository.findAll();
 	}
 

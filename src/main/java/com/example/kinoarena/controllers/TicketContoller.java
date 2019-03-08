@@ -48,9 +48,6 @@ public class TicketContoller extends BaseController {
 	private CinemaRepository cinemaRepository;
 
 	@Autowired
-	private CinemaRepository cinemaRepository;
-
-	@Autowired
 	private ProjectionRepository projectionRepository;
 
 	@Autowired

@@ -1,6 +1,5 @@
 package com.example.kinoarena.controllers;
 
-import java.security.CryptoPrimitive;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
@@ -11,32 +10,28 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.kinoarena.dao.UserDao;
+
 import com.example.kinoarena.dto.ChangePasswordDto;
-import com.example.kinoarena.dto.LoginDto;
+
 import com.example.kinoarena.dto.ProfileDto;
-import com.example.kinoarena.exceptions.InvalidInputDataException;
+
 import com.example.kinoarena.exceptions.KinoArenaException;
-import com.example.kinoarena.exceptions.NotLoggedInException;
+
 import com.example.kinoarena.helper.UserValidation;
 import com.example.kinoarena.model.User;
 import com.example.kinoarena.passwordcrypt.PasswordCrypt;
-import com.example.kinoarena.service.SessionManager;
+
 
 @RestController
 public class UserController extends BaseController {
 
-	private static final int SESSION_TIMEOUT = 10000;
-	UserValidation validation = new UserValidation();
 
-	@Autowired
-	private UserDao userDao;
+	UserValidation validation = new UserValidation();
 
 	@Autowired
 	private UserRepository userRepository;
@@ -60,11 +55,12 @@ public class UserController extends BaseController {
 			throws SQLException, KinoArenaException {
 		if (BaseController.isLogged(request)) {
 			User user = (User) session.getAttribute(LOGGED);
-
+			validation.validateGsm(fav.getGsm());
 			user.setGsm(fav.getGsm());
+			validation.validateString(fav.getFavouriteActor());
 			user.setFavouriteActor(fav.getFavouriteActor());
+			validation.validateString(fav.getFavouriteMovie());
 			user.setFavouriteMovie(fav.getFavouriteMovie());
-			user.setLocationId(fav.getLocationId());
 			userRepository.save(user);
 		} else {
 			throw new KinoArenaException("You are not logged in!");
@@ -87,7 +83,7 @@ public class UserController extends BaseController {
 			User user = (User) session.getAttribute(LOGGED);
 			Long id = user.getUserId();
 			userRepository.deleteById(id);
-			System.out.println("You have deleted your account!");
+			session.invalidate();
 		} else {
 			throw new KinoArenaException("You are not logged in!");
 		}

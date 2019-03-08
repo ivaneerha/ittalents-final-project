@@ -10,7 +10,6 @@ public class ProfileDto {
 	
 	private String favouriteMovie;
 	private String favouriteActor;
-	private Long locationId;
 	private String gsm;
 	
 }

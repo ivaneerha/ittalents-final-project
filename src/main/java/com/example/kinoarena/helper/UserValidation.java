@@ -1,4 +1,3 @@
-
 package com.example.kinoarena.helper;
 
 import com.example.kinoarena.dto.LoginDto;
@@ -8,9 +7,7 @@ import com.example.kinoarena.exceptions.KinoArenaException;
 
 public class UserValidation {
 	
-	private static final int MIN_LENGTH_OF_PASSWORD = 8;
-	private static final int MIN_LENGTH_OF_EMAIL = 8;
-	private static final int MIN_NAMES_LENGTH = 2;
+
 	//private final static String EMAIL_PATTERN = "^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{8,30}$";
 	private static final String EMAIL_PATTERN = "^[A-Za-z0-9]+@[A-Za-z]+(\\.[A-Za-z]+)+$";
 	private final static String PASSWORD_PATTERN = "^[a-zA-Z0-9]{8,30}$";
@@ -38,6 +35,18 @@ public class UserValidation {
 	
 	public void validateUsername(String username) throws KinoArenaException {
 		if(username==null || !username.matches(USERNAME_PATTERN)){
+			throw new InvalidInputDataException();
+		}
+	}
+	
+	public void validateGsm(String gsm) throws KinoArenaException {
+		if(gsm.trim().length()!=10 || !gsm.startsWith("08") ) {
+			throw new InvalidInputDataException();
+		}
+	}
+	
+	public void validateString(String text) throws KinoArenaException {
+		if(text.trim().length()>100) {
 			throw new InvalidInputDataException();
 		}
 	}

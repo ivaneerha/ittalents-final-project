@@ -32,8 +32,6 @@ public class HallController extends BaseController {
 	@Autowired
 	private HallRepository hallRepository;
 
-	@Autowired
-	private HallDao hallDao;
 
 	// Working!
 	@PostMapping("/addhall")

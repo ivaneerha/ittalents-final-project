@@ -38,10 +38,9 @@ public class AdminManager {
 	private UserDao userDao;
 	
 	
-	public void addNewProjection(Projection b) throws SQLException, NotAdminException, InvalidInputDataException {
-			projectionDao.addProjection(b);
-	
-	}
+//	public void addNewProjection(Projection b) throws SQLException, NotAdminException, InvalidInputDataException {
+//			projectionDao.addProjection(b);
+//	}
 
 	
 	public void addNewCinema(Cinema c) throws SQLException, NotAdminException, InvalidInputDataException {
