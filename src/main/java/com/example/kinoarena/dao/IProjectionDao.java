@@ -15,14 +15,8 @@ public void deleteProjection(int broadcastId) throws Exception;
 	
 	public void changeProjectionTime(Long projectionId,LocalDateTime projectionTime) throws SQLException, InvalidInputDataException;
 
-	void addProjection(Projection b) throws SQLException, InvalidInputDataException;
-
 	public Collection<Projection> getAllProjectionsForAMovie(Movie m) throws SQLException, InvalidInputDataException;
 	
-	public Collection<Projection> getAllPRojections() throws SQLException, InvalidInputDataException;
-	
-	public Projection getProjectionById(Long id) throws SQLException, InvalidInputDataException;
-
 	List<Long> getProjectionIdsByCinemaId(Long id) throws SQLException, InvalidInputDataException;
 
 	List<Projection> getProjectionsByCinemaId(Long id) throws SQLException, InvalidInputDataException;
