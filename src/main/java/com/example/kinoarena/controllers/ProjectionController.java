@@ -45,21 +45,21 @@ public class ProjectionController extends BaseController{
 	private ProjectionDao projectionDao;
 
 	//Works!
-	// Vryshta vsichki projekcii s id-tata na filmite
-	@GetMapping("/projections")
+	// Get all projections (with the movie ids)
+	@GetMapping("/projections/movie_ids")
 	public List<Projection> getAllProjections() {
 		return projectionRepository.findAll();
 	}
 
 	//Works!
-	// Vryshta vsichki projekcii s imenata na filmite
-		@GetMapping("/projections/movies")
+	//Get all projections (with the movie titles)
+		@GetMapping("/projections/movie_titles")
 		public List<ProjectionWithMoviesDto> getAllProjectionsWithMovieTitles() throws KinoArenaException, SQLException {
 			return projectionDao.getAllProjectionWithMovieTitles();
 		}
 	
 	//Works!
-	//Vryshta projekciq po vyvedeno id
+	//Get projection by Id
 	@GetMapping("/projection/{id}")
 	public Projection getProjectionById(@PathVariable Long id) throws KinoArenaException {
 		Projection projection = projectionRepository.findByProjectionId(id);
@@ -69,13 +69,10 @@ public class ProjectionController extends BaseController{
 			throw new ProjectionNotFoundException("Projection with id = " + id + " not found!");
 		}
 	}
+
 	
-	
-	
-	
-	
-//	// TODO
-//	// validacii	
+	// works!
+	// TODO validations
 	@PostMapping("/projection/add")
 	public String addProjection(@RequestBody ProjectionDto projectionDto,HttpSession session,HttpServletRequest request ) throws KinoArenaException{
 		validateLoginAdmin(request);
@@ -132,13 +129,14 @@ public class ProjectionController extends BaseController{
 	@GetMapping("/projections/all/cinema/{id}")
 	public List<Projection> getProjectionsByCinemaId(@PathVariable Long id) throws KinoArenaException, SQLException {
 		List<Projection> projections = projectionDao.getProjectionsByCinemaId(id);
-		if(projections != null) {
+		if(!projections.isEmpty()) {
 			return projections;
 		} else {
-			throw new InvalidInputDataException();
+			throw new KinoArenaException("There is no projection for this cinema!");
 		}
 	}
 	
+	//DOESN'T WORK!
 	@DeleteMapping("/projections/delete/{id}")
 	public void deleteProjection(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException {
 		validateLoginAdmin(request);

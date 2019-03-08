@@ -19,34 +19,18 @@ public class CinemaDao implements ICinemaDao{
 	@Setter
 	private JdbcTemplate jdbcTemplate;
 
+	//It all is in CinemaController
+	
 	@Override
 	public void addCinema(Cinema cinema) throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
+		// nedovyrsheno
 		
 	}
 
 	@Override
 	public void deleteCinema(Cinema cinema) throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
+		// nedovyrsheno
 		
-	}
-
-	@Override
-	public Collection<Cinema> getAllCinemas() throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Cinema getCinemaById(Long id) throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Cinema getCinemaByName(String name) throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

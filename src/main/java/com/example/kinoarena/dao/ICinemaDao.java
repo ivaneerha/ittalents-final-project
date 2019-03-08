@@ -12,10 +12,4 @@ public interface ICinemaDao {
 
 	public void deleteCinema(Cinema cinema) throws SQLException, InvalidInputDataException;
 
-	public Collection<Cinema> getAllCinemas() throws SQLException, InvalidInputDataException;
-
-	public Cinema getCinemaById(Long id) throws SQLException, InvalidInputDataException;
-	
-	public Cinema getCinemaByName(String name) throws SQLException, InvalidInputDataException;
-	
 }

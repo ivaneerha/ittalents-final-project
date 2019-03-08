@@ -78,11 +78,6 @@ public class ProjectionDao implements IProjectionDao{
 		
 	}
 
-	@Override
-	public void addProjection(Projection b) throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public Collection<Projection> getAllProjectionsForAMovie(Movie m) throws SQLException, InvalidInputDataException {
@@ -90,17 +85,6 @@ public class ProjectionDao implements IProjectionDao{
 		return null;
 	}
 
-	@Override
-	public Collection<Projection> getAllPRojections() throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Projection getProjectionById(Long id) throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	@Override
 	public List<Long> getProjectionIdsByCinemaId(Long id) throws SQLException, InvalidInputDataException {

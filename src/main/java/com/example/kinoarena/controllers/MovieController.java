@@ -26,7 +26,7 @@ public class MovieController extends BaseController{
 	/**
 	 * Method for searching all movies by title in all cinemas.
 	 */
-	@GetMapping("movies/title")
+	@GetMapping("/movies/title")
 	public ArrayList<Movie> listMovies(@RequestParam String title) throws KinoArenaException{
 		return movieRepository.findAllByTitle(title);
 	}
@@ -34,21 +34,20 @@ public class MovieController extends BaseController{
 	/**
 	 * Method for searching a movie by name.
 	 */
-	@GetMapping("movie/title")
+	@GetMapping("/movie/title")
 	public Movie getMovie(@RequestParam String title) throws KinoArenaException{
 		return movieRepository.findByTitle(title);
 	}
 	
-	//Working
-	@GetMapping("movie/{id}")
+	//Works
+	@GetMapping("/movie/{id}")
 	public Movie getMovieById(@PathVariable("id") int id, HttpServletResponse response) throws KinoArenaException{
-		return movieRepository.findByMovieId(id);
-//		if(movie != null) {
-//			return movie;
-//		} else {
-////			throw new InvalidInputDataException("Invalid movie id!");
-//			throw new InvalidInputDataException();
-//		}
+		Movie movie = movieRepository.findByMovieId(id);
+		if(movie != null) {
+			return movie;
+		} else {
+			throw new KinoArenaException("There is no movie with this id!");
+		}
 	}
 
 	

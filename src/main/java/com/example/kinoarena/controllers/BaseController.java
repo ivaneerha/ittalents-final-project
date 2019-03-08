@@ -69,6 +69,13 @@ public abstract class BaseController {
 		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
 		return msg;
 	}
+	
+	@ExceptionHandler({NumberFormatException.class})
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorMessage failToConvertError(Exception e) {
+		ErrorMessage msg = new ErrorMessage("Wrong input!", HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
+		return msg;
+	}
 
 	@ExceptionHandler({ KinoArenaException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
