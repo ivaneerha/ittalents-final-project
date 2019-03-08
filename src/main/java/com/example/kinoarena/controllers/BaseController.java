@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.kinoarena.exceptions.HallNotFoundException;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.exceptions.MovieNotFoundException;
@@ -36,52 +37,53 @@ import com.example.kinoarena.model.ErrorMessage;
 public abstract class BaseController {
 	public static final String LOGGED = "LoggedUser";
 	private static final String CHECK_IF_IS_ADMIN = "SELECT is_admin FROM users WHERE username = ?";
+	private static final int SESSION_TIMEOUT = 1000000;
 
-//	@Autowired
-//	private JdbcTemplate jdbcTemplate;
-//
-//	@ExceptionHandler({ NotLoggedInException.class })
-//	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-//	public ErrorMessage NotLoggedIn(Exception e) {
-//		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.UNAUTHORIZED.value(), LocalDateTime.now());
-//		return msg;
-//	}
-//
-//	@ExceptionHandler({ NotAdminException.class })
-//	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-//	public ErrorMessage NotAdmin(Exception e) {
-//		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.UNAUTHORIZED.value(), LocalDateTime.now());
-//		return msg;
-//	}
-//
-//	@ExceptionHandler({ ProjectionNotFoundException.class, MovieNotFoundException.class })
-//	@ResponseStatus(HttpStatus.NOT_FOUND)
-//	public ErrorMessage NotFound(Exception e) {
-//		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.NOT_FOUND.value(), LocalDateTime.now());
-//		return msg;
-//	}
-//	
-//	@ExceptionHandler({ InvalidInputDataException.class})
-//	@ResponseStatus(HttpStatus.NOT_FOUND)
-//	public ErrorMessage invalidInput(Exception e) {
-//		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.NOT_FOUND.value(), LocalDateTime.now());
-//		return msg;
-//	}
-//
-//	@ExceptionHandler({ KinoArenaException.class })
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public ErrorMessage KinoArenaErrors(Exception e) {
-//		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
-//		return msg;
-//	}
-//
-//	@ExceptionHandler({ Exception.class })
-//	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//	public ErrorMessage AllErrors(Exception e) {
-//		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
-//				LocalDateTime.now());
-//		return msg;
-//	}
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+	@ExceptionHandler({ NotLoggedInException.class })
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public ErrorMessage NotLoggedIn(Exception e) {
+		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.UNAUTHORIZED.value(), LocalDateTime.now());
+		return msg;
+	}
+
+	@ExceptionHandler({ NotAdminException.class })
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public ErrorMessage NotAdmin(Exception e) {
+		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.UNAUTHORIZED.value(), LocalDateTime.now());
+		return msg;
+	}
+
+	@ExceptionHandler({ ProjectionNotFoundException.class, MovieNotFoundException.class, HallNotFoundException.class })
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ErrorMessage NotFound(Exception e) {
+		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.NOT_FOUND.value(), LocalDateTime.now());
+		return msg;
+	}
+	
+	@ExceptionHandler({ InvalidInputDataException.class})
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorMessage invalidInput(Exception e) {
+		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
+		return msg;
+	}
+
+	@ExceptionHandler({ KinoArenaException.class })
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorMessage KinoArenaErrors(Exception e) {
+		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
+		return msg;
+	}
+
+	@ExceptionHandler({ Exception.class })
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorMessage AllErrors(Exception e) {
+		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
+				LocalDateTime.now());
+		return msg;
+	}
 
 	protected void validateLogin(HttpSession session) throws KinoArenaException {
 		if (session.getAttribute(LOGGED) == null) {
@@ -100,6 +102,22 @@ public abstract class BaseController {
 				throw new NotAdminException();
 			}
 		}
+	}
+	
+	public static boolean isLogged(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session.isNew()) return false;
+		if(session.getAttribute(LOGGED)==null) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	public static void logUser(HttpServletRequest request, User user) throws SQLException, InvalidInputDataException {
+		HttpSession session = request.getSession();
+		session.setMaxInactiveInterval(SESSION_TIMEOUT);
+		session.setAttribute(LOGGED, user);
 	}
 
 }

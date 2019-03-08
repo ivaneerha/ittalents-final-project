@@ -29,16 +29,19 @@ public class LoginController extends BaseController {
 	private UserDao userDao;
 
 	@PostMapping("/login")
-	public void login(@RequestBody LoginDto log, HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, KinoArenaException, NoSuchAlgorithmException {
-		if (!SessionManager.isLogged(request)) {
+	public void login(@RequestBody LoginDto log, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException, NoSuchAlgorithmException {
+		if (!BaseController.isLogged(request)) {
 			new UserValidation().validateLogin(log);
 			System.out.println(log);
 			User user = userRepository.findByUsername(log.getUsername());
 			if (user.getPassword().equals(PasswordCrypt.cryptPassword(log.getPassword()))) {
 				userDao.login(log);
-				SessionManager.logUser(request, user);
+				BaseController.logUser(request, user);
+			} else {
+				throw new KinoArenaException("Wrong password or username!");
 			}
+		} else {
+			throw new KinoArenaException("You are already logged!");
 		}
 	}
 }

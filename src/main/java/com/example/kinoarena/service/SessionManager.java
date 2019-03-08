@@ -25,21 +25,21 @@ public class SessionManager {
 	public static final String LOGGED = "LoggedUser";
 	private static final int SESSION_TIMEOUT = 1000000;
 	
-	public static boolean isLogged(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		if(session.isNew()) return false;
-		if(session.getAttribute(LOGGED)==null) {
-			return false;
-		}
-		return true;
-	}
-	
-	
-	public static void logUser(HttpServletRequest request, User user) throws SQLException, InvalidInputDataException {
-		HttpSession session = request.getSession();
-		session.setMaxInactiveInterval(SESSION_TIMEOUT);
-		session.setAttribute(LOGGED, user);
-	}
+//	public static boolean isLogged(HttpServletRequest request) {
+//		HttpSession session = request.getSession();
+//		if(session.isNew()) return false;
+//		if(session.getAttribute(LOGGED)==null) {
+//			return false;
+//		}
+//		return true;
+//	}
+//	
+//	
+//	public static void logUser(HttpServletRequest request, User user) throws SQLException, InvalidInputDataException {
+//		HttpSession session = request.getSession();
+//		session.setMaxInactiveInterval(SESSION_TIMEOUT);
+//		session.setAttribute(LOGGED, user);
+//	}
 	
 	
 	public void validateLoginAdmin(HttpServletRequest request) throws KinoArenaException{

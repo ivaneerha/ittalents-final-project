@@ -26,39 +26,43 @@ import com.example.kinoarena.helper.RandomNumber;
 import com.example.kinoarena.model.User;
 import com.example.kinoarena.service.SessionManager;
 
-
 @RestController
-public class AdminController extends BaseController{
-	
+public class AdminController extends BaseController {
+
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	@Autowired
 	private MovieDao movieDao;
-	
-	
-	
+
 	@GetMapping("/users")
-	public List<User> getAll(HttpServletRequest request) throws KinoArenaException{
+	public List<User> getAll(HttpServletRequest request) throws KinoArenaException {
 		validateLoginAdmin(request);
 		return userRepository.findAll();
 	}
-	
-	
+
 	@DeleteMapping("/delete/{id}")
-	public void deleteUser(@PathVariable long id,HttpSession session, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException {
+	public void deleteUser(@PathVariable long id, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws SQLException, KinoArenaException {
 		validateLoginAdmin(request);
-		userDao.deleteUserByID(id);
+		if (userRepository.findById(id).get() != null) {
+			userDao.deleteUserByID(id);
+		} else {
+			throw new KinoArenaException("There is no user with this id!");
+		}
 	}
-	
+
 	@GetMapping("/users/{id}")
 	public User getAll(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException{
 		validateLoginAdmin(request);
+		if(userRepository.findById(id).get() != null) {
 		return userRepository.findById(id).get();
+	} else {
+		throw new KinoArenaException("There is no user with this id!");
 	}
 	
-
+	}
 }

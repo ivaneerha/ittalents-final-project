@@ -36,11 +36,14 @@ public class RegisterController extends BaseController {
 	public void signUp(@RequestBody RegisterDto reg, HttpServletRequest request)
 			throws KinoArenaException, SQLException, NoSuchAlgorithmException {
 		new UserValidation().validateRegistration(reg);
-		if (SessionManager.isLogged(request)) {
+		if (BaseController.isLogged((request))) {
 			throw new KinoArenaException("You have to logout to register!");
 		}
 		if (userManager.isEmailTaken(reg.getEmail())) {
 			throw new KinoArenaException("Email already taken!");
+		}
+		if(userManager.isUsernameTaken(reg.getUsername())) {
+			throw new KinoArenaException("Username already taken!");
 		}
 		User user = new User();
 
@@ -50,7 +53,7 @@ public class RegisterController extends BaseController {
 		user.setEmail(reg.getEmail());
 		user.setPassword(PasswordCrypt.cryptPassword(reg.getPassword()));
 		userRepository.save(user);
-		SessionManager.logUser(request, user);
+		BaseController.logUser(request, user);
 		
 	}
 

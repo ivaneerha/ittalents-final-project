@@ -1,12 +1,12 @@
 package com.example.kinoarena.controllers;
 
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,55 +17,58 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.kinoarena.dao.HallDao;
 import com.example.kinoarena.dto.AddHallDto;
-
+import com.example.kinoarena.exceptions.CinemaNotFoundException;
+import com.example.kinoarena.exceptions.HallNotFoundException;
 import com.example.kinoarena.exceptions.KinoArenaException;
+import com.example.kinoarena.exceptions.NotAdminException;
 import com.example.kinoarena.model.Hall;
 
-
 @RestController
-public class HallController extends BaseController{
-	
+public class HallController extends BaseController {
+
 	@Autowired
 	private CinemaRepository cinemaRepository;
-	
+
 	@Autowired
 	private HallRepository hallRepository;
-	
+
 	@Autowired
 	private HallDao hallDao;
-	
-	//Working!
+
+	// Working!
 	@PostMapping("/addhall")
-	public void addHall(@RequestBody AddHallDto hall, HttpServletRequest request) throws KinoArenaException, SQLException{
+	public void addHall(@RequestBody AddHallDto hall, HttpServletRequest request)
+			throws KinoArenaException, SQLException {
 		validateLoginAdmin(request);
-			Hall h = new Hall();
-			h.setCinemaId(hall.getCinemaId());
-			h.setType(hall.getType());
-			hallRepository.save(h);
+		Hall h = new Hall();
+		h.setCinemaId(hall.getCinemaId());
+		h.setType(hall.getType());
+		if(cinemaRepository.findById(hall.getCinemaId()) != null) {
+		hallRepository.save(h);
+		} else {
+			throw new CinemaNotFoundException("No such cinema!");
+		}
 	}
-	
-	//Working!
+
+	// Working!
 	@DeleteMapping("/deletehall/{id}")
-	public void deleteHall(@PathVariable Long id,HttpServletRequest request) throws KinoArenaException {
+	public void deleteHall(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException,SQLException{
 		validateLoginAdmin(request);
-		hallRepository.deleteById(id);
+		if (hallRepository.findById(id) != null) {
+			hallRepository.deleteById(id);
+		} else {
+			throw new HallNotFoundException("The hall does not Exists");
+		}
 	}
-	
 
-	//Working!
+	// Working!
 	@GetMapping("/halls/{id}")
-	public List<Hall> getAll(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException{
+	public List<Hall> getAll(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException,SQLException {
 		validateLoginAdmin(request);
-		return hallRepository.findAllByCinemaId(id);
+		if (cinemaRepository.findById(id) != null) {
+			return hallRepository.findAllByCinemaId(id);
+		} else {
+			throw new CinemaNotFoundException("Cinema not found Exception!");
+		}
 	}
-	
-	
 }
-
-
-
-
-
-
-
-
