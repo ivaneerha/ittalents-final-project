@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.kinoarena.dao.ProjectionDao;
 import com.example.kinoarena.dao.TicketDao;
 import com.example.kinoarena.dto.TicketDto;
+import com.example.kinoarena.exceptions.CinemaNotFoundException;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
+import com.example.kinoarena.exceptions.ProjectionNotFoundException;
 import com.example.kinoarena.model.Seat;
 import com.example.kinoarena.model.Ticket;
 import com.example.kinoarena.model.User;
@@ -41,12 +43,19 @@ public class TicketContoller extends BaseController {
 	
 	@Autowired
 	private SeatReposirory seatRepository;
+	
+	@Autowired
+	private CinemaRepository cinemaRepository;
 
+	@Autowired
+	private ProjectionRepository projectionRepository;
+	
 	@Autowired
 	@Setter
 	private JdbcTemplate jdbcTemplate;
 	
 	// TODO validations
+	// ako imame greshka pri mestata se syzdava bilet v bazata, no obratnoto ne e taka
 	@PostMapping("/ticket/add")
 	public void addTicket(@RequestBody TicketDto ticketDto, HttpSession session, HttpServletRequest request)
 			throws SQLException, KinoArenaException {
@@ -54,6 +63,12 @@ public class TicketContoller extends BaseController {
 		validateLoginAdmin(request);
 		try {
 			con.setAutoCommit(false);
+			if(!cinemaRepository.existsById(ticketDto.getCinemaId())) {
+				throw new CinemaNotFoundException("There is no such cinema!");
+			}
+			if(!projectionRepository.existsById(ticketDto.getProjectionId())) {
+				throw new ProjectionNotFoundException("There is no such projection!");
+			}
 			User logged = (User) session.getAttribute("LoggedUser");
 			// CHECK HERE IF SEAT IS TAKEN BEFORE 'buying' ticket
 			Ticket ticket = new Ticket();
@@ -96,10 +111,12 @@ public class TicketContoller extends BaseController {
 			
 			
 			con.commit();
+		} catch (ProjectionNotFoundException | CinemaNotFoundException e){
+			throw new KinoArenaException(e.getMessage());
 		} catch (Exception e) {
 			con.rollback();
 			throw new InvalidInputDataException();
-		}	finally {
+		}finally {
 			con.setAutoCommit(true);
 		}
 
