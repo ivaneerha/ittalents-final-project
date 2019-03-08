@@ -43,7 +43,7 @@ public class HallController extends BaseController {
 		Hall h = new Hall();
 		h.setCinemaId(hall.getCinemaId());
 		h.setType(hall.getType());
-		if(cinemaRepository.findById(hall.getCinemaId()) != null) {
+		if(cinemaRepository.existsById(hall.getCinemaId())) {
 		hallRepository.save(h);
 		} else {
 			throw new CinemaNotFoundException("No such cinema!");
@@ -54,7 +54,7 @@ public class HallController extends BaseController {
 	@DeleteMapping("/deletehall/{id}")
 	public void deleteHall(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException,SQLException{
 		validateLoginAdmin(request);
-		if (hallRepository.findById(id) != null) {
+		if (hallRepository.existsById(id)) {
 			hallRepository.deleteById(id);
 		} else {
 			throw new HallNotFoundException("The hall does not Exists");
@@ -65,10 +65,10 @@ public class HallController extends BaseController {
 	@GetMapping("/halls/{id}")
 	public List<Hall> getAll(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException,SQLException {
 		validateLoginAdmin(request);
-		if (cinemaRepository.findById(id) != null) {
+		if (cinemaRepository.existsById(id)) {
 			return hallRepository.findAllByCinemaId(id);
 		} else {
-			throw new CinemaNotFoundException("Cinema not found Exception!");
+			throw new CinemaNotFoundException("There is no such cinema!");
 		}
 	}
 }
