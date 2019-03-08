@@ -7,12 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.example.kinoarena.dto.TicketDto;
 import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.model.Projection;
+import com.example.kinoarena.model.Ticket;
+import com.example.kinoarena.model.User;
 
 import lombok.Setter;
 
@@ -58,5 +64,18 @@ public class TicketDao {
 		return startDateTime;
 	}
 	
+	
+//	public void addTicket(TicketDto ticketDto, HttpSession session, HttpServletRequest request) {
+//		
+//		User logged = (User) session.getAttribute("LoggedUser");
+//		// CHECK HERE IF SEAT IF TAKEN BEFORE 'buying' ticket
+//		Ticket ticket = new Ticket();
+//		ticket.setCinemaId(ticketDto.getCinemaId());
+//		ticket.setProjectionId(ticketDto.getProjectionId());
+//		ticket.setUserId(logged.getUserId());
+//		ticket.setStartTime(ticketDao.getStartTime(ticketDto.getProjectionId()));
+//		ticketRepository.save(ticket);
+//	}
+//	
 	
 }

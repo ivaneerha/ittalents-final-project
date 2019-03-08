@@ -9,4 +9,5 @@ public class TicketDto {
 	private Long projectionId;
 	private Long cinemaId;
 	private Long seat;
+	private Long line;
 }
