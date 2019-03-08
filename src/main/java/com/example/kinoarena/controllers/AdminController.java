@@ -48,7 +48,7 @@ public class AdminController extends BaseController {
 	public void deleteUser(@PathVariable long id, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, KinoArenaException {
 		validateLoginAdmin(request);
-		if (userRepository.findById(id).get() != null) {
+		if (userRepository.existsById(id)) {
 			userDao.deleteUserByID(id);
 		} else {
 			throw new KinoArenaException("There is no user with this id!");
@@ -58,7 +58,7 @@ public class AdminController extends BaseController {
 	@GetMapping("/users/{id}")
 	public User getAll(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException{
 		validateLoginAdmin(request);
-		if(userRepository.findById(id).get() != null) {
+		if(userRepository.existsById(id)) {
 		return userRepository.findById(id).get();
 	} else {
 		throw new KinoArenaException("There is no user with this id!");
