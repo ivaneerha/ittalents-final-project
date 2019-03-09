@@ -19,6 +19,7 @@ import com.example.kinoarena.dao.MovieDao;
 import com.example.kinoarena.dto.MovieDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
+import com.example.kinoarena.exceptions.MovieNotFoundException;
 import com.example.kinoarena.model.Movie;
 
 @RestController
@@ -59,32 +60,15 @@ public class MovieController extends BaseController {
 		}
 	}
 
-	// DOESN'T WORK
+	// Works
 	@DeleteMapping("/movie/delete/{id}")
 	public void deleteMovie(@PathVariable Long id, HttpServletRequest request, HttpSession session)
 			throws KinoArenaException {
 		validateLoginAdmin(session);
-		Movie movie = movieRepository.findByMovieId(id);
-		if (movie != null) {
+		if (movieRepository.existsById(id)) {
 			movieRepository.deleteById(id);
 		} else {
-			throw new KinoArenaException("There is no movie with this id!");
-		}
-	}
-
-	// DOESN'T WORK
-	@PostMapping("/movie/find/title")
-	public Movie findMovieByTitle(@RequestBody String title) throws KinoArenaException {
-		Movie movie = new Movie();
-		try {
-			movie = movieDao.findMovieByTitle(title);
-			if (movie == null) {
-				throw new KinoArenaException("There is no movie with this title!");
-			} else {
-				return movie;
-			}
-		} catch (SQLException e) {
-			throw new InvalidInputDataException();
+			throw new MovieNotFoundException();
 		}
 	}
 

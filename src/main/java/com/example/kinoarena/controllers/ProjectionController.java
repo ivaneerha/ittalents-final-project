@@ -111,7 +111,7 @@ public class ProjectionController extends BaseController {
 		}
 	}
 
-	// WORKS!
+	// Works!
 	@DeleteMapping("/projections/delete/{id}")
 	public void deleteProjection(@PathVariable Long id, HttpServletRequest request,HttpSession session) throws KinoArenaException {
 		validateLoginAdmin(session);
@@ -121,5 +121,4 @@ public class ProjectionController extends BaseController {
 			throw new ProjectionNotFoundException(PROJECTION_NOT_FOUND);
 		}
 	}
-
 }
