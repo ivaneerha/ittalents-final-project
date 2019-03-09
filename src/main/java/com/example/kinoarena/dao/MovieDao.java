@@ -1,6 +1,5 @@
 package com.example.kinoarena.dao;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,8 +21,8 @@ import com.example.kinoarena.model.Movie;
 import lombok.Setter;
 
 @Component
-public class MovieDao implements IMovieDao{
-	
+public class MovieDao implements IMovieDao {
+
 	private static final String FIND_MOVIE_BY_TITLE_AND_GENRE_ID = "SELECT * from movies where title = ? and genre_id = ?;";
 
 	private static final String ADD_MOVIE = "insert into movies(title, genre_id) values (?, ?)";
@@ -35,94 +34,57 @@ public class MovieDao implements IMovieDao{
 	@Autowired
 	@Setter
 	private JdbcTemplate jdbcTemplate;
-	
+
 	private UserValidation validation;
-	
+
 	private static final String ADD_GENRE = "UPDATE  movies SET genre_id = ? WHERE movie_id = ?";
 
 	private static final String FIND_MOVIE_BY_TITLE = "SELECT * FROM movies WHERE title = ?;";
-	
-	
-	@Override
-	public ArrayList<Movie> getAllMovies() throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Movie getMovieById(int id) throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public ArrayList<String> getAllMoviesNames() throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 
-
-
-	@Override
-	public Movie getMovieByTitle(String title) throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	@Override
 	public void addNewMovie(MovieDto dto) throws SQLException, KinoArenaException {
 		String title = dto.getTitle();
 		Long genreId = dto.getGenreId();
-		
+
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		try(PreparedStatement ps = con.prepareStatement(ADD_MOVIE)){
+		try (PreparedStatement ps = con.prepareStatement(ADD_MOVIE)) {
 			ps.setString(1, title);
 			ps.setLong(2, genreId);
 			ps.executeUpdate();
 		}
 	}
 
+	@Override
 	public boolean findIfMovieExists(MovieDto dto) throws SQLException {
 		String title = dto.getTitle();
 		Long genreId = dto.getGenreId();
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		try(PreparedStatement ps = con.prepareStatement(FIND_MOVIE_BY_TITLE_AND_GENRE_ID)){
+		try (PreparedStatement ps = con.prepareStatement(FIND_MOVIE_BY_TITLE_AND_GENRE_ID)) {
 			ps.setString(1, title);
 			ps.setLong(2, genreId);
 			ResultSet rs = ps.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				return true;
 			} else {
 				return false;
 			}
 		}
 	}
+
 	public Movie findMovieByTitle(String title) throws SQLException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		try(PreparedStatement ps = con.prepareStatement(FIND_MOVIE_BY_TITLE)){
+		try (PreparedStatement ps = con.prepareStatement(FIND_MOVIE_BY_TITLE)) {
 			ps.setString(1, title);
 			ResultSet rs = ps.executeQuery();
 			Movie movie = new Movie();
-			if(rs.next()) {
-				movie.setMovieId(rs.getLong(1));
-				movie.setTitle(rs.getString(2));
-				movie.setGenreId(rs.getLong(3));
+			if (rs.next()) {
+				movie.setMovieId(rs.getLong("movie_id"));
+				movie.setTitle(rs.getString("title"));
+				movie.setGenreId(rs.getLong("genre_id"));
 				return movie;
 			} else {
 				return null;
 			}
 		}
 	}
-
-
-//TODO update genre for movie
-//	private void addGenreToMovie(int id) throws SQLException {
-//	Connection con = jdbcTemplate.getDataSource().getConnection();
-//		PreparedStatement ps = con.prepareStatement(addGenre);
-//		ps.set
-//	}
-	
-	
-	
-	
-	
-	
 }

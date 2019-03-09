@@ -16,14 +16,16 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name="movies")
+@Entity(name = "movies")
 public class Movie {
-	
+
 	@Id
 	private Long movieId;
-	@NonNull @Column
+	@NonNull
+	@Column
 	private String title;
-	@NonNull @Column
+	@NonNull
+	@Column
 	private Long genreId;
-	
+
 }

@@ -1,12 +1,10 @@
 package com.example.kinoarena.controllers;
 
-
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 
 import org.springframework.http.HttpStatus;
 
@@ -35,7 +33,6 @@ public abstract class BaseController {
 	public static final String LOGGED = "LoggedUser";
 	private static final int SESSION_TIMEOUT = 1000000;
 
-
 	@ExceptionHandler({ NotLoggedInException.class })
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	public ErrorMessage NotLoggedIn(Exception e) {
@@ -56,15 +53,15 @@ public abstract class BaseController {
 		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.NOT_FOUND.value(), LocalDateTime.now());
 		return msg;
 	}
-	
-	@ExceptionHandler({ InvalidInputDataException.class})
+
+	@ExceptionHandler({ InvalidInputDataException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorMessage invalidInput(Exception e) {
 		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
 		return msg;
 	}
-	
-	@ExceptionHandler({NumberFormatException.class})
+
+	@ExceptionHandler({ NumberFormatException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorMessage failToConvertError(Exception e) {
 		ErrorMessage msg = new ErrorMessage("Wrong input!", HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
@@ -81,8 +78,7 @@ public abstract class BaseController {
 	@ExceptionHandler({ Exception.class })
 	@ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
 	public ErrorMessage AllErrors(Exception e) {
-		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.I_AM_A_TEAPOT.value(),
-				LocalDateTime.now());
+		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.I_AM_A_TEAPOT.value(), LocalDateTime.now());
 		return msg;
 	}
 
@@ -91,7 +87,6 @@ public abstract class BaseController {
 			throw new NotLoggedInException();
 		}
 	}
-
 
 	public void validateLoginAdmin(HttpServletRequest request) throws KinoArenaException {
 		HttpSession session = request.getSession();
@@ -104,17 +99,17 @@ public abstract class BaseController {
 			}
 		}
 	}
-	
+
 	public static boolean isLogged(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		if(session.isNew()) return false;
-		if(session.getAttribute(LOGGED)==null) {
+		if (session.isNew())
+			return false;
+		if (session.getAttribute(LOGGED) == null) {
 			return false;
 		}
 		return true;
 	}
-	
-	
+
 	public static void logUser(HttpServletRequest request, User user) throws SQLException, InvalidInputDataException {
 		HttpSession session = request.getSession();
 		session.setMaxInactiveInterval(SESSION_TIMEOUT);

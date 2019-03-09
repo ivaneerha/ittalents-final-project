@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +43,13 @@ public class MovieController extends BaseController {
 		}
 	}
 
+	// Works
 	@PostMapping("/movie/add")
-	public void addMovie(@RequestBody MovieDto movieDto) throws SQLException, KinoArenaException {
+	public void addMovie(@RequestBody MovieDto movieDto, HttpServletRequest request)
+			throws SQLException, KinoArenaException {
+		validateLoginAdmin(request);
 		try {
-			if(movieDao.findIfMovieExists(movieDto)) {
+			if (movieDao.findIfMovieExists(movieDto)) {
 				throw new KinoArenaException("The movie already exists!");
 			}
 			Movie movie = new Movie();
@@ -57,8 +61,10 @@ public class MovieController extends BaseController {
 		}
 	}
 
+	// DOESN'T WORK
 	@DeleteMapping("/movie/delete/{id}")
-	public void deleteMovie(@PathVariable Long id) throws KinoArenaException {
+	public void deleteMovie(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException {
+		validateLoginAdmin(request);
 		Movie movie = movieRepository.findByMovieId(id);
 		if (movie != null) {
 			movieRepository.deleteById(id);
@@ -67,13 +73,13 @@ public class MovieController extends BaseController {
 		}
 	}
 
-	//DOESN'T WORK
+	// DOESN'T WORK
 	@PostMapping("/movie/find/title")
 	public Movie findMovieByTitle(@RequestBody String title) throws KinoArenaException {
 		Movie movie = new Movie();
 		try {
 			movie = movieDao.findMovieByTitle(title);
-			if(movie == null) {
+			if (movie == null) {
 				throw new KinoArenaException("There is no movie with this title!");
 			} else {
 				return movie;
@@ -81,6 +87,12 @@ public class MovieController extends BaseController {
 		} catch (SQLException e) {
 			throw new InvalidInputDataException();
 		}
+	}
+
+	// Works
+	@GetMapping("/movie/all")
+	public List<Movie> getAllMovies() {
+		return movieRepository.findAll();
 	}
 
 }
