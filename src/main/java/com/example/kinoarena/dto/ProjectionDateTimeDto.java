@@ -1,15 +1,14 @@
 package com.example.kinoarena.dto;
 
-import java.sql.Timestamp;
-
 import lombok.Getter;
 import lombok.Setter;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
 
-public class ProjectionDto {
+public class ProjectionDateTimeDto {
+	private Long projectionId;
 	private String startTime;
 	private String endTime;
-	private Long movieId;
 }

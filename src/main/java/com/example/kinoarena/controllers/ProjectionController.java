@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.kinoarena.dao.ProjectionDao;
+import com.example.kinoarena.dto.ProjectionDateTimeDto;
 import com.example.kinoarena.dto.ProjectionDto;
 import com.example.kinoarena.dto.ProjectionWithMoviesDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
@@ -121,4 +123,24 @@ public class ProjectionController extends BaseController {
 			throw new ProjectionNotFoundException(PROJECTION_NOT_FOUND);
 		}
 	}
+	
+	// Works!
+	@PutMapping("/projections/dateTimeChange")
+	public void changeDateTime(@RequestBody ProjectionDateTimeDto dto, HttpSession session) throws KinoArenaException {
+		validateLoginAdmin(session);
+		try {
+			if (!projectionRepository.existsById(dto.getProjectionId())) {
+				throw new ProjectionNotFoundException(PROJECTION_NOT_FOUND);
+			}
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			format.parse(dto.getStartTime());
+			format.parse(dto.getEndTime());
+			projectionDao.changeProjectionDateTime(dto.getProjectionId(), dto.getStartTime(), dto.getEndTime());
+
+	
+		} catch (Exception e) {
+			throw new InvalidInputDataException();
+		}
+	}
+	
 }

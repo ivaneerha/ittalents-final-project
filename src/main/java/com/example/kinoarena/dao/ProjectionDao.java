@@ -70,14 +70,6 @@ public class ProjectionDao implements IProjectionDao{
 		}
 	}
 	
-	
-	@Override
-	public void changeProjectionTime(Long projectionId, LocalDateTime projectionTime)
-			throws SQLException, InvalidInputDataException {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	@Override
 	public Collection<Projection> getAllProjectionsForAMovie(Movie m) throws SQLException, InvalidInputDataException {
@@ -100,6 +92,17 @@ public class ProjectionDao implements IProjectionDao{
 		}
 		return ids;
 	}
+	
+	public void changeProjectionDateTime(Long projectionId, String startTime, String endTime) throws SQLException {
+		Connection con = jdbcTemplate.getDataSource().getConnection();
+		try(PreparedStatement ps = con.prepareStatement("update projections set start_time = ?, end_time = ? where projection_id = ?");){
+			ps.setString(1, startTime);
+			ps.setString(2, endTime);
+			ps.setLong(3, projectionId);
+			ps.executeUpdate();
+		}
+	}
+	
 	
 	@Override
 	public List<Projection> getProjectionsByCinemaId(Long id) throws SQLException, InvalidInputDataException {
