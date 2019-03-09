@@ -132,7 +132,7 @@ public class UserController extends BaseController {
 		}
 	}
 
-	@PostMapping("/signout")
+	@GetMapping("/signout")
 	public void logout(HttpServletRequest request) throws KinoArenaException {
 		if (BaseController.isLogged(request)) {
 			HttpSession session = request.getSession();

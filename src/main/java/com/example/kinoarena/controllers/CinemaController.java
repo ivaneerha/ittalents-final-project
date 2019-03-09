@@ -27,7 +27,7 @@ import com.example.kinoarena.model.Location;
 public class CinemaController extends BaseController {
 
 	private static final String CINEMA_ID = "cinema_id";
-
+	private static final String NO_CINEMA_SELECTED_YET = "There is no cinema selected!";
 	private static final String CINEMA_NOT_FOUND = "There is no such cinema!";
 
 	UserValidation validation = new UserValidation();
@@ -66,7 +66,7 @@ public class CinemaController extends BaseController {
 			Cinema cinema = cinemaRepository.findById(id).get();
 			return cinema;
 		} else {
-			throw new KinoArenaException("There is no cinema selected!");
+			throw new KinoArenaException(NO_CINEMA_SELECTED_YET);
 		}
 	}
 

@@ -22,6 +22,10 @@ import com.example.kinoarena.service.UserManager;
 @RestController
 public class RegisterController extends BaseController {
 
+	private static final String LOG_OUT_TO_REGISTER = "You have to logout to register!";
+	private static final String EMAIL_TAKEN = "Email already taken!";
+	private static final String USERNAME_TAKEN = "Username already taken!";
+	
 	@Autowired
 	UserRepository userRepository;
 
@@ -36,13 +40,13 @@ public class RegisterController extends BaseController {
 			throws KinoArenaException, SQLException, NoSuchAlgorithmException {
 		new UserValidation().validateRegistration(reg);
 		if (BaseController.isLogged((request))) {
-			throw new KinoArenaException("You have to logout to register!");
+			throw new KinoArenaException(LOG_OUT_TO_REGISTER);
 		}
 		if (userManager.isEmailTaken(reg.getEmail())) {
-			throw new KinoArenaException("Email already taken!");
+			throw new KinoArenaException(EMAIL_TAKEN);
 		}
 		if(userManager.isUsernameTaken(reg.getUsername())) {
-			throw new KinoArenaException("Username already taken!");
+			throw new KinoArenaException(USERNAME_TAKEN);
 		}
 		User user = new User();
 

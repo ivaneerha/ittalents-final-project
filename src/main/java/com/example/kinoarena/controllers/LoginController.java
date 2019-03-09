@@ -21,12 +21,17 @@ import com.example.kinoarena.passwordcrypt.PasswordCrypt;
 @RestController
 public class LoginController extends BaseController {
 
+	private static final String WRONG_CREDENTIALS = "Wrong password or username!";
+	private static final String ALREADY_LOGGED_IN = "You are already logged!";
+	
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
 	private UserDao userDao;
 
+	
+	
 	@PostMapping("/login")
 	public void login(@RequestBody LoginDto log, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException, NoSuchAlgorithmException {
 		if (!BaseController.isLogged(request)) {
@@ -37,10 +42,10 @@ public class LoginController extends BaseController {
 				userDao.login(log);
 				BaseController.logUser(request, user);
 			} else {
-				throw new KinoArenaException("Wrong password or username!");
+				throw new KinoArenaException(WRONG_CREDENTIALS);
 			}
 		} else {
-			throw new KinoArenaException("You are already logged!");
+			throw new KinoArenaException(ALREADY_LOGGED_IN);
 		}
 	}
 }

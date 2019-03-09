@@ -30,8 +30,14 @@ import com.example.kinoarena.model.ErrorMessage;
 
 @RestController
 public abstract class BaseController {
+	
 	public static final String LOGGED = "LoggedUser";
 	private static final int SESSION_TIMEOUT = 1000000;
+	
+	/*
+	 * SQL is using tinyint instead of boolean. So the number 1 is representing the power of the admin!
+	 */
+	private static final int NUMBER_TO_REPRESENT_AN_ADMIN = 1;
 
 	@ExceptionHandler({ NotLoggedInException.class })
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -94,7 +100,7 @@ public abstract class BaseController {
 			throw new NotLoggedInException();
 		} else {
 			User logged = (User) session.getAttribute(LOGGED);
-			if (logged.getIsAdmin() == null || logged.getIsAdmin()!=1) {
+			if (logged.getIsAdmin() == null || logged.getIsAdmin()!=NUMBER_TO_REPRESENT_AN_ADMIN) {
 				throw new NotAdminException();
 			}
 		}
@@ -110,6 +116,11 @@ public abstract class BaseController {
 		return true;
 	}
 
+	
+	/*
+	 * Method to login user in the Session of the site. 
+	 */
+	
 	public static void logUser(HttpServletRequest request, User user) throws SQLException, InvalidInputDataException {
 		HttpSession session = request.getSession();
 		session.setMaxInactiveInterval(SESSION_TIMEOUT);

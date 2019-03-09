@@ -25,6 +25,10 @@ import com.example.kinoarena.model.Movie;
 @RestController
 public class MovieController extends BaseController {
 
+	private static final String FILM_NOT_FOUND = "There is no movie with this id!";
+	private static final String MOVIE_ALREADY_EXISTS = "The movie already exists!";
+	
+	
 	@Autowired
 	private MovieDao movieDao;
 
@@ -38,7 +42,7 @@ public class MovieController extends BaseController {
 		if (movie != null) {
 			return movie;
 		} else {
-			throw new KinoArenaException("There is no movie with this id!");
+			throw new KinoArenaException(FILM_NOT_FOUND);
 		}
 	}
 
@@ -49,7 +53,7 @@ public class MovieController extends BaseController {
 		validateLoginAdmin(session);
 		try {
 			if (movieDao.findIfMovieExists(movieDto)) {
-				throw new KinoArenaException("The movie already exists!");
+				throw new KinoArenaException(MOVIE_ALREADY_EXISTS);
 			}
 			Movie movie = new Movie();
 			movie.setTitle(movieDto.getTitle());
