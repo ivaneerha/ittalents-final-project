@@ -32,7 +32,8 @@ import com.example.kinoarena.model.ErrorMessage;
 public abstract class BaseController {
 	
 	public static final String LOGGED = "LoggedUser";
-	private static final int SESSION_TIMEOUT = 1000000;
+	//one day in seconds 60*60*24 = 86400
+	private static final int SESSION_TIMEOUT = 86400;
 	
 	/*
 	 * SQL is using tinyint instead of boolean. So the number 1 is representing the power of the admin!

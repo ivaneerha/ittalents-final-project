@@ -73,6 +73,6 @@ public class AdminController extends BaseController {
 	} else {
 		throw new KinoArenaException(NO_USER_FOUND);
 	}
-	
+		
 	}
 }
