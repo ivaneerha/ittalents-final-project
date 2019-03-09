@@ -34,7 +34,7 @@ public class UserDao implements IUserDao{
 
 	
 
-	//CHECH IF SETTER IS NEEDED
+	
 	@Autowired
 	@Setter
 	private JdbcTemplate jdbcTemplate; 
@@ -51,6 +51,7 @@ public class UserDao implements IUserDao{
 				result.getString("username"),
 				result.getString("password"),
 				result.getString("first_name"),
+				result.getLong("location_id"),
 				result.getString("last_name"),
 				result.getString("email"),
 				result.getString("gsm"),
@@ -65,13 +66,14 @@ public class UserDao implements IUserDao{
 		try(PreparedStatement ps = con.prepareStatement(LOGIN);){
 		ps.setString(1,user.getUsername());
 		ps.setString(2, PasswordCrypt.cryptPassword(user.getPassword()));
-		ResultSet result = ps.executeQuery();
+		try(ResultSet result = ps.executeQuery();){
 		result.next();
 		User user2 = new User(
 				result.getLong("user_id"),
 				result.getString("username"),
 				result.getString("password"),
 				result.getString("first_name"),
+				result.getLong("location_id"),
 				result.getString("last_name"),
 				result.getString("email"),
 				result.getString("gsm"),
@@ -81,6 +83,7 @@ public class UserDao implements IUserDao{
 		return user2;
 		}
 	}
+}
 	
 
 	public User getUserByUsername(String username) throws SQLException, InvalidInputDataException {
@@ -94,6 +97,7 @@ public class UserDao implements IUserDao{
 				result.getString("username"),
 				result.getString("password"),
 				result.getString("first_name"),
+				result.getLong("location_id"),
 				result.getString("last_name"),
 				result.getString("email"),
 				result.getString("gsm"),
@@ -116,6 +120,7 @@ public class UserDao implements IUserDao{
 				result.getString("username"),
 				result.getString("password"),
 				result.getString("first_name"),
+				result.getLong("location_id"),
 				result.getString("last_name"),
 				result.getString("email"),
 				result.getString("gsm"),

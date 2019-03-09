@@ -14,6 +14,8 @@ public class AddCinemaDto {
 	@NonNull
 	private String contact;
 	@NonNull
-	private Long locatonId;
+	private String city;
+	@NonNull
+	private String address;
 
 }

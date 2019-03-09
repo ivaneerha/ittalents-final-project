@@ -1,17 +1,15 @@
 package com.example.kinoarena.controllers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +22,6 @@ import com.example.kinoarena.exceptions.NotAdminException;
 import com.example.kinoarena.exceptions.NotLoggedInException;
 import com.example.kinoarena.exceptions.ProjectionNotFoundException;
 import com.example.kinoarena.model.User;
-import com.example.kinoarena.dao.UserDao;
 import com.example.kinoarena.model.ErrorMessage;
 
 /**
@@ -103,7 +100,7 @@ public abstract class BaseController {
 		} else {
 			User logged = (User) session.getAttribute(LOGGED);
 			if (logged.getIsAdmin() == 0) {
-				throw new NotAdminException();
+				throw new KinoArenaException("Not Admin!");
 			}
 		}
 	}

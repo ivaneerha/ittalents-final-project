@@ -7,9 +7,14 @@ import lombok.NonNull;
 @Data
 public class ProfileDto {
 	
-	
-	private String favouriteMovie;
-	private String favouriteActor;
+	@NonNull
+	private String name;
+	@NonNull
+	private String lastName;
 	private String gsm;
+	@NonNull
+	private String city;
+	@NonNull
+	private String address;
 	
 }
