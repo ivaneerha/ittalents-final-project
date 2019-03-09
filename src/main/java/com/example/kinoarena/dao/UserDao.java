@@ -7,13 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.example.kinoarena.dto.LoginDto;
-import com.example.kinoarena.dto.RegisterDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.NotAdminException;
 import com.example.kinoarena.model.User;
@@ -28,7 +26,6 @@ public class UserDao implements IUserDao{
 	private static final String CHECK_IF_IS_ADMIN = "SELECT is_admin FROM users WHERE username = ?";
 	private static final String LOGIN = "SELECT * from users WHERE (username=? AND password =?)";
 	private static final String GET_USER_BY_ID = "SELECT * from users WHERE user_id=?";
-	private static final String CHANGE_PASSWORD = "UPDATE users SET password = ? WHERE user_id = ?";
 	private static final String GET_ALL_USERS = "SELECT * FROM users;";
 	private static final String DELETE_USER_BY_ID = "DELETE FROM users WHERE user_id = ?";
 	private static final String GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
@@ -65,7 +62,7 @@ public class UserDao implements IUserDao{
 	
 	public User login(LoginDto user) throws SQLException, InvalidInputDataException, NoSuchAlgorithmException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		PreparedStatement ps = con.prepareStatement(LOGIN);
+		try(PreparedStatement ps = con.prepareStatement(LOGIN);){
 		ps.setString(1,user.getUsername());
 		ps.setString(2, PasswordCrypt.cryptPassword(user.getPassword()));
 		ResultSet result = ps.executeQuery();
@@ -82,14 +79,15 @@ public class UserDao implements IUserDao{
 				result.getString("favourite_movie"),
 				result.getString("favourite_actor"));
 		return user2;
+		}
 	}
 	
 
 	public User getUserByUsername(String username) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		PreparedStatement ps = con.prepareStatement(GET_USER_BY_USERNAME);
+		try(PreparedStatement ps = con.prepareStatement(GET_USER_BY_USERNAME);){
 		ps.setString(1,username);
-		ResultSet result = ps.executeQuery();
+		try(ResultSet result = ps.executeQuery();){
 		result.next();
 		User user = new User(
 				result.getLong("user_id"),
@@ -103,13 +101,15 @@ public class UserDao implements IUserDao{
 				result.getString("favourite_movie"),
 				result.getString("favourite_actor"));
 		return user;
+		}
 	}
-	
+}
+		
 	public User getUserById(long user_id) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		PreparedStatement ps = con.prepareStatement(GET_USER_BY_ID);
+		try(PreparedStatement ps = con.prepareStatement(GET_USER_BY_ID);){
 		ps.setLong(1,user_id);
-		ResultSet result = ps.executeQuery();
+		try(ResultSet result = ps.executeQuery();){
 		result.next();
 		User user = new User(
 				result.getLong("user_id"),
@@ -123,9 +123,10 @@ public class UserDao implements IUserDao{
 				result.getString("favourite_movie"),
 				result.getString("favourite_actor"));
 		return user;
+			}
+		}
 	}
-	
-	
+
 	public String usernameExists(String username) throws SQLException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		try(PreparedStatement usernameExists = con.prepareStatement(GET_USER_BY_USERNAME);){
