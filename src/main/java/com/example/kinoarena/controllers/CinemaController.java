@@ -26,6 +26,8 @@ import com.example.kinoarena.model.Location;
 @RestController
 public class CinemaController extends BaseController {
 
+	private static final String CINEMA_ID = "cinema_id";
+
 	private static final String CINEMA_NOT_FOUND = "There is no such cinema!";
 
 	UserValidation validation = new UserValidation();
@@ -47,11 +49,11 @@ public class CinemaController extends BaseController {
 			cinema = cin.get();
 		}
 		if (cinema != null) {
-			session.setAttribute("cinema_id", id);
+			session.setAttribute(CINEMA_ID, id);
 			return cinema;
 		} else {
 			response.setStatus(404);
-			throw new KinoArenaException("There is not a cinema with id = " + id);
+			throw new KinoArenaException(CINEMA_NOT_FOUND);
 		}
 	}
 
@@ -59,8 +61,8 @@ public class CinemaController extends BaseController {
 	@GetMapping("/cinema/session")
 	public Cinema getCinema(HttpSession session) throws KinoArenaException {
 		validateLogin(session);
-		if (session.getAttribute("cinema_id") != null) {
-			long id = (Long) session.getAttribute("cinema_id");
+		if (session.getAttribute(CINEMA_ID) != null) {
+			long id = (Long) session.getAttribute(CINEMA_ID);
 			Cinema cinema = cinemaRepository.findById(id).get();
 			return cinema;
 		} else {

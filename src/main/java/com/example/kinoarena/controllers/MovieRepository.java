@@ -10,12 +10,12 @@ import com.example.kinoarena.model.Movie;
 public interface MovieRepository extends JpaRepository<Movie,Long>{
 	
 	
-	Movie findByTitle(String title);
+//	Movie findMovieByTitle(String title);
 	
 	ArrayList<Movie> findAllByTitle(String title);
 		
-	List<Movie> findByGenreId(int genreId);
+	List<Movie> findByGenreId(Long genreId);
 	
-	Movie findByMovieId(int id);
+	Movie findByMovieId(Long id);
 
 }

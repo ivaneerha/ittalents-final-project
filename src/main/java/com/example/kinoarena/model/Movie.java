@@ -20,13 +20,10 @@ import lombok.ToString;
 public class Movie {
 	
 	@Id
-	private Integer movieId;
-	//in minutes
-	@NonNull @Column
-	private Integer length;
+	private Long movieId;
 	@NonNull @Column
 	private String title;
 	@NonNull @Column
-	private Integer genreId;
+	private Long genreId;
 	
 }

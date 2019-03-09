@@ -71,7 +71,7 @@ public abstract class BaseController {
 		return msg;
 	}
 
-	@ExceptionHandler({ KinoArenaException.class, SQLException.class })
+	@ExceptionHandler({ KinoArenaException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorMessage KinoArenaErrors(Exception e) {
 		ErrorMessage msg = new ErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());

@@ -8,9 +8,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AddMovieDto {
+public class MovieDto {
 	
 	@NonNull
 	private String title;
-	private int genreId;
+	@NonNull
+	private Long genreId;
 }

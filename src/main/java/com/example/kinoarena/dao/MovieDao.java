@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.example.kinoarena.dto.AddMovieDto;
+import com.example.kinoarena.dto.MovieDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
+import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.helper.RandomNumber;
+import com.example.kinoarena.helper.UserValidation;
 import com.example.kinoarena.model.Movie;
 
 import lombok.Setter;
@@ -22,56 +24,24 @@ import lombok.Setter;
 @Component
 public class MovieDao implements IMovieDao{
 	
+	private static final String FIND_MOVIE_BY_TITLE_AND_GENRE_ID = "SELECT * from movies where title = ? and genre_id = ?;";
+
+	private static final String ADD_MOVIE = "insert into movies(title, genre_id) values (?, ?)";
+
+	private static final String GENRE_NOT_FOUND = "There is no genre with id = ";
+
+	private static final String GENRE_SEARCHING = "select * from genres where genre_id = ?";
+
 	@Autowired
 	@Setter
 	private JdbcTemplate jdbcTemplate;
 	
-	private static final String ADD_MOVIE = "INSERT INTO movies (length,title,genre_id) VALUES (?,?,?)";
+	private UserValidation validation;
+	
 	private static final String ADD_GENRE = "UPDATE  movies SET genre_id = ? WHERE movie_id = ?";
-	//duration of a movie in minutes
-	private static final int MIN_DURATION_OF_MOVIE = 90;
-	private static final int MAX_DURATION_OF_MOVIE = 180;
-	/**
-	 * Genre types:
-	 * 1  horror
-	 * 2  romance
-	 * 3  drama
-	 * 4  comedy
-	 * 5  action
-	 * 6  adventure
-	 * 7  sci-fy
-	 */
+
+	private static final String FIND_MOVIE_BY_TITLE = "SELECT * FROM movies WHERE title = ?;";
 	
-	
-	
-	//TODO
-	
-	public int addNewMovie(AddMovieDto dto) throws SQLException, InvalidInputDataException {
-		Connection con = jdbcTemplate.getDataSource().getConnection();
-		PreparedStatement ps = null;
-		try {
-			con.setAutoCommit(false);
-			ps = con.prepareStatement(ADD_MOVIE,Statement.RETURN_GENERATED_KEYS);
-			ps.setInt(1,RandomNumber.randomNumber(MIN_DURATION_OF_MOVIE, MAX_DURATION_OF_MOVIE) );
-			ps.setString(2, dto.getTitle());
-			ps.setInt(3, dto.getGenreId());
-			ps.executeUpdate();
-			
-			
-			ResultSet result = ps.getGeneratedKeys();
-			result.next();
-			int id = (int)result.getLong(1);
-			con.commit();
-			return id;
-		}
-		catch (SQLException e) {
-			con.rollback();
-			throw e;
-		} finally {
-			ps.close();
-			con.setAutoCommit(true);
-		}
-	}
 	
 	@Override
 	public ArrayList<Movie> getAllMovies() throws SQLException, InvalidInputDataException {
@@ -90,18 +60,57 @@ public class MovieDao implements IMovieDao{
 	}
 	
 
-	@Override
-	public void deleteMovieById(long id) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
 	public Movie getMovieByTitle(String title) throws SQLException, InvalidInputDataException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void addNewMovie(MovieDto dto) throws SQLException, KinoArenaException {
+		String title = dto.getTitle();
+		Long genreId = dto.getGenreId();
+		
+		Connection con = jdbcTemplate.getDataSource().getConnection();
+		try(PreparedStatement ps = con.prepareStatement(ADD_MOVIE)){
+			ps.setString(1, title);
+			ps.setLong(2, genreId);
+			ps.executeUpdate();
+		}
+	}
 
+	public boolean findIfMovieExists(MovieDto dto) throws SQLException {
+		String title = dto.getTitle();
+		Long genreId = dto.getGenreId();
+		Connection con = jdbcTemplate.getDataSource().getConnection();
+		try(PreparedStatement ps = con.prepareStatement(FIND_MOVIE_BY_TITLE_AND_GENRE_ID)){
+			ps.setString(1, title);
+			ps.setLong(2, genreId);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	public Movie findMovieByTitle(String title) throws SQLException {
+		Connection con = jdbcTemplate.getDataSource().getConnection();
+		try(PreparedStatement ps = con.prepareStatement(FIND_MOVIE_BY_TITLE)){
+			ps.setString(1, title);
+			ResultSet rs = ps.executeQuery();
+			Movie movie = new Movie();
+			if(rs.next()) {
+				movie.setMovieId(rs.getLong(1));
+				movie.setTitle(rs.getString(2));
+				movie.setGenreId(rs.getLong(3));
+				return movie;
+			} else {
+				return null;
+			}
+		}
+	}
 
 
 //TODO update genre for movie
