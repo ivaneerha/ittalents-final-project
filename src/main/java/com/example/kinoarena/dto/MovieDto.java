@@ -1,6 +1,5 @@
 package com.example.kinoarena.dto;
 
-import javax.persistence.Column;
 
 import lombok.Getter;
 import lombok.NonNull;

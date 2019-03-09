@@ -1,7 +1,7 @@
 package com.example.kinoarena.dao;
 
 import java.sql.SQLException;
-import java.util.Collection;
+
 
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.model.Cinema;

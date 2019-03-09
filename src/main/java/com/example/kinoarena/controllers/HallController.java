@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,9 +38,9 @@ public class HallController extends BaseController {
 
 	// Working!
 	@PostMapping("/addhall")
-	public void addHall(@RequestBody AddHallDto hall, HttpServletRequest request)
+	public void addHall(@RequestBody AddHallDto hall, HttpServletRequest request,HttpSession session)
 			throws KinoArenaException, SQLException {
-		validateLoginAdmin(request);
+		validateLoginAdmin(session);
 		Hall h = new Hall();
 		h.setCinemaId(hall.getCinemaId());
 		h.setType(hall.getType());
@@ -53,8 +53,8 @@ public class HallController extends BaseController {
 
 	// Working!
 	@DeleteMapping("/deletehall/{id}")
-	public void deleteHall(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException,SQLException{
-		validateLoginAdmin(request);
+	public void deleteHall(@PathVariable Long id, HttpServletRequest request,HttpSession session) throws KinoArenaException,SQLException{
+		validateLoginAdmin(session);
 		if (hallRepository.existsById(id)) {
 			hallRepository.deleteById(id);
 		} else {
@@ -65,7 +65,6 @@ public class HallController extends BaseController {
 	// Working!
 	@GetMapping("/halls/{id}")
 	public List<Hall> getAll(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException,SQLException {
-		validateLoginAdmin(request);
 		if (cinemaRepository.existsById(id)) {
 			return hallRepository.findAllByCinemaId(id);
 		} else {

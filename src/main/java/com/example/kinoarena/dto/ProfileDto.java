@@ -1,6 +1,6 @@
 package com.example.kinoarena.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.NonNull;
 

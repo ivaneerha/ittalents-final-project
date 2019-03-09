@@ -1,11 +1,9 @@
 package com.example.kinoarena.controllers;
 
-import java.sql.Connection;
+
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,14 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.kinoarena.dao.ProjectionDao;
-import com.example.kinoarena.dao.UserDao;
 import com.example.kinoarena.dto.ProjectionDto;
 import com.example.kinoarena.dto.ProjectionWithMoviesDto;
-import com.example.kinoarena.exceptions.CinemaNotFoundException;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
-import com.example.kinoarena.exceptions.NotAdminException;
-import com.example.kinoarena.exceptions.NotLoggedInException;
 import com.example.kinoarena.exceptions.ProjectionNotFoundException;
 import com.example.kinoarena.model.Projection;
 
@@ -77,7 +71,7 @@ public class ProjectionController extends BaseController {
 	@PostMapping("/projection/add")
 	public void addProjection(@RequestBody ProjectionDto projectionDto, HttpSession session, HttpServletRequest request)
 			throws KinoArenaException {
-		validateLoginAdmin(request);
+		validateLoginAdmin(session);
 		Projection projection = new Projection();
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -117,10 +111,10 @@ public class ProjectionController extends BaseController {
 		}
 	}
 
-	// DOESN'T WORK!
+	// WORKS!
 	@DeleteMapping("/projections/delete/{id}")
-	public void deleteProjection(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException {
-		validateLoginAdmin(request);
+	public void deleteProjection(@PathVariable Long id, HttpServletRequest request,HttpSession session) throws KinoArenaException {
+		validateLoginAdmin(session);
 		if (projectionRepository.existsById(id)) {
 			projectionRepository.deleteById(id);
 		} else {

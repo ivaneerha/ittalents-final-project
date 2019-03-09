@@ -88,14 +88,14 @@ public abstract class BaseController {
 		}
 	}
 
-	public void validateLoginAdmin(HttpServletRequest request) throws KinoArenaException {
-		HttpSession session = request.getSession();
+	public void validateLoginAdmin(HttpSession session) throws KinoArenaException {
+		//HttpSession session = request.getSession();
 		if (session.getAttribute(LOGGED) == null) {
 			throw new NotLoggedInException();
 		} else {
 			User logged = (User) session.getAttribute(LOGGED);
-			if (logged.getIsAdmin() == 0) {
-				throw new KinoArenaException("Not Admin!");
+			if (logged.getIsAdmin() == null || logged.getIsAdmin()!=1) {
+				throw new NotAdminException();
 			}
 		}
 	}

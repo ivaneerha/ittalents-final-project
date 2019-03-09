@@ -1,29 +1,31 @@
-package com.example.kinoarena.service;
-
-import java.sql.SQLException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.example.kinoarena.dao.UserDao;
-import com.example.kinoarena.dto.LoginDto;
-import com.example.kinoarena.exceptions.InvalidInputDataException;
-import com.example.kinoarena.exceptions.KinoArenaException;
-import com.example.kinoarena.exceptions.NotAdminException;
-import com.example.kinoarena.model.User;
-
-@Component
-public class SessionManager {
-	
-	@Autowired
-	private  UserDao userDao;
-	
-	
-	public static final String LOGGED = "LoggedUser";
-	private static final int SESSION_TIMEOUT = 1000000;
+//package com.example.kinoarena.service;
+//
+//import java.sql.SQLException;
+//
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpSession;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Component;
+//import org.springframework.stereotype.Service;
+//
+//import com.example.kinoarena.dao.UserDao;
+//import com.example.kinoarena.dto.LoginDto;
+//import com.example.kinoarena.exceptions.InvalidInputDataException;
+//import com.example.kinoarena.exceptions.KinoArenaException;
+//import com.example.kinoarena.exceptions.NotAdminException;
+//import com.example.kinoarena.model.User;
+//
+//
+//@Component
+//public class SessionManager {
+//	
+//	@Autowired
+//	private  UserDao userDao;
+//	
+//	
+//	public static final String LOGGED = "LoggedUser";
+//	private static final int SESSION_TIMEOUT = 1000000;
 	
 //	public static boolean isLogged(HttpServletRequest request) {
 //		HttpSession session = request.getSession();
@@ -42,13 +44,13 @@ public class SessionManager {
 //	}
 	
 	
-	public void validateLoginAdmin(HttpServletRequest request) throws KinoArenaException{
-		HttpSession session = request.getSession();
-		User logged = (User) session.getAttribute(LOGGED);
-		if(logged.getIsAdmin()==0) {
-			throw new NotAdminException();
-		}
-	}
+//	public void validateLoginAdmin(HttpServletRequest request) throws KinoArenaException{
+//		HttpSession session = request.getSession();
+//		User logged = (User) session.getAttribute(LOGGED);
+//		if(logged.getIsAdmin()==0) {
+//			throw new NotAdminException();
+//		}
+//	}
 	
 
-}
+//}

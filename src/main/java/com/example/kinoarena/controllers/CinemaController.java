@@ -75,9 +75,9 @@ public class CinemaController extends BaseController {
 	 * Method for adding new cinema to a new location
 	 */
 	@PostMapping("/addcinema")
-	public void addCinema(@RequestBody AddCinemaDto cinema, HttpServletRequest request)
+	public void addCinema(@RequestBody AddCinemaDto cinema, HttpServletRequest request,HttpSession session)
 			throws KinoArenaException, SQLException {
-		validateLoginAdmin(request);
+		validateLoginAdmin(session);
 
 		Location location = new Location();
 	
@@ -98,8 +98,8 @@ public class CinemaController extends BaseController {
 
 	// Working!
 	@DeleteMapping("/deletecinema/{id}")
-	public void deleteCinema(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException {
-		validateLoginAdmin(request);
+	public void deleteCinema(@PathVariable Long id, HttpServletRequest request,HttpSession session) throws KinoArenaException {
+		validateLoginAdmin(session);
 		if (cinemaRepository.existsById(id)) {
 			cinemaRepository.deleteById(id);
 		} else {

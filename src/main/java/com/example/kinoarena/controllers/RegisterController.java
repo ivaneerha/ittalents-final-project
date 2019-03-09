@@ -16,7 +16,6 @@ import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.helper.UserValidation;
 import com.example.kinoarena.model.User;
 import com.example.kinoarena.passwordcrypt.PasswordCrypt;
-import com.example.kinoarena.service.SessionManager;
 import com.example.kinoarena.service.UserManager;
 
 

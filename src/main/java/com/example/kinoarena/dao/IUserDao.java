@@ -1,13 +1,8 @@
 package com.example.kinoarena.dao;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
-import org.springframework.jdbc.support.SQLErrorCodes;
 
 import com.example.kinoarena.dto.LoginDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;

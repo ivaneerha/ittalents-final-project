@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.naming.spi.DirStateFactory.Result;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.kinoarena.dao.ProjectionDao;
+
 import com.example.kinoarena.dao.TicketDao;
 import com.example.kinoarena.dto.TicketDto;
 import com.example.kinoarena.exceptions.CinemaNotFoundException;
@@ -57,7 +57,7 @@ public class TicketContoller extends BaseController {
 	public void addTicket(@RequestBody TicketDto ticketDto, HttpSession session, HttpServletRequest request)
 			throws SQLException, KinoArenaException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		validateLoginAdmin(request);
+		validateLoginAdmin(session);
 		try {
 			con.setAutoCommit(false);
 			if (!cinemaRepository.existsById(ticketDto.getCinemaId())) {

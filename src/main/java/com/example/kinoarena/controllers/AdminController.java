@@ -20,6 +20,7 @@ import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.model.User;
 
 
+
 @RestController
 public class AdminController extends BaseController {
 
@@ -31,15 +32,15 @@ public class AdminController extends BaseController {
 
 
 	@GetMapping("/users")
-	public List<User> getAll(HttpServletRequest request) throws KinoArenaException {
-		validateLoginAdmin(request);
+	public List<User> getAll(HttpServletRequest request,HttpSession session) throws KinoArenaException {
+		validateLoginAdmin(session);
 		return userRepository.findAll();
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deleteUser(@PathVariable long id, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, KinoArenaException {
-		validateLoginAdmin(request);
+		validateLoginAdmin(session);
 		if (userRepository.existsById(id)) {
 			userDao.deleteUserByID(id);
 		} else {
@@ -48,8 +49,8 @@ public class AdminController extends BaseController {
 	}
 
 	@GetMapping("/users/{id}")
-	public User getAll(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException{
-		validateLoginAdmin(request);
+	public User getAll(@PathVariable Long id, HttpServletRequest request,HttpSession session) throws KinoArenaException{
+		validateLoginAdmin(session);
 		if(userRepository.existsById(id)) {
 		return userRepository.findById(id).get();
 	} else {
