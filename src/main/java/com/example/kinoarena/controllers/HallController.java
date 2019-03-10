@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.example.kinoarena.dto.AddHallDto;
 import com.example.kinoarena.exceptions.CinemaNotFoundException;
 import com.example.kinoarena.exceptions.HallNotFoundException;
@@ -25,27 +24,25 @@ import com.example.kinoarena.model.Hall;
 @RestController
 public class HallController extends BaseController {
 
-	
-	private static final  String CINEMA_NOT_FOUND ="There is no such cinema!";
+	private static final String CINEMA_NOT_FOUND = "There is no such cinema!";
 	private static final String HALL_NOT_FOUND = "There is no such hall!";
-	
+
 	@Autowired
 	private CinemaRepository cinemaRepository;
 
 	@Autowired
 	private HallRepository hallRepository;
 
-
 	// Working!
 	@PostMapping("/addhall")
-	public void addHall(@RequestBody AddHallDto hall, HttpServletRequest request,HttpSession session)
+	public void addHall(@RequestBody AddHallDto hall, HttpServletRequest request, HttpSession session)
 			throws KinoArenaException, SQLException {
 		validateLoginAdmin(session);
 		Hall h = new Hall();
 		h.setCinemaId(hall.getCinemaId());
 		h.setType(hall.getType());
-		if(cinemaRepository.existsById(hall.getCinemaId())) {
-		hallRepository.save(h);
+		if (cinemaRepository.existsById(hall.getCinemaId())) {
+			hallRepository.save(h);
 		} else {
 			throw new CinemaNotFoundException(CINEMA_NOT_FOUND);
 		}
@@ -53,7 +50,8 @@ public class HallController extends BaseController {
 
 	// Working!
 	@DeleteMapping("/deletehall/{id}")
-	public void deleteHall(@PathVariable Long id, HttpServletRequest request,HttpSession session) throws KinoArenaException,SQLException{
+	public void deleteHall(@PathVariable Long id, HttpServletRequest request, HttpSession session)
+			throws KinoArenaException, SQLException {
 		validateLoginAdmin(session);
 		if (hallRepository.existsById(id)) {
 			hallRepository.deleteById(id);
@@ -64,7 +62,8 @@ public class HallController extends BaseController {
 
 	// Working!
 	@GetMapping("/halls/{id}")
-	public List<Hall> getAll(@PathVariable Long id, HttpServletRequest request) throws KinoArenaException,SQLException {
+	public List<Hall> getAll(@PathVariable Long id, HttpServletRequest request)
+			throws KinoArenaException, SQLException {
 		if (cinemaRepository.existsById(id)) {
 			return hallRepository.findAllByCinemaId(id);
 		} else {

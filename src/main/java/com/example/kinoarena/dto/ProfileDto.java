@@ -1,12 +1,11 @@
 package com.example.kinoarena.dto;
 
-
 import lombok.Data;
 import lombok.NonNull;
 
 @Data
 public class ProfileDto {
-	
+
 	@NonNull
 	private String name;
 	@NonNull
@@ -16,5 +15,5 @@ public class ProfileDto {
 	private String city;
 	@NonNull
 	private String address;
-	
+
 }

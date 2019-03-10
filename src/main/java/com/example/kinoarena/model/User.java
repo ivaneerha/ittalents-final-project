@@ -1,7 +1,5 @@
 package com.example.kinoarena.model;
 
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,21 +15,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @Setter
 @Getter
 @ToString
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Table(name="users")
+@Table(name = "users")
 @Entity
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
-	@NonNull @Column(unique=true, nullable = false)
+	@NonNull
+	@Column(unique = true, nullable = false)
 	private String username;
 	@NonNull
 	@JsonIgnore
@@ -41,11 +39,12 @@ public class User {
 	private Long locationId;
 	@NonNull
 	private String lastName;
-	@NonNull @Column(unique=true, nullable = false)
+	@NonNull
+	@Column(unique = true, nullable = false)
 	private String email;
 	private String gsm;
 	private Byte isAdmin;
 	private String favouriteMovie;
 	private String favouriteActor;
-	
+
 }

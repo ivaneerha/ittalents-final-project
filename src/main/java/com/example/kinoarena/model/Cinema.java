@@ -1,6 +1,5 @@
 package com.example.kinoarena.model;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,19 +20,17 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="cinemas")
+@Table(name = "cinemas")
 public class Cinema {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long cinemaId;
-	@NonNull 
+	@NonNull
 	private String name;
 	@NonNull
 	private String contact;
 	@NonNull
 	private Long locationId;
-	
-	
-	
+
 }

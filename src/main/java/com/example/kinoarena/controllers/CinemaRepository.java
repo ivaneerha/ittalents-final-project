@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.kinoarena.model.Cinema;
 
 @Repository
-public interface CinemaRepository extends JpaRepository<Cinema,Long>{
+public interface CinemaRepository extends JpaRepository<Cinema, Long> {
 
-	
 }

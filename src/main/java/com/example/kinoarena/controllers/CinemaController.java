@@ -75,30 +75,31 @@ public class CinemaController extends BaseController {
 	 * Method for adding new cinema to a new location
 	 */
 	@PostMapping("/addcinema")
-	public void addCinema(@RequestBody AddCinemaDto cinema, HttpServletRequest request,HttpSession session)
+	public void addCinema(@RequestBody AddCinemaDto cinema, HttpServletRequest request, HttpSession session)
 			throws KinoArenaException, SQLException {
 		validateLoginAdmin(session);
 
 		Location location = new Location();
-	
-			validation.validateCityOrAddress(cinema.getCity());
-			location.setCity(cinema.getCity());
-			validation.validateCityOrAddress(cinema.getAddress());
-			location.setAddress(cinema.getAddress());
-			locationRepository.save(location);
 
-			Cinema kino = new Cinema();
-			kino.setLocationId(location.getLocationId());
-			validation.validateGsm(cinema.getContact());
-			kino.setContact(cinema.getContact());
-			validation.validateString(cinema.getName());
-			kino.setName(cinema.getName());
-			cinemaRepository.save(kino);
+		validation.validateCityOrAddress(cinema.getCity());
+		location.setCity(cinema.getCity());
+		validation.validateCityOrAddress(cinema.getAddress());
+		location.setAddress(cinema.getAddress());
+		locationRepository.save(location);
+
+		Cinema kino = new Cinema();
+		kino.setLocationId(location.getLocationId());
+		validation.validateGsm(cinema.getContact());
+		kino.setContact(cinema.getContact());
+		validation.validateString(cinema.getName());
+		kino.setName(cinema.getName());
+		cinemaRepository.save(kino);
 	}
 
 	// Working!
 	@DeleteMapping("/deletecinema/{id}")
-	public void deleteCinema(@PathVariable Long id, HttpServletRequest request,HttpSession session) throws KinoArenaException {
+	public void deleteCinema(@PathVariable Long id, HttpServletRequest request, HttpSession session)
+			throws KinoArenaException {
 		validateLoginAdmin(session);
 		if (cinemaRepository.existsById(id)) {
 			cinemaRepository.deleteById(id);

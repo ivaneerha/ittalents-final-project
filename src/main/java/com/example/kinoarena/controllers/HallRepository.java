@@ -9,11 +9,9 @@ import com.example.kinoarena.model.Hall;
 
 @Repository
 public interface HallRepository extends JpaRepository<Hall, Long> {
-	
-	public List<Hall> findAllByCinemaId(Long id);
-	
-	public boolean findByCinemaId(Long id);
 
-	
+	public List<Hall> findAllByCinemaId(Long id);
+
+	public boolean findByCinemaId(Long id);
 
 }

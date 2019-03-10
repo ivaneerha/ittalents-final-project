@@ -1,6 +1,5 @@
 package com.example.kinoarena.dto;
 
-
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;

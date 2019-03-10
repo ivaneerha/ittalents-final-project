@@ -19,9 +19,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="halls")
+@Table(name = "halls")
 public class Hall {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long hallId;
@@ -29,5 +29,5 @@ public class Hall {
 	private String type;
 	@NonNull
 	private Long cinemaId;
-	
+
 }

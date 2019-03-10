@@ -1,8 +1,5 @@
 package com.example.kinoarena.dto;
 
-import javax.validation.constraints.NotNull;
-
-import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -20,5 +17,5 @@ public class RegisterDto {
 	@NonNull
 	private String lastName;
 	@NonNull
-	private String username;	
+	private String username;
 }

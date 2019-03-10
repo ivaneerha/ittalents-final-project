@@ -30,13 +30,14 @@ import com.example.kinoarena.model.ErrorMessage;
 
 @RestController
 public abstract class BaseController {
-	
+
 	public static final String LOGGED = "LoggedUser";
-	//one day in seconds 60*60*24 = 86400
+	// one day in seconds 60*60*24 = 86400
 	private static final int SESSION_TIMEOUT = 86400;
-	
+
 	/*
-	 * SQL is using tinyint instead of boolean. So the number 1 is representing the power of the admin!
+	 * SQL is using tinyint instead of boolean. So the number 1 is representing the
+	 * power of the admin!
 	 */
 	private static final int NUMBER_TO_REPRESENT_AN_ADMIN = 1;
 
@@ -96,12 +97,12 @@ public abstract class BaseController {
 	}
 
 	public void validateLoginAdmin(HttpSession session) throws KinoArenaException {
-		//HttpSession session = request.getSession();
+		// HttpSession session = request.getSession();
 		if (session.getAttribute(LOGGED) == null) {
 			throw new NotLoggedInException();
 		} else {
 			User logged = (User) session.getAttribute(LOGGED);
-			if (logged.getIsAdmin() == null || logged.getIsAdmin()!=NUMBER_TO_REPRESENT_AN_ADMIN) {
+			if (logged.getIsAdmin() == null || logged.getIsAdmin() != NUMBER_TO_REPRESENT_AN_ADMIN) {
 				throw new NotAdminException();
 			}
 		}
@@ -117,11 +118,10 @@ public abstract class BaseController {
 		return true;
 	}
 
-	
 	/*
-	 * Method to login user in the Session of the site. 
+	 * Method to login user in the Session of the site.
 	 */
-	
+
 	public static void logUser(HttpServletRequest request, User user) throws SQLException, InvalidInputDataException {
 		HttpSession session = request.getSession();
 		session.setMaxInactiveInterval(SESSION_TIMEOUT);

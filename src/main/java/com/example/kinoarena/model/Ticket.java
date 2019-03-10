@@ -21,22 +21,21 @@ import lombok.ToString;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Table(name="tickets")
+@Table(name = "tickets")
 @Entity
 public class Ticket {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long ticketId;
 	private Integer price;
-	@NonNull @Column
+	@NonNull
+	@Column
 	private Long projectionId;
-	@NonNull @Column
+	@NonNull
+	@Column
 	private Long cinemaId;
-//	private int[] seats;
 	@NonNull
 	private Long userId;
-//	@NonNull
-//	private String type;
 	private String startTime;
 }

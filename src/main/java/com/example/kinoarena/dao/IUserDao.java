@@ -10,21 +10,21 @@ import com.example.kinoarena.exceptions.NotAdminException;
 import com.example.kinoarena.model.User;
 
 public interface IUserDao {
-	
-	public List<User> getAllUsers();	
-	
+
+	public List<User> getAllUsers();
+
 	public User login(LoginDto user) throws SQLException, InvalidInputDataException, NoSuchAlgorithmException;
-	
+
 	public User getUserByUsername(String username) throws SQLException, InvalidInputDataException;
-	
+
 	public User getUserById(long user_id) throws SQLException, InvalidInputDataException;
-	
+
 	public String usernameExists(String username) throws SQLException;
-		
+
 	public boolean isAdmin(User user) throws SQLException, NotAdminException;
-		
+
 	public void deleteUserByID(long id) throws SQLException;
-		
+
 	public String emailExists(String email) throws SQLException;
 
 }

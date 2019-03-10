@@ -7,8 +7,4 @@ public class InvalidInputDataException extends KinoArenaException {
 	public InvalidInputDataException() {
 		super("Wrong Input, please try again!");
 	}
-//
-//	public InvalidInputDataException(String message) {
-//		super(message);
-//	}
 }

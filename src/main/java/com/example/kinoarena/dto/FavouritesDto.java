@@ -7,5 +7,5 @@ public class FavouritesDto {
 
 	private String favouriteMovie;
 	private String favouriteActor;
-	
+
 }

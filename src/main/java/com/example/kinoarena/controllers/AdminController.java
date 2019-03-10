@@ -13,42 +13,37 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.example.kinoarena.dao.UserDao;
 
 import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.model.User;
 
-
-
-
 @RestController
 public class AdminController extends BaseController {
 
 	private static final String NO_USER_FOUND = "There is no user with this id!";
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
 	private UserDao userDao;
 
-
 	/*
-	 * Find all users in KinoArena database. Only an admin can operate with this method.
+	 * Find all users in KinoArena database. Only an admin can operate with this
+	 * method.
 	 */
-	
+
 	@GetMapping("/users")
-	public List<User> getAll(HttpServletRequest request,HttpSession session) throws KinoArenaException {
+	public List<User> getAll(HttpServletRequest request, HttpSession session) throws KinoArenaException {
 		validateLoginAdmin(session);
 		return userRepository.findAll();
 	}
 
 	/*
-	 * Method to delete user by Id.
-	 * Only an admin can manage this method.
+	 * Method to delete user by Id. Only an admin can manage this method.
 	 */
-	
+
 	@DeleteMapping("/delete/{id}")
 	public void deleteUser(@PathVariable long id, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, KinoArenaException {
@@ -61,18 +56,18 @@ public class AdminController extends BaseController {
 	}
 
 	/*
-	 * Method for searching User by id.
-	 * Only an admin can search users.
+	 * Method for searching User by id. Only an admin can search users.
 	 */
 
 	@GetMapping("/users/{id}")
-	public User getAll(@PathVariable Long id, HttpServletRequest request,HttpSession session) throws KinoArenaException{
+	public User getAll(@PathVariable Long id, HttpServletRequest request, HttpSession session)
+			throws KinoArenaException {
 		validateLoginAdmin(session);
-		if(userRepository.existsById(id)) {
-		return userRepository.findById(id).get();
-	} else {
-		throw new KinoArenaException(NO_USER_FOUND);
-	}
-		
+		if (userRepository.existsById(id)) {
+			return userRepository.findById(id).get();
+		} else {
+			throw new KinoArenaException(NO_USER_FOUND);
+		}
+
 	}
 }

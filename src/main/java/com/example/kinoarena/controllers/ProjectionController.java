@@ -1,6 +1,5 @@
 package com.example.kinoarena.controllers;
 
-
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -35,6 +34,12 @@ import lombok.Setter;
 @RestController
 public class ProjectionController extends BaseController {
 
+	private static final String NO_PROJECTIONS_FOUND = "No projections found!";
+
+	private static final String PROJECTION_ALREADY_EXISTS = "Projection already exists!";
+
+	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
+
 	private static final String PROJECTION_NOT_FOUND = "There is no projection with this id!";
 
 	@Autowired
@@ -43,40 +48,42 @@ public class ProjectionController extends BaseController {
 	@Autowired
 	private ProjectionDao projectionDao;
 
-	// Works!
-	// Get all projections (with the movie ids)
+	/**
+	 * Get all projections (with the movie ids)
+	 */
 	@GetMapping("/projections/movie_ids")
 	public List<Projection> getAllProjections() {
 		return projectionRepository.findAll();
 	}
 
-	// Works!
-	// Get all projections (with the movie titles)
+	/**
+	 * Get all projections (with the movie titles)
+	 */
 	@GetMapping("/projections/movie_titles")
 	public List<ProjectionWithMoviesDto> getAllProjectionsWithMovieTitles() throws KinoArenaException, SQLException {
 		return projectionDao.getAllProjectionWithMovieTitles();
 	}
 
-	// Works!
-	// Get projection by Id
+	/**
+	 * Get projection by Id
+	 */
 	@GetMapping("/projection/{id}")
 	public Projection getProjectionById(@PathVariable Long id) throws KinoArenaException {
 		Projection projection = projectionRepository.findByProjectionId(id);
 		if (projection != null) {
 			return projection;
 		} else {
-			throw new ProjectionNotFoundException("Projection with id = " + id + " not found!");
+			throw new ProjectionNotFoundException(PROJECTION_NOT_FOUND);
 		}
 	}
 
-	// Works!
 	@PostMapping("/projection/add")
 	public void addProjection(@RequestBody ProjectionDto projectionDto, HttpSession session, HttpServletRequest request)
 			throws KinoArenaException {
 		validateLoginAdmin(session);
 		Projection projection = new Projection();
 		try {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
 			format.parse(projectionDto.getStartTime());
 			format.parse(projectionDto.getEndTime());
 			projection.setStartTime(projectionDto.getStartTime());
@@ -84,7 +91,7 @@ public class ProjectionController extends BaseController {
 			projection.setMovieId(projectionDto.getMovieId());
 
 			if (projectionDao.checkIfProjectionExists(projectionDto.getStartTime(), projectionDto.getMovieId())) {
-				throw new KinoArenaException("Projection already exists!");
+				throw new KinoArenaException(PROJECTION_ALREADY_EXISTS);
 			}
 
 			projectionRepository.save(projection);
@@ -95,14 +102,24 @@ public class ProjectionController extends BaseController {
 		}
 	}
 
-	// Works!
+
+	/**
+	 * Get projection ids a cinema
+	 */
 	@GetMapping("/projections/cinema/{id}")
 	public List<Long> getProjectionIdsByCinemaId(@PathVariable Long id)
-			throws ProjectionNotFoundException, InvalidInputDataException, SQLException {
-		return projectionDao.getProjectionIdsByCinemaId(id);
+			throws SQLException, KinoArenaException {
+		List<Long> projections = projectionDao.getProjectionIdsByCinemaId(id);
+		if (!projections.isEmpty()) {
+			return projections;
+		} else {
+			throw new KinoArenaException(NO_PROJECTIONS_FOUND);
+		}
 	}
 
-	// Works!
+	/**
+	 * Get the projections for a cinema
+	 */
 	@GetMapping("/projections/all/cinema/{id}")
 	public List<Projection> getProjectionsByCinemaId(@PathVariable Long id) throws KinoArenaException, SQLException {
 		List<Projection> projections = projectionDao.getProjectionsByCinemaId(id);
@@ -112,10 +129,20 @@ public class ProjectionController extends BaseController {
 			throw new KinoArenaException("There is no projection for this cinema!");
 		}
 	}
+	
+	@GetMapping("/projections/movie/{id}")
+	public List<Projection> getAllProjectionsByMovieId(@PathVariable Long id) throws SQLException, KinoArenaException {
+		List<Projection> projections = projectionDao.getAllProjectionsForAMovie(id);
+		if (!projections.isEmpty()) {
+			return projections;
+		} else {
+			throw new KinoArenaException(NO_PROJECTIONS_FOUND);
+		}
+	}
 
-	// Works!
 	@DeleteMapping("/projections/delete/{id}")
-	public void deleteProjection(@PathVariable Long id, HttpServletRequest request,HttpSession session) throws KinoArenaException {
+	public void deleteProjection(@PathVariable Long id, HttpServletRequest request, HttpSession session)
+			throws KinoArenaException {
 		validateLoginAdmin(session);
 		if (projectionRepository.existsById(id)) {
 			projectionRepository.deleteById(id);
@@ -123,8 +150,7 @@ public class ProjectionController extends BaseController {
 			throw new ProjectionNotFoundException(PROJECTION_NOT_FOUND);
 		}
 	}
-	
-	// Works!
+
 	@PutMapping("/projections/dateTimeChange")
 	public void changeDateTime(@RequestBody ProjectionDateTimeDto dto, HttpSession session) throws KinoArenaException {
 		validateLoginAdmin(session);
@@ -132,15 +158,13 @@ public class ProjectionController extends BaseController {
 			if (!projectionRepository.existsById(dto.getProjectionId())) {
 				throw new ProjectionNotFoundException(PROJECTION_NOT_FOUND);
 			}
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
 			format.parse(dto.getStartTime());
 			format.parse(dto.getEndTime());
 			projectionDao.changeProjectionDateTime(dto.getProjectionId(), dto.getStartTime(), dto.getEndTime());
 
-	
 		} catch (Exception e) {
 			throw new InvalidInputDataException();
 		}
 	}
-	
 }

@@ -23,17 +23,16 @@ public class LoginController extends BaseController {
 
 	private static final String WRONG_CREDENTIALS = "Wrong password or username!";
 	private static final String ALREADY_LOGGED_IN = "You are already logged!";
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
 	private UserDao userDao;
 
-	
-	
 	@PostMapping("/login")
-	public void login(@RequestBody LoginDto log, HttpServletRequest request, HttpServletResponse response) throws SQLException, KinoArenaException, NoSuchAlgorithmException {
+	public void login(@RequestBody LoginDto log, HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, KinoArenaException, NoSuchAlgorithmException {
 		if (!BaseController.isLogged(request)) {
 			new UserValidation().validateLogin(log);
 			System.out.println(log);

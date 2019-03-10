@@ -4,18 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-
 import com.example.kinoarena.dto.MovieDto;
-import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
-import com.example.kinoarena.helper.RandomNumber;
-import com.example.kinoarena.helper.UserValidation;
 import com.example.kinoarena.model.Movie;
 
 import lombok.Setter;
@@ -27,19 +20,13 @@ public class MovieDao implements IMovieDao {
 
 	private static final String ADD_MOVIE = "insert into movies(title, genre_id) values (?, ?)";
 
-	private static final String GENRE_NOT_FOUND = "There is no genre with id = ";
-
-	private static final String GENRE_SEARCHING = "select * from genres where genre_id = ?";
-
 	@Autowired
 	@Setter
 	private JdbcTemplate jdbcTemplate;
 
-	private UserValidation validation;
-
-	private static final String ADD_GENRE = "UPDATE  movies SET genre_id = ? WHERE movie_id = ?";
-
 	private static final String FIND_MOVIE_BY_TITLE = "SELECT * FROM movies WHERE title = ?;";
+
+	private static final String UPDATE_MOVIE = "update movies set title = ?, genre_id = ? where movie_id = ?;";
 
 	@Override
 	public void addNewMovie(MovieDto dto) throws SQLException, KinoArenaException {
@@ -71,6 +58,7 @@ public class MovieDao implements IMovieDao {
 		}
 	}
 
+	@Override
 	public Movie findMovieByTitle(String title) throws SQLException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		try (PreparedStatement ps = con.prepareStatement(FIND_MOVIE_BY_TITLE)) {
@@ -85,6 +73,16 @@ public class MovieDao implements IMovieDao {
 			} else {
 				return null;
 			}
+		}
+	}
+
+	public void saveChanges(Long movieId, String title, Long genreId) throws SQLException {
+		Connection con = jdbcTemplate.getDataSource().getConnection();
+		try (PreparedStatement ps = con.prepareStatement(UPDATE_MOVIE)) {
+			ps.setString(1, title);
+			ps.setLong(2, genreId);
+			ps.setLong(3, movieId);
+			ps.executeUpdate();
 		}
 	}
 }

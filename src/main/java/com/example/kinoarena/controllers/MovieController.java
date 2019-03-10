@@ -12,28 +12,36 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.kinoarena.dao.MovieDao;
+import com.example.kinoarena.dto.ChangeMovieDto;
 import com.example.kinoarena.dto.MovieDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
 import com.example.kinoarena.exceptions.MovieNotFoundException;
+import com.example.kinoarena.helper.UserValidation;
 import com.example.kinoarena.model.Movie;
 
 @RestController
 public class MovieController extends BaseController {
 
-	private static final String FILM_NOT_FOUND = "There is no movie with this id!";
+	private static final String GENRE_NOT_FOUND = "There is not such genre!";
+	private static final String MOVIE_NOT_FOUND = "There is no movie with this id!";
 	private static final String MOVIE_ALREADY_EXISTS = "The movie already exists!";
 	
-	
+	private UserValidation validation = new UserValidation();
+
 	@Autowired
 	private MovieDao movieDao;
 
 	@Autowired
 	private MovieRepository movieRepository;
+	
+	@Autowired
+	private GenreRepository genreRepository;
 
 	// Works
 	@GetMapping("/movie/{id}")
@@ -42,8 +50,24 @@ public class MovieController extends BaseController {
 		if (movie != null) {
 			return movie;
 		} else {
-			throw new KinoArenaException(FILM_NOT_FOUND);
+			throw new KinoArenaException(MOVIE_NOT_FOUND);
 		}
+	}
+	
+	@PutMapping("/movie/change")
+	public void changeMovieTitle(@RequestBody ChangeMovieDto dto, HttpSession session) throws KinoArenaException, SQLException {
+		validateLoginAdmin(session);
+		String title = dto.getTitle();
+		Long genreId = dto.getGenreId();
+		Long movieId = dto.getMovieId();
+		if(movieRepository.findByMovieId(movieId) == null) {
+			throw new KinoArenaException(MOVIE_NOT_FOUND);
+		}
+		validation.validateString(title);
+		if(!genreRepository.findById(genreId).isPresent()) {
+			throw new KinoArenaException(GENRE_NOT_FOUND);
+		}
+		movieDao.saveChanges(movieId, title, genreId);
 	}
 
 	// Works

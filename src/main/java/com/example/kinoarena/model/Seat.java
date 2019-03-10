@@ -20,11 +20,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-@Table(name="seats")
+@Table(name = "seats")
 @Entity
 
 public class Seat {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long seatId;
@@ -34,5 +34,5 @@ public class Seat {
 	private Long seat;
 //	private Byte isTaken;
 	private Long hallId;
-	
+
 }

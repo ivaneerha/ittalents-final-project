@@ -6,15 +6,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AddCinemaDto {
+public class ChangeMovieDto {
 
 	@NonNull
-	private String name;
+	private String title;
 	@NonNull
-	private String contact;
+	private Long genreId;
 	@NonNull
-	private String city;
-	@NonNull
-	private String address;
-
+	private Long movieId;
 }

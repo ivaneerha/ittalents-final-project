@@ -18,20 +18,19 @@ import com.example.kinoarena.model.User;
 import com.example.kinoarena.passwordcrypt.PasswordCrypt;
 import com.example.kinoarena.service.UserManager;
 
-
 @RestController
 public class RegisterController extends BaseController {
 
 	private static final String LOG_OUT_TO_REGISTER = "You have to logout to register!";
 	private static final String EMAIL_TAKEN = "Email already taken!";
 	private static final String USERNAME_TAKEN = "Username already taken!";
-	
+
 	@Autowired
 	UserRepository userRepository;
 
 	@Autowired
 	UserManager userManager;
-	
+
 	@Autowired
 	UserDao userDao;
 
@@ -45,7 +44,7 @@ public class RegisterController extends BaseController {
 		if (userManager.isEmailTaken(reg.getEmail())) {
 			throw new KinoArenaException(EMAIL_TAKEN);
 		}
-		if(userManager.isUsernameTaken(reg.getUsername())) {
+		if (userManager.isUsernameTaken(reg.getUsername())) {
 			throw new KinoArenaException(USERNAME_TAKEN);
 		}
 		User user = new User();
@@ -57,7 +56,7 @@ public class RegisterController extends BaseController {
 		user.setPassword(PasswordCrypt.cryptPassword(reg.getPassword()));
 		userRepository.save(user);
 		BaseController.logUser(request, user);
-		
+
 	}
 
 }

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,13 +31,12 @@ public class UserController extends BaseController {
 	private static final String NOT_LOGGED_IN_MSG = "You are not logged in!";
 	private static final String PASSWORDS_DONT_MATCH_MSG = "Passwords do not match!";
 	private static final String LOG_IN_TO_CHANGE_PASS_MSG = "Please log in to change your password!";
-	
+
 	UserValidation validation = new UserValidation();
-	
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private LocationRepository locationRepository;
 
@@ -53,7 +51,6 @@ public class UserController extends BaseController {
 			throw new KinoArenaException(NOT_LOGGED_IN_MSG);
 		}
 	}
-
 
 	@PutMapping("/favourites")
 	public void addToFavourites(@RequestBody FavouritesDto fav, HttpSession session, HttpServletRequest request)
@@ -72,17 +69,17 @@ public class UserController extends BaseController {
 
 	@PutMapping("/profile")
 	public void updateProfile(@RequestBody ProfileDto fav, HttpSession session, HttpServletRequest request)
-		throws SQLException, KinoArenaException {
-		if(BaseController.isLogged(request)) {
+			throws SQLException, KinoArenaException {
+		if (BaseController.isLogged(request)) {
 			User user = (User) session.getAttribute(LOGGED);
-			
+
 			Location location = new Location();
 			validation.validateName(fav.getAddress());
 			location.setAddress(fav.getAddress());
 			validation.validateName(fav.getCity());
 			location.setCity(fav.getCity());
 			locationRepository.save(location);
-			
+
 			user.setLocationId(location.getLocationId());
 			validation.validateGsm(fav.getGsm());
 			user.setGsm(fav.getGsm());
@@ -91,14 +88,12 @@ public class UserController extends BaseController {
 			validation.validateName(fav.getLastName());
 			user.setLastName(fav.getName());
 			userRepository.save(user);
-			
+
 		} else {
 			throw new KinoArenaException(NOT_LOGGED_IN_MSG);
 		}
 	}
-	
-	
-	
+
 	@DeleteMapping("/delete")
 	public void deleteAccount(HttpSession session, HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, KinoArenaException {
@@ -112,7 +107,6 @@ public class UserController extends BaseController {
 		}
 	}
 
-	
 	@PutMapping("/changepassword")
 	public void changePassword(@RequestBody ChangePasswordDto pass, HttpSession session, HttpServletRequest request)
 			throws KinoArenaException, NoSuchAlgorithmException {

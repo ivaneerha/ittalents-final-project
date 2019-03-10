@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddHallDto {
-	
+
 	@NonNull
 	private String type;
 	@NonNull

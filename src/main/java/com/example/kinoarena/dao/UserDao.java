@@ -19,10 +19,9 @@ import com.example.kinoarena.passwordcrypt.PasswordCrypt;
 
 import lombok.Setter;
 
-
 @Component
-public class UserDao implements IUserDao{
-	
+public class UserDao implements IUserDao {
+
 	private static final String CHECK_IF_IS_ADMIN = "SELECT is_admin FROM users WHERE username = ?";
 	private static final String LOGIN = "SELECT * from users WHERE (username=? AND password =?)";
 	private static final String GET_USER_BY_ID = "SELECT * from users WHERE user_id=?";
@@ -32,119 +31,85 @@ public class UserDao implements IUserDao{
 	private static final String GET_USER_BY_USERNAME = "SELECT * FROM users WHERE username = ?";
 	private static final String REGISTER = "INSERT INTO users ('first_name','password','email','last_name','username') VALUES (?,?,?,?,?);";
 
-	
-
-	
 	@Autowired
 	@Setter
-	private JdbcTemplate jdbcTemplate; 
-	
-	
-	public List<User> getAllUsers(){
-		//for every row from resultSet return user
-		return jdbcTemplate.query(GET_ALL_USERS, (resultSet,i) ->forUser(resultSet));
+	private JdbcTemplate jdbcTemplate;
+
+	public List<User> getAllUsers() {
+		// for every row from resultSet return user
+		return jdbcTemplate.query(GET_ALL_USERS, (resultSet, i) -> forUser(resultSet));
 	}
-	
+
 	private User forUser(ResultSet result) throws SQLException {
-		User user2 = new User(
-				result.getLong("user_id"),
-				result.getString("username"),
-				result.getString("password"),
-				result.getString("first_name"),
-				result.getLong("location_id"),
-				result.getString("last_name"),
-				result.getString("email"),
-				result.getString("gsm"),
-				result.getByte("is_аdmin"),
-				result.getString("favourite_movie"),
-				result.getString("favourite_actor"));
+		User user2 = new User(result.getLong("user_id"), result.getString("username"), result.getString("password"),
+				result.getString("first_name"), result.getLong("location_id"), result.getString("last_name"),
+				result.getString("email"), result.getString("gsm"), result.getByte("is_аdmin"),
+				result.getString("favourite_movie"), result.getString("favourite_actor"));
 		return user2;
 	}
-	
+
 	public User login(LoginDto user) throws SQLException, InvalidInputDataException, NoSuchAlgorithmException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		try(PreparedStatement ps = con.prepareStatement(LOGIN);){
-		ps.setString(1,user.getUsername());
-		ps.setString(2, PasswordCrypt.cryptPassword(user.getPassword()));
-		try(ResultSet result = ps.executeQuery();){
-		result.next();
-		User user2 = new User(
-				result.getLong("user_id"),
-				result.getString("username"),
-				result.getString("password"),
-				result.getString("first_name"),
-				result.getLong("location_id"),
-				result.getString("last_name"),
-				result.getString("email"),
-				result.getString("gsm"),
-				result.getByte("is_admin"),
-				result.getString("favourite_movie"),
-				result.getString("favourite_actor"));
-		return user2;
+		try (PreparedStatement ps = con.prepareStatement(LOGIN);) {
+			ps.setString(1, user.getUsername());
+			ps.setString(2, PasswordCrypt.cryptPassword(user.getPassword()));
+			try (ResultSet result = ps.executeQuery();) {
+				result.next();
+				User user2 = new User(result.getLong("user_id"), result.getString("username"),
+						result.getString("password"), result.getString("first_name"), result.getLong("location_id"),
+						result.getString("last_name"), result.getString("email"), result.getString("gsm"),
+						result.getByte("is_admin"), result.getString("favourite_movie"),
+						result.getString("favourite_actor"));
+				return user2;
+			}
 		}
 	}
-}
-	
 
 	public User getUserByUsername(String username) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		try(PreparedStatement ps = con.prepareStatement(GET_USER_BY_USERNAME);){
-		ps.setString(1,username);
-		try(ResultSet result = ps.executeQuery();){
-		result.next();
-		User user = new User(
-				result.getLong("user_id"),
-				result.getString("username"),
-				result.getString("password"),
-				result.getString("first_name"),
-				result.getLong("location_id"),
-				result.getString("last_name"),
-				result.getString("email"),
-				result.getString("gsm"),
-				result.getByte("is_аdmin"),
-				result.getString("favourite_movie"),
-				result.getString("favourite_actor"));
-		return user;
+		try (PreparedStatement ps = con.prepareStatement(GET_USER_BY_USERNAME);) {
+			ps.setString(1, username);
+			try (ResultSet result = ps.executeQuery();) {
+				result.next();
+				User user = new User(result.getLong("user_id"), result.getString("username"),
+						result.getString("password"), result.getString("first_name"), result.getLong("location_id"),
+						result.getString("last_name"), result.getString("email"), result.getString("gsm"),
+						result.getByte("is_аdmin"), result.getString("favourite_movie"),
+						result.getString("favourite_actor"));
+				return user;
+			}
 		}
 	}
-}
-		
+
 	public User getUserById(long user_id) throws SQLException, InvalidInputDataException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		try(PreparedStatement ps = con.prepareStatement(GET_USER_BY_ID);){
-		ps.setLong(1,user_id);
-		try(ResultSet result = ps.executeQuery();){
-		result.next();
-		User user = new User(
-				result.getLong("user_id"),
-				result.getString("username"),
-				result.getString("password"),
-				result.getString("first_name"),
-				result.getLong("location_id"),
-				result.getString("last_name"),
-				result.getString("email"),
-				result.getString("gsm"),
-				result.getByte("is_аdmin"),
-				result.getString("favourite_movie"),
-				result.getString("favourite_actor"));
-		return user;
+		try (PreparedStatement ps = con.prepareStatement(GET_USER_BY_ID);) {
+			ps.setLong(1, user_id);
+			try (ResultSet result = ps.executeQuery();) {
+				result.next();
+				User user = new User(result.getLong("user_id"), result.getString("username"),
+						result.getString("password"), result.getString("first_name"), result.getLong("location_id"),
+						result.getString("last_name"), result.getString("email"), result.getString("gsm"),
+						result.getByte("is_аdmin"), result.getString("favourite_movie"),
+						result.getString("favourite_actor"));
+				return user;
 			}
 		}
 	}
 
 	public String usernameExists(String username) throws SQLException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
-		try(PreparedStatement usernameExists = con.prepareStatement(GET_USER_BY_USERNAME);){
+		try (PreparedStatement usernameExists = con.prepareStatement(GET_USER_BY_USERNAME);) {
 			usernameExists.setString(1, username);
-			try(ResultSet result = usernameExists.executeQuery()){
-				if(result.next()) {
+			try (ResultSet result = usernameExists.executeQuery()) {
+				if (result.next()) {
 					return username;
 				}
 			}
 		}
 		return null;
 	}
-	
+
 	public boolean isAdmin(User user) throws SQLException, NotAdminException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		try (PreparedStatement checkAdmin = con.prepareStatement(CHECK_IF_IS_ADMIN);) {
@@ -160,7 +125,7 @@ public class UserDao implements IUserDao{
 			throw new NotAdminException();
 		}
 	}
-	
+
 	public void deleteUserByID(long id) throws SQLException {
 		Connection con = jdbcTemplate.getDataSource().getConnection();
 		try (PreparedStatement deleteUserByID = con.prepareStatement(DELETE_USER_BY_ID);) {
@@ -182,7 +147,4 @@ public class UserDao implements IUserDao{
 		return null;
 	}
 
-	
 }
-	
-	
