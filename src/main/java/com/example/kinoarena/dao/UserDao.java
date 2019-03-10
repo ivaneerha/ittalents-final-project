@@ -29,7 +29,7 @@ public class UserDao implements IUserDao {
 	private static final String DELETE_USER_BY_ID = "DELETE FROM users WHERE user_id = ?";
 	private static final String GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
 	private static final String GET_USER_BY_USERNAME = "SELECT * FROM users WHERE username = ?";
-	private static final String REGISTER = "INSERT INTO users ('first_name','password','email','last_name','username') VALUES (?,?,?,?,?);";
+
 
 	@Autowired
 	@Setter
@@ -41,10 +41,17 @@ public class UserDao implements IUserDao {
 	}
 
 	private User forUser(ResultSet result) throws SQLException {
-		User user2 = new User(result.getLong("user_id"), result.getString("username"), result.getString("password"),
-				result.getString("first_name"), result.getLong("location_id"), result.getString("last_name"),
-				result.getString("email"), result.getString("gsm"), result.getByte("is_аdmin"),
-				result.getString("favourite_movie"), result.getString("favourite_actor"));
+		User user2 = new User(result.getLong("user_id"), 
+				result.getString("username"), 
+				result.getString("password"),
+				result.getString("first_name"), 
+				result.getLong("location_id"), 
+				result.getString("last_name"),
+				result.getString("email"), 
+				result.getString("gsm"), 
+				result.getByte("is_аdmin"),
+				result.getString("favourite_movie"), 
+				result.getString("favourite_actor"));
 		return user2;
 	}
 
@@ -55,10 +62,16 @@ public class UserDao implements IUserDao {
 			ps.setString(2, PasswordCrypt.cryptPassword(user.getPassword()));
 			try (ResultSet result = ps.executeQuery();) {
 				result.next();
-				User user2 = new User(result.getLong("user_id"), result.getString("username"),
-						result.getString("password"), result.getString("first_name"), result.getLong("location_id"),
-						result.getString("last_name"), result.getString("email"), result.getString("gsm"),
-						result.getByte("is_admin"), result.getString("favourite_movie"),
+				User user2 = new User(result.getLong("user_id"), 
+						result.getString("username"),
+						result.getString("password"), 
+						result.getString("first_name"), 
+						result.getLong("location_id"),
+						result.getString("last_name"), 
+						result.getString("email"), 
+						result.getString("gsm"),
+						result.getByte("is_admin"), 
+						result.getString("favourite_movie"),
 						result.getString("favourite_actor"));
 				return user2;
 			}
@@ -71,10 +84,16 @@ public class UserDao implements IUserDao {
 			ps.setString(1, username);
 			try (ResultSet result = ps.executeQuery();) {
 				result.next();
-				User user = new User(result.getLong("user_id"), result.getString("username"),
-						result.getString("password"), result.getString("first_name"), result.getLong("location_id"),
-						result.getString("last_name"), result.getString("email"), result.getString("gsm"),
-						result.getByte("is_аdmin"), result.getString("favourite_movie"),
+				User user = new User(result.getLong("user_id"), 
+						result.getString("username"),
+						result.getString("password"), 
+						result.getString("first_name"), 
+						result.getLong("location_id"),
+						result.getString("last_name"), 
+						result.getString("email"), 
+						result.getString("gsm"),
+						result.getByte("is_аdmin"), 
+						result.getString("favourite_movie"),
 						result.getString("favourite_actor"));
 				return user;
 			}
@@ -88,9 +107,14 @@ public class UserDao implements IUserDao {
 			try (ResultSet result = ps.executeQuery();) {
 				result.next();
 				User user = new User(result.getLong("user_id"), result.getString("username"),
-						result.getString("password"), result.getString("first_name"), result.getLong("location_id"),
-						result.getString("last_name"), result.getString("email"), result.getString("gsm"),
-						result.getByte("is_аdmin"), result.getString("favourite_movie"),
+						result.getString("password"), 
+						result.getString("first_name"), 
+						result.getLong("location_id"),
+						result.getString("last_name"), 
+						result.getString("email"), 
+						result.getString("gsm"),
+						result.getByte("is_аdmin"), 
+						result.getString("favourite_movie"),
 						result.getString("favourite_actor"));
 				return user;
 			}

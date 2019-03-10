@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.kinoarena.dto.ChangePasswordDto;
 import com.example.kinoarena.dto.FavouritesDto;
 import com.example.kinoarena.dto.ProfileDto;
-
+import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
 
 import com.example.kinoarena.helper.UserValidation;
@@ -72,9 +72,10 @@ public class UserController extends BaseController {
 			throws SQLException, KinoArenaException {
 		if (BaseController.isLogged(request)) {
 			User user = (User) session.getAttribute(LOGGED);
-
+			new UserValidation().validateProfileUpdate(fav);
+			
 			Location location = new Location();
-			validation.validateName(fav.getAddress());
+			validation.validateString(fav.getAddress());
 			location.setAddress(fav.getAddress());
 			validation.validateName(fav.getCity());
 			location.setCity(fav.getCity());
@@ -86,7 +87,7 @@ public class UserController extends BaseController {
 			validation.validateName(fav.getName());
 			user.setFirstName(fav.getName());
 			validation.validateName(fav.getLastName());
-			user.setLastName(fav.getName());
+			user.setLastName(fav.getLastName());
 			userRepository.save(user);
 
 		} else {

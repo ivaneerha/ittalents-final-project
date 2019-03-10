@@ -1,6 +1,7 @@
 package com.example.kinoarena.helper;
 
 import com.example.kinoarena.dto.LoginDto;
+import com.example.kinoarena.dto.ProfileDto;
 import com.example.kinoarena.dto.RegisterDto;
 import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
@@ -72,6 +73,15 @@ public class UserValidation {
 		validateUsername(log.getUsername());
 		validatePassword(log.getPassword());
 		System.out.println("Ima li wryzka ?");
+	}
+
+	public void validateProfileUpdate(ProfileDto fav) throws KinoArenaException{
+			validateName(fav.getName());
+			validateName(fav.getLastName());
+			validateGsm(fav.getGsm());
+			validateCityOrAddress(fav.getCity());
+			validateCityOrAddress(fav.getAddress());
+		
 	}
 	
 	

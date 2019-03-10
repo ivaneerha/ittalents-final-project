@@ -11,9 +11,9 @@ public class ProfileDto {
 	@NonNull
 	private String lastName;
 	private String gsm;
-	@NonNull
+
 	private String city;
-	@NonNull
+
 	private String address;
 
 }
