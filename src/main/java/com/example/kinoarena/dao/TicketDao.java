@@ -18,6 +18,8 @@ import lombok.Setter;
 @Component
 public class TicketDao implements ITicketDao {
 
+	private static final String CHECK_THE_SEAT = "select * from seats where hall_id = ? and line = ? and seat = ?;";
+
 	private static final String DATETIME_NOT_FOUND = "Could not find datetime in projection!";
 
 	private static final String START_TIME_FROM_PROJECTIONS = "select start_time from projections where projection_id = ?";
@@ -84,6 +86,21 @@ public class TicketDao implements ITicketDao {
 			ps.setLong(1, seatId);
 			ps.setLong(2, ticketId);
 			ps.executeUpdate();
+		}
+	}
+
+	@Override
+	public boolean isTheSeatTaken(Long hallId, Long line, Long seat) throws SQLException {
+		Connection con = jdbcTemplate.getDataSource().getConnection();
+		try (PreparedStatement ps = con.prepareStatement(CHECK_THE_SEAT)) {
+			ps.setLong(1, hallId);
+			ps.setLong(2, line);
+			ps.setLong(3, seat);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				return true;
+			}
+			return false;
 		}
 	}
 }

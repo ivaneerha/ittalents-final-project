@@ -16,4 +16,6 @@ public interface ITicketDao {
 
 	void setIntoTicketSeats(Long seatId, Long ticketId) throws SQLException;
 
+	boolean isTheSeatTaken(Long hallId, Long line, Long seat) throws SQLException;
+
 }
