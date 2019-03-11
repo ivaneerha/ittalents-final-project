@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.kinoarena.dto.ChangePasswordDto;
 import com.example.kinoarena.dto.FavouritesDto;
 import com.example.kinoarena.dto.ProfileDto;
-import com.example.kinoarena.exceptions.InvalidInputDataException;
 import com.example.kinoarena.exceptions.KinoArenaException;
 
 import com.example.kinoarena.helper.UserValidation;

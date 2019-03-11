@@ -43,7 +43,7 @@ public class MovieController extends BaseController {
 	@Autowired
 	private GenreRepository genreRepository;
 
-	// Works
+	
 	@GetMapping("/movie/{id}")
 	public Movie getMovieById(@PathVariable("id") Long id, HttpServletResponse response) throws KinoArenaException {
 		Movie movie = movieRepository.findByMovieId(id);
@@ -70,7 +70,7 @@ public class MovieController extends BaseController {
 		movieDao.saveChanges(movieId, title, genreId);
 	}
 
-	// Works
+	
 	@PostMapping("/movie/add")
 	public void addMovie(@RequestBody MovieDto movieDto, HttpServletRequest request, HttpSession session)
 			throws SQLException, KinoArenaException {
@@ -88,7 +88,7 @@ public class MovieController extends BaseController {
 		}
 	}
 
-	// Works
+	
 	@DeleteMapping("/movie/delete/{id}")
 	public void deleteMovie(@PathVariable Long id, HttpServletRequest request, HttpSession session)
 			throws KinoArenaException {
@@ -100,7 +100,7 @@ public class MovieController extends BaseController {
 		}
 	}
 
-	// Works
+	
 	@GetMapping("/movie/all")
 	public List<Movie> getAllMovies() {
 		return movieRepository.findAll();

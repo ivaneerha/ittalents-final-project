@@ -9,7 +9,6 @@ import com.example.kinoarena.exceptions.KinoArenaException;
 public class UserValidation {
 	
 
-	//private final static String EMAIL_PATTERN = "^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{8,30}$";
 	private static final String EMAIL_PATTERN = "^[A-Za-z0-9]+@[A-Za-z]+(\\.[A-Za-z]+)+$";
 	private final static String PASSWORD_PATTERN = "^[a-zA-Z0-9]{8,30}$";
 	private final static String NAME_PATTERN = "^[a-zA-Z]{2,30}$";

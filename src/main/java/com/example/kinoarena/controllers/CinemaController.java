@@ -38,7 +38,7 @@ public class CinemaController extends BaseController {
 	@Autowired
 	private LocationRepository locationRepository;
 
-	// IVANA CODE
+	
 	@GetMapping("/cinema/{id}")
 	public Cinema chooseCinema(@PathVariable("id") Long id, HttpSession session, HttpServletResponse response,
 			HttpServletRequest request) throws KinoArenaException {
@@ -57,7 +57,7 @@ public class CinemaController extends BaseController {
 		}
 	}
 
-	// IVANA CODE
+	
 	@GetMapping("/cinema/session")
 	public Cinema getCinema(HttpSession session) throws KinoArenaException {
 		validateLogin(session);
@@ -70,7 +70,7 @@ public class CinemaController extends BaseController {
 		}
 	}
 
-	// !WORKING
+	
 	/**
 	 * Method for adding new cinema to a new location
 	 */
@@ -96,7 +96,7 @@ public class CinemaController extends BaseController {
 		cinemaRepository.save(kino);
 	}
 
-	// Working!
+	
 	@DeleteMapping("/deletecinema/{id}")
 	public void deleteCinema(@PathVariable Long id, HttpServletRequest request, HttpSession session)
 			throws KinoArenaException {
@@ -108,7 +108,7 @@ public class CinemaController extends BaseController {
 		}
 	}
 
-	// WORKING
+	
 	@GetMapping("/cinemas")
 	public List<Cinema> getAll(HttpSession session, HttpServletRequest request)
 			throws KinoArenaException, SQLException {

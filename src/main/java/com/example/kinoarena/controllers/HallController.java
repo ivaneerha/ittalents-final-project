@@ -33,7 +33,7 @@ public class HallController extends BaseController {
 	@Autowired
 	private HallRepository hallRepository;
 
-	// Working!
+	
 	@PostMapping("/addhall")
 	public void addHall(@RequestBody AddHallDto hall, HttpServletRequest request, HttpSession session)
 			throws KinoArenaException, SQLException {
@@ -48,7 +48,7 @@ public class HallController extends BaseController {
 		}
 	}
 
-	// Working!
+	
 	@DeleteMapping("/deletehall/{id}")
 	public void deleteHall(@PathVariable Long id, HttpServletRequest request, HttpSession session)
 			throws KinoArenaException, SQLException {
@@ -60,7 +60,7 @@ public class HallController extends BaseController {
 		}
 	}
 
-	// Working!
+	
 	@GetMapping("/halls/{id}")
 	public List<Hall> getAll(@PathVariable Long id, HttpServletRequest request)
 			throws KinoArenaException, SQLException {
